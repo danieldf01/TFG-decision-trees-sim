@@ -77,63 +77,6 @@
                 .text((d) => d.data.name);
         </script>
 
-{#        <script>#}
-{#            function fetchJSONData() {#}
-{#                fetch("data.json")#}
-{#                    .then((res) => {#}
-{#                        if (!res.ok) {#}
-{#                            throw new Error#}
-{#                            (`HTTP error! Status: ${res.status}`);#}
-{#                        }#}
-{#                        return res.json();#}
-{#                    })#}
-{#                    .then((data) =>#}
-{#                        console.log(data))#}
-{#                    .catch((error) =>#}
-{#                        console.error("Unable to fetch data:", error));#}
-{#            }#}
-{##}
-{#            fetchJSONData();#}
-{##}
-{#            var canvas = d3.select("body").append("svg")#}
-{#                .attr("width", 500)#}
-{#                .attr("height", 500)#}
-{#                .append("g")#}
-{#                    .attr("transform", "translate(50, 50)");#}
-{##}
-{#            var tree = d3.layout.tree()#}
-{#                .size([400, 400]);#}
-{##}
-{#            d3.json("data.json", function(data){#}
-{#                var nodes = tree.nodes(data);   {# runs tree layout and returns objects in data as an array #}
-{#                console.log(nodes)#}
-{#                var links = tree.links(nodes);#}
-{##}
-{#                var node = canvas.selectAll(".node")#}
-{#                    .data(nodes)#}
-{#                    .enter()#}
-{#                    .append("g")#}
-{#                        .attr("class", "node")#}
-{#                        .attr("transform", function(d) {#}
-{#                            return "translate(" + d.x + "," + d.y + ")" ;#}
-{#                        })#}
-{##}
-{#                node.append("circle")#}
-{#                    .attr("r", 5)#}
-{#                    .attr("fill", "steelblue");#}
-{#            })#}
-{##}
-{#        </script>#}
 
-{#        <p>It should be able to display a tree.</p>#}
-{#        <button onclick="changeColor()">Change color</button>#}
-{#        <button onclick="buildTree()">start tree</button>#}
-{#        <div id="my-div"></div>#}
-{#        <div style="width:400px;height:400px;border:1px solid black">#}
-{#            <svg xmlns="http://www.w3.org/2000/svg"viewBox="0 0 100 100" id="inline-svg">#}
-{#                <circle cx="50" cy="50" r="5" stroke="black" stroke-width="1" fill="white"></circle>#}
-{#                <text x="45" y="43" font-size="3">Root Node</text>#}
-{#            </svg>#}
-{#        </div>#}
     </body>
 </html>
