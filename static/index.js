@@ -145,3 +145,4 @@ function removeClass(){
     tableEntropy.deleteRow(tableEntropy.tBodies[0].rows.length-1);
 
 }
+
