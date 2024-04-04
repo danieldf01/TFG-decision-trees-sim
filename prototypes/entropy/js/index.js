@@ -140,9 +140,17 @@ function addClass() {
 function removeClass(){
     var tableClasses = document.getElementById('table-classes');
     var tableEntropy = document.getElementById('table-entropy');
-
-    tableClasses.deleteRow(tableClasses.tBodies[0].rows.length-1);
-    tableEntropy.deleteRow(tableEntropy.tBodies[0].rows.length-1);
-
+    var numberClasses = tableClasses.getElementsByTagName('tbody')[0].rows.length-1;
+    console.log(numberClasses);
+    if (numberClasses == 2){
+        document.getElementById("removeClassErr").style.visibility = "visible";
+        setTimeout(()=>{
+            var errorMessage = document.getElementById("removeClassErr");
+            errorMessage.style.visibility = "hidden";
+        }, 5000);
+    } else{
+        tableClasses.deleteRow(tableClasses.tBodies[0].rows.length-1);
+        tableEntropy.deleteRow(tableEntropy.tBodies[0].rows.length-1);
+    }
 }
 

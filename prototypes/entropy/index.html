@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <script src="lib/d3.v7.min.js"></script>
+        <script src="lib/jquery-3.7.1.min.js"></script>
         <link rel="stylesheet" href="css/styles.css"/>
         <meta charset="UTF-8">
         <title>Binary entropy function</title>
@@ -13,6 +14,9 @@
         </div>
 
         <h1>Entropy calculator</h1>
+        <div class="alert">
+            <p id="removeClassErr" style="visibility: hidden">Cannot remove class: the minimum number of classes is 2.</p>
+        </div>
         <input id='buttonAddClass' type=button value='Add Class' onclick="addClass()" />
         <input id='buttonRemoveClass' type=button value='Remove Class' onclick="removeClass()" />
 
