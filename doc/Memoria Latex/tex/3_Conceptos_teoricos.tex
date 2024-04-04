@@ -1,0 +1,112 @@
+\capitulo{3}{Conceptos teóricos}
+
+In the following, all the theoretical concepts relevant for the understanding of the project will be explained.
+
+Algunos conceptos teóricos de \LaTeX{} \footnote{Créditos a los proyectos de Álvaro López Cantero: Configurador de Presupuestos y Roberto Izquierdo Amo: PLQuiz}.
+
+\section{Decision Trees}
+
+A decision tree ~\cite{decisiontrees} is a versatile supervised learning algorithm used for classification and regression tasks. Its goal is to predict the value of a variable based on previously processed input. Its hierarchical structure includes a root node and several internal and leaf nodes.
+
+It starts at the root, which represents the feature that best separates the underlying dataset based on a certain criterion. An example would be information gain, which will be explained in a later section. From there branches extend to internal nodes, also called decision nodes. These internal nodes also represent features along with a decision rule that tells us how to further split the data. These features are continuously evaluated until homogenous subsets are created by the leaf nodes. These represent all the possible outcomes of the dataset with each one corresponding to a class label.
+
+Decision tree learning utilizes a divide and conquer approach, iteratively finding the best split points until all or most of the input data is classified.
+
+An example of a decision tree which evaluates whether a person is going to be an astronaut or not:
+\imagen{decision_tree_example1}{Decision tree example}{.5}
+
+\subsection{Subsecciones}
+
+Además de secciones tenemos subsecciones.
+
+\subsubsection{Subsubsecciones}
+
+Y subsecciones. 
+
+\section{Entropy} \label{entropy}
+In the context of decision tree algorithms, entropy ~\cite{entropy_dash} can be viewed as a measure of impurity in a dataset. It can also be described as a measure of disorder, uncertainty or the expected surprise of a classification, but going forward, the term impurity will be used to avoid confusion. In datasets with binary classes, where variables can only have two possible outcome values, the entropy value lies between 0 and 1, inclusive. The higher the entropy, the more impure the dataset is. In a binary-class dataset, a node that has an equal distribution of, e.g., 5 instances belonging to one class and the other 5 instances belonging to the other class, would have an entropy value of 1. Inversely, a node that has all its instances belong to only one class would have an entropy value of 0, making´it a pure node.
+The value is calculated using the following formula:
+\[ \scalebox{2}{$\displaystyle E(X) = -\sum_{i=1}^{n} {p_i} {log_2 (p_i)}$} \]
+$E(X)$ is the entropy of dataset $X$, $n$ describes the number of classes in the dataset, and $p_i$ the proportion of instances in class $i$ or, in other words, the probability of an instance belonging to class $i$.
+
+This following graph ~\cite{entropy_T} that describes the entropy function in relation to the composition of a node shows really well how entropy is used to determine how impure a node is:
+\imagen{entropy_graph}{Descriptive graph of the entropy function}{.5}
+In a dataset with binary classes, the x-axis describes the amount of instances in a dataset belonging to the positive class while the y-axis measures their entropy values. It records the lowest values at the extremes where there are only or no positive instances recorded in a given dataset while the highest impurity is reached when the numbers of positive and negative instances are equal.
+However, it must be mentioned that the value of entropy can reach values higher than 1 if the dataset possesses more than 2 class labels. 
+
+
+\subsection{Conditional Entropy}
+In the context of decision trees, the conditional entropy~\cite{conditional_entropy_wiki} $E(Y\mid X)$measures the uncertainty in the target variable $Y$, which is usually the class labels, given a certain value of the attribute $X$ that is used for splitting a node.
+It can be described as the weighted sum of $E(Y\mid X = x)$ for every possible value $x$ of $X$:
+\[E(Y\mid X) = \sum_{x \in X} {p(x)} {E(Y\mid X = x)}\]
+The formula sums up the conditional entropies for all the possible values $x$ of attribute $X$. As the weight, it uses $p(x)$, which is the proportion between the number of instances that have the attribute value $x$ and the size of the dataset.
+Calculating the conditional entropies for the individual values $x$ of attribute $X$ is possible with the following formula:
+\[ E(Y\mid X = x) = -\sum_{y \in Y} {p(y\mid x)} {log_2 {(p(y\mid x))}} \]
+$p(y\mid x)$ represents the proportion of instances in the dataset with attribute value $x$ that also have the class value $y$. It sums over all the possible values of the target variable $Y$. It can be used synonymous with the formula for $E(X)$ that was previously shown in \ref{entropy}
+
+In the end, this conditional entropy calculation evaluates the effectiveness of splitting a node based on the particular attribute $X$. The lower the conditional entropy, the lower the impurity of the data after splitting the node based on the particular attribute the conditional entropy was calculated for.
+
+\section{Referencias}
+
+Las referencias se incluyen en el texto usando cite~\cite{wiki:latex}. Para citar webs, artículos o libros~\cite{koza92}, si se desean citar más de uno en el mismo lugar~\cite{bortolot2005, koza92}.
+
+
+\section{Imágenes}
+
+Se pueden incluir imágenes con los comandos standard de \LaTeX, pero esta plantilla dispone de comandos propios como por ejemplo el siguiente:
+
+\imagen{escudoInfor}{Autómata para una expresión vacía}{.5}
+
+
+
+\section{Listas de items}
+
+Existen tres posibilidades:
+
+\begin{itemize}
+	\item primer item.
+	\item segundo item.
+\end{itemize}
+
+\begin{enumerate}
+	\item primer item.
+	\item segundo item.
+\end{enumerate}
+
+\begin{description}
+	\item[Primer item] más información sobre el primer item.
+	\item[Segundo item] más información sobre el segundo item.
+\end{description}
+	
+\begin{itemize}
+\item 
+\end{itemize}
+
+\section{Tablas}
+
+Igualmente se pueden usar los comandos específicos de \LaTeX o bien usar alguno de los comandos de la plantilla.
+
+\tablaSmall{Herramientas y tecnologías utilizadas en cada parte del proyecto}{l c c c c}{herramientasportipodeuso}
+{ \multicolumn{1}{l}{Herramientas} & App AngularJS & API REST & BD & Memoria \\}{ 
+HTML5 & X & & &\\
+CSS3 & X & & &\\
+BOOTSTRAP & X & & &\\
+JavaScript & X & & &\\
+AngularJS & X & & &\\
+Bower & X & & &\\
+PHP & & X & &\\
+Karma + Jasmine & X & & &\\
+Slim framework & & X & &\\
+Idiorm & & X & &\\
+Composer & & X & &\\
+JSON & X & X & &\\
+PhpStorm & X & X & &\\
+MySQL & & & X &\\
+PhpMyAdmin & & & X &\\
+Git + BitBucket & X & X & X & X\\
+Mik\TeX{} & & & & X\\
+\TeX{}Maker & & & & X\\
+Astah & & & & X\\
+Balsamiq Mockups & X & & &\\
+VersionOne & X & X & X & X\\
+} 
