@@ -15,23 +15,23 @@ svg
     .attr("x", 0)
     .attr("y", 0)
     .attr("width", width)
-    .attr("height", height)
+    .attr("height", height);
 
 // Add Axes
 const xMax = 1;
 const yMax = 1;
 
-var xScale = d3.scaleLinear([0, xMax], [0, width])
-var yScale = d3.scaleLinear([0, yMax], [height, 0])
+var xScale = d3.scaleLinear([0, xMax], [0, width]);
+var yScale = d3.scaleLinear([0, yMax], [height, 0]);
 
-var xAxis = d3.axisBottom(xScale)
-var yAxis = d3.axisLeft(yScale)
+var xAxis = d3.axisBottom(xScale);
+var yAxis = d3.axisLeft(yScale);
 svg.append("g")
     .attr("transform", `translate(0,${height})`)
-    .call(xAxis)
+    .call(xAxis);
 svg.append("g")
     .attr("transform", `translate(0,0)`)
-    .call(yAxis)
+    .call(yAxis);
 
 // Axes label
 svg.append("text")
@@ -47,7 +47,7 @@ svg.append("text")
     .attr("y", -35)
     .attr("x", -height / 2)
     .attr("transform", "rotate(-90)")
-    .html("Entropy")
+    .html("Entropy");
 
 function E(x) {
     if (x == 0 || x == 1 || 0.99999 <= x) {
@@ -71,9 +71,11 @@ function graphFunction() {
 // Add function graph
 var line = d3.line()
     .x(d => xScale(d[0]))
-    .y(d => yScale(d[1]))
+    .y(d => yScale(d[1]));
+
+var data = graphFunction();
 svg.append("path")
-    .datum(graphFunction())
+    .datum(data)
     .attr("clip-path", "url(#chart-area)")
     .attr("fill", "none")
     .attr("stroke", "teal")
@@ -95,7 +97,54 @@ function calcProbs() {
     }
 }
 
+function drawPoint(data, tableEntropy) {
+    // FInd the closest data point to the x-value of p(Class 1)
+    var targetValue = tableEntropy.tBodies[0].rows[0].cells[1].innerHTML;
+    var closest = data[0][0];
+    var closestPoint = data[0];
+    // Assume the first number is the closest
+    var closestDiff = Math.abs(targetValue - closest);
+
+    // Calculate the difference between the target and closest
+    for (var i = 0; i < data.length; i++) {
+        var current = data[i][0];
+        var currentDiff = Math.abs(targetValue - current);
+
+        // Calculate the difference between the target and current number
+        if (currentDiff < closestDiff) {
+            // Update the closest number
+            closestPoint = data[i];
+
+            // Update the closest difference
+            closestDiff = currentDiff;
+        }
+
+    }
+    points = [[closestPoint[0], closestPoint[1]], [closestPoint[0], 0]];
+
+    // Draw point on x-axis
+    svg.append("circle")
+        .attr("r", 3)
+        .attr("fill", "red")
+        .style("stroke", "red")
+        .attr("opacity", .70)
+        .attr("cx", xScale(points[0][0]))
+        .attr("cy", yScale(0));
+
+    // Draw line between point and entropy graph
+    svg.append("path")
+        .datum(points)
+        .attr("fill", "red")
+        .attr("stroke", "red")
+        .attr("stroke-width", 1)
+        .attr("opacity", .70)
+        .attr("d", line)
+        .attr("id", "pointLine");
+}
+
 function calcEntropy() {
+    svg.select("#pointLine").remove();
+    svg.selectAll("circle").remove();
     calcProbs();
     var table = document.getElementById('table-entropy');
     var rowCount = table.tBodies[0].rows.length;
@@ -111,6 +160,11 @@ function calcEntropy() {
     } else {
         var output = document.getElementById('sum-entropy');
         output.innerHTML = sum;
+    }
+    var tableClasses = document.getElementById('table-classes');
+    var numberClasses = tableClasses.getElementsByTagName('tbody')[0].rows.length - 1;
+    if (numberClasses == 2) {
+        drawPoint(data, table);
     }
 }
 
@@ -137,20 +191,19 @@ function addClass() {
     valueCell.id = "p" + pCount;
 }
 
-function removeClass(){
+function removeClass() {
     var tableClasses = document.getElementById('table-classes');
     var tableEntropy = document.getElementById('table-entropy');
-    var numberClasses = tableClasses.getElementsByTagName('tbody')[0].rows.length-1;
-    console.log(numberClasses);
-    if (numberClasses == 2){
+    var numberClasses = tableClasses.getElementsByTagName('tbody')[0].rows.length - 1;
+    if (numberClasses == 2) {
         document.getElementById("removeClassErr").style.visibility = "visible";
-        setTimeout(()=>{
+        setTimeout(() => {
             var errorMessage = document.getElementById("removeClassErr");
             errorMessage.style.visibility = "hidden";
         }, 5000);
-    } else{
-        tableClasses.deleteRow(tableClasses.tBodies[0].rows.length-1);
-        tableEntropy.deleteRow(tableEntropy.tBodies[0].rows.length-1);
+    } else {
+        tableClasses.deleteRow(tableClasses.tBodies[0].rows.length - 1);
+        tableEntropy.deleteRow(tableEntropy.tBodies[0].rows.length - 1);
     }
 }
 
