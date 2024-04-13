@@ -154,6 +154,7 @@ function calcEntropy() {
         var pCurrent = table.rows[i].cells[columnIndex].innerHTML;
         sum -= pCurrent * Math.log2(pCurrent);
     }
+    console.log(sum)
     if (isNaN(sum)) {
         var output = document.getElementById('sum-entropy');
         output.innerHTML = 0;
@@ -171,14 +172,26 @@ function calcEntropy() {
 function addClass() {
     var tableClasses = document.getElementById('table-classes');
     var tableEntropy = document.getElementById('table-entropy');
+    var tBodyRefClasses = tableClasses.getElementsByTagName('tbody')[0];
     var tBodyRef = tableEntropy.getElementsByTagName('tbody')[0];
 
-    var clone = tableClasses.rows[tableClasses.rows.length - 2].cloneNode(true);
-    clone.cells[0].firstChild.data =
-        clone.cells[0].firstChild.data.replace(/(\d+):/, function (str, g1) {
-            return (+g1 + 1) + ':';
-        });
-    tableClasses.tBodies[0].appendChild(clone);
+    var cCount = +tBodyRefClasses.rows[tBodyRefClasses.rows.length - 1].cells[1].id[1] + 1;
+    var newRow = tBodyRefClasses.insertRow();
+    var cCell = newRow.insertCell();
+    var cValueCell = newRow.insertCell();
+    
+    newLabel = document.createElement("label");
+    newLabel.classList.add("form-control-plaintext");
+    newLabel.innerHTML = "Class " + +cCount + ":";
+    cCell.appendChild(newLabel);
+
+    cValueCell.id = "c" + cCount;
+    newInput = document.createElement("input");
+    newInput.setAttribute("value", "0");
+    newInput.setAttribute("style", "width:60px");
+    newInput.setAttribute("type", "text");
+    newInput.classList.add("form-control");
+    cValueCell.appendChild(newInput);
 
     var pCount = +tBodyRef.rows[tBodyRef.rows.length - 1].cells[1].id[1] + 1;
     var newRow = tBodyRef.insertRow();
