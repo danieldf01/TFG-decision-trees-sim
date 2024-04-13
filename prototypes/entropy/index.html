@@ -28,17 +28,31 @@
                     <input id='buttonRemoveClass' type=button value='Remove Class' onclick="removeClass()" />
             
                     <br /><br />
-            
-                    <table cellspacing=0 cellpadding=4 id="table-classes">
-                        <tbody>
-                            <tr><td>Feature:</td><td>
-                            <tr><td>Class 1:</td><td><input value=5 style="width:30px" type=text  maxlength=2/></td></tr>
-                            <tr><td>Class 2:</td><td><input value=5 style="width:30px" type=text  maxlength=2/></td></tr>
-                        </tbody>
-                        <tfoot>
-                            <tr><td style="border-top:solid 1px black;">Sum:</td><td style="border-top:solid 1px black;"><div id="sum-classes">10</div></td></tr>
-                        </tfoot>
-                    </table>
+
+                    <div class="table-wrapper">
+                        <table class="table caption-top"  id="table-classes">
+                            <caption>Feature: </caption>
+                            <thead>
+                                <tr>
+                                    <th>Classes</th>
+                                    <th>Number of instances</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider ">
+                                <tr>
+                                    <td>Class 1:</td>
+                                    <td><input value=5 style="width:60px" type=text class="form-control"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Class 2:</td>
+                                    <td><input value=5 style="width:60px" type=text class="form-control"/></td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="table-group-divider ">
+                                <tr><td></td><td style="border-top:solid 1px black;"><div id="sum-classes">10</div></td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
             
                     <br /><br />
             

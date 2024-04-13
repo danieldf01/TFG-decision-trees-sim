@@ -15,6 +15,12 @@ body::before {
     min-height: 50px;
     font-size: 2rem;
   }
+
+  .table-wrapper {
+    max-height: 300px;
+    overflow: auto;
+    display:inline-block;
+  }
   
   @media (min-width: 576px) {
     body::before {

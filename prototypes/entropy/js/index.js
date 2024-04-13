@@ -162,7 +162,7 @@ function calcEntropy() {
         output.innerHTML = sum;
     }
     var tableClasses = document.getElementById('table-classes');
-    var numberClasses = tableClasses.getElementsByTagName('tbody')[0].rows.length - 1;
+    var numberClasses = tableClasses.getElementsByTagName('tbody')[0].rows.length;
     if (numberClasses == 2) {
         drawPoint(data, table);
     }
@@ -194,7 +194,7 @@ function addClass() {
 function removeClass() {
     var tableClasses = document.getElementById('table-classes');
     var tableEntropy = document.getElementById('table-entropy');
-    var numberClasses = tableClasses.getElementsByTagName('tbody')[0].rows.length - 1;
+    var numberClasses = tableClasses.getElementsByTagName('tbody')[0].rows.length;
     if (numberClasses == 2) {
         document.getElementById("removeClassErr").style.visibility = "visible";
         setTimeout(() => {
@@ -202,7 +202,7 @@ function removeClass() {
             errorMessage.style.visibility = "hidden";
         }, 5000);
     } else {
-        tableClasses.deleteRow(tableClasses.tBodies[0].rows.length - 1);
+        tableClasses.deleteRow(tableClasses.tBodies[0].rows.length);
         tableEntropy.deleteRow(tableEntropy.tBodies[0].rows.length - 1);
     }
 }
