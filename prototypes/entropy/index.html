@@ -15,59 +15,73 @@
         
         <div class="container">
             <div class="row">
-                <div class="col">
+
+                <!-- Entropy function graph -->
+                <div class="col-lg-6">
                     <h1>Binary entropy function</h1>
                     <svg id="root"></svg>
                 </div>
-                <div class="col-auto ">
-                    <h1>Entropy calculator</h1>
-                    <div class="alert">
-                        <p id="removeClassErr" style="visibility: hidden; color: red">Cannot remove class: the minimum number of classes is 2.</p>
-                    </div>
-                    <input id='buttonAddClass' type=button value='Add Class' onclick="addClass()" />
-                    <input id='buttonRemoveClass' type=button value='Remove Class' onclick="removeClass()" />
-            
-                    <br /><br />
 
-                    <div class="table-wrapper">
-                        <table class="table caption-top table-hover"  id="table-classes">
-                            <caption>Feature: </caption>
-                            <thead>
-                                <tr>
-                                    <th>Classes</th>
-                                    <th>Nr. of instances</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-group-divider ">
-                                <tr>
-                                    <td><label class="form-control-plaintext ">Class 1:</label></td>
-                                    <td id="c1"><input value=5 style="width:100px" type=text class="form-control"/></td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: hidden;"><label class="form-control-plaintext ">Class 2:</label></td>
-                                    <td id="c2"><input value=5 style="width:100px" type=text class="form-control"/></td>
-                                </tr>
-                            </tbody>
-                            <tfoot style="border-bottom: hidden;">
-                                <tr><td></td><td class="table-group-divider"><div id="sum-classes">10</div></td></tr>
-                            </tfoot>
-                        </table>
-                    </div>
-            
-                    <br /><br />
+                <!-- Entropy calculator -->
+                <div class="col-lg-6">
+                    <h1>Entropy calculator</h1>
+                    <div class="row">
+
+                        <!-- Classes table -->
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="alert">
+                                <p id="removeClassErr" style="visibility: hidden; color: red">Cannot remove class: the minimum number of classes is 2.</p>
+                            </div>
+                            
+                            <input id='buttonRemoveClass' type=button value='Remove Class' onclick="removeClass()" />
                     
-                    <div class="table-wrapper">
-                        <table class="table w-50" id="table-entropy">
-                            <tbody>
-                                <tr><td>p(Class 1):</td><td id="p1">0.5</td></tr>
-                                <tr><td>p(Class 2):</td><td id="p2">0.5</td></tr>
-                            </tbody>
-                            <tfoot class="table-group-divider" style="border-bottom: hidden;">
-                                <tr><td style="border-top:solid 1px black;">E(Feature):</td><td style="border-top:solid 1px black;"><div id="sum-entropy">1</div></td></tr>
-                            </tfoot>
-                        </table>
+                            <br /><br />
+        
+                            <div class="table-wrapper">
+                                <table class="table caption-top table-hover"  id="table-classes">
+                                    <caption>Feature: </caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Classes</th>
+                                            <th>Nr. of instances</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider ">
+                                        <tr>
+                                            <td><label class="form-control-plaintext ">Class 1:</label></td>
+                                            <td id="c1"><input value=5 style="width:100px" type=text class="form-control"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border-bottom: hidden;"><label class="form-control-plaintext ">Class 2:</label></td>
+                                            <td id="c2"><input value=5 style="width:100px" type=text class="form-control"/></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot style="border-bottom: hidden;">
+                                        <tr>
+                                            <td><div class="btn btn-outline-success" onclick="addClass()" id="buttonAddClass">Add Class</div></td>
+                                            <td class="table-group-divider"><div id="sum-classes">10</div></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Entropy table -->
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="table-wrapper">
+                                <table class="table w-50" id="table-entropy">
+                                    <tbody>
+                                        <tr><td>p(Class 1):</td><td id="p1">0.5</td></tr>
+                                        <tr><td>p(Class 2):</td><td id="p2">0.5</td></tr>
+                                    </tbody>
+                                    <tfoot class="table-group-divider" style="border-bottom: hidden;">
+                                        <tr><td style="border-top:solid 1px black;">E(Feature):</td><td style="border-top:solid 1px black;"><div id="sum-entropy">1</div></td></tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <input type=button value='Calculate Entropy' onclick="calcEntropy()" />
+                        </div>
                     </div>
-                    <input type=button value='Calculate Entropy' onclick="calcEntropy()" />
                 </div>
             </div>
         </div>
