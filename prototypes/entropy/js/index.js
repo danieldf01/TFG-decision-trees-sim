@@ -188,7 +188,7 @@ function addClass() {
     cValueCell.id = "c" + cCount;
     newInput = document.createElement("input");
     newInput.setAttribute("value", "0");
-    newInput.setAttribute("style", "width:60px");
+    newInput.setAttribute("style", "width:100px");
     newInput.setAttribute("type", "text");
     newInput.classList.add("form-control");
     cValueCell.appendChild(newInput);
