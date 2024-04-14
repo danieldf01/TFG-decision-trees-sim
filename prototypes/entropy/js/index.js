@@ -175,16 +175,23 @@ function addClass() {
     var tBodyRefClasses = tableClasses.getElementsByTagName('tbody')[0];
     var tBodyRef = tableEntropy.getElementsByTagName('tbody')[0];
 
+    // add border under class cell of the current last row
+    tBodyRefClasses.rows[tBodyRefClasses.rows.length - 1].cells[0].setAttribute("style", "border-bottom: visible");
+
     var cCount = +tBodyRefClasses.rows[tBodyRefClasses.rows.length - 1].cells[1].id[1] + 1;
     var newRow = tBodyRefClasses.insertRow();
     var cCell = newRow.insertCell();
     var cValueCell = newRow.insertCell();
     
+    // Class cell
     newLabel = document.createElement("label");
     newLabel.classList.add("form-control-plaintext");
     newLabel.innerHTML = "Class " + +cCount + ":";
     cCell.appendChild(newLabel);
+    cCell.setAttribute("style", "border-bottom: hidden");
+    
 
+    // Value (Number of instances) cell
     cValueCell.id = "c" + cCount;
     newInput = document.createElement("input");
     newInput.setAttribute("value", "0");
@@ -217,6 +224,10 @@ function removeClass() {
     } else {
         tableClasses.deleteRow(tableClasses.tBodies[0].rows.length);
         tableEntropy.deleteRow(tableEntropy.tBodies[0].rows.length - 1);
+        
+        // remove border under class cell of the new last row
+        var tBodyRefClasses = tableClasses.getElementsByTagName('tbody')[0];
+        tBodyRefClasses.rows[tBodyRefClasses.rows.length - 1].cells[0].setAttribute("style", "border-bottom: hidden");
     }
 }
 
