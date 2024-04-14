@@ -17,7 +17,7 @@ body::before {
   }
 
   .table-wrapper {
-    max-height: 300px;
+    max-height: 350px;
     overflow: auto;
     display:inline-block;
   }

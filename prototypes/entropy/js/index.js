@@ -175,6 +175,7 @@ function addClass() {
     var tBodyRefClasses = tableClasses.getElementsByTagName('tbody')[0];
     var tBodyRef = tableEntropy.getElementsByTagName('tbody')[0];
 
+    // Classes table
     // add border under class cell of the current last row
     tBodyRefClasses.rows[tBodyRefClasses.rows.length - 1].cells[0].setAttribute("style", "border-bottom: visible");
 
@@ -190,23 +191,49 @@ function addClass() {
     cCell.appendChild(newLabel);
     cCell.setAttribute("style", "border-bottom: hidden");
     
-
     // Value (Number of instances) cell
     cValueCell.id = "c" + cCount;
+    inputGroup = document.createElement("div");
+    inputGroup.classList.add("input-group");
+
     newInput = document.createElement("input");
     newInput.setAttribute("value", "0");
     newInput.setAttribute("style", "width:100px");
     newInput.setAttribute("type", "text");
     newInput.classList.add("form-control");
-    cValueCell.appendChild(newInput);
+    inputGroup.appendChild(newInput);
 
+    removeButton = document.createElement("div");
+    removeButton.classList.add("btn");
+    removeButton.classList.add("btn-outline-danger");
+    removeButton.setAttribute("onclick", "removeClass()");
+    removeButton.innerHTML = "-";
+    inputGroup.appendChild(removeButton);
+
+    cValueCell.appendChild(inputGroup);
+
+    // remove "Class remove button" of previous input group so that there is only one
+    if(tBodyRefClasses.rows.length >= 4) {
+        cell = tBodyRefClasses.rows[tBodyRefClasses.rows.length - 2].cells[1]
+        inputG = cell.getElementsByTagName("div")[0];
+        input = inputG.getElementsByTagName("input")[0];
+        button = inputG.getElementsByTagName("div")[0];
+        inputG.removeChild(button);
+        cell.removeChild(inputG);
+        cell.appendChild(input);
+    }
+    
+
+    // Entropy table
     var pCount = +tBodyRef.rows[tBodyRef.rows.length - 1].cells[1].id[1] + 1;
     var newRow = tBodyRef.insertRow();
     var pCell = newRow.insertCell();
     var valueCell = newRow.insertCell();
 
+    // Probability cell
     pCell.innerHTML = "p(Class " + +pCount + "):";
 
+    // Value cell
     valueCell.innerHTML = 0;
     valueCell.id = "p" + pCount;
 }
@@ -224,10 +251,31 @@ function removeClass() {
     } else {
         tableClasses.deleteRow(tableClasses.tBodies[0].rows.length);
         tableEntropy.deleteRow(tableEntropy.tBodies[0].rows.length - 1);
-        
+
         // remove border under class cell of the new last row
         var tBodyRefClasses = tableClasses.getElementsByTagName('tbody')[0];
         tBodyRefClasses.rows[tBodyRefClasses.rows.length - 1].cells[0].setAttribute("style", "border-bottom: hidden");
+        
+        // add "Class remove button" to the now last row
+        if(tBodyRefClasses.rows.length >= 3) {
+            inputGroup = document.createElement("div");
+            inputGroup.classList.add("input-group");
+
+            cell = tBodyRefClasses.rows[tBodyRefClasses.rows.length - 1].cells[1]
+            input = cell.getElementsByTagName("input")[0];
+            cell.removeChild(input);
+            inputGroup.appendChild(input);
+        
+            removeButton = document.createElement("div");
+            removeButton.classList.add("btn");
+            removeButton.classList.add("btn-outline-danger");
+            removeButton.setAttribute("onclick", "removeClass()");
+            removeButton.innerHTML = "-";
+            inputGroup.appendChild(removeButton);
+
+            cell.appendChild(inputGroup);
+        }
+        
     }
 }
 
