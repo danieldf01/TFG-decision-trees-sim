@@ -55,16 +55,18 @@
                     </div>
             
                     <br /><br />
-            
-                    <table cellspacing=0 cellpadding=4 id="table-entropy">
-                        <tbody>
-                            <tr><td>p(Class 1):</td><td id="p1">0.5</td></tr>
-                            <tr><td>p(Class 2):</td><td id="p2">0.5</td></tr>
-                        </tbody>
-                        <tfoot>
-                            <tr><td style="border-top:solid 1px black;">E(feature):</td><td style="border-top:solid 1px black;"><div id="sum-entropy">1</div></td></tr>
-                        </tfoot>
-                    </table>
+                    
+                    <div class="table-wrapper">
+                        <table class="table w-50" id="table-entropy">
+                            <tbody>
+                                <tr><td>p(Class 1):</td><td id="p1">0.5</td></tr>
+                                <tr><td>p(Class 2):</td><td id="p2">0.5</td></tr>
+                            </tbody>
+                            <tfoot class="table-group-divider" style="border-bottom: hidden;">
+                                <tr><td style="border-top:solid 1px black;">E(Feature):</td><td style="border-top:solid 1px black;"><div id="sum-entropy">1</div></td></tr>
+                            </tfoot>
+                        </table>
+                    </div>
                     <input type=button value='Calculate Entropy' onclick="calcEntropy()" />
                 </div>
             </div>
