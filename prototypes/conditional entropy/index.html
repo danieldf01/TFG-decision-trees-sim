@@ -13,8 +13,8 @@
         
         <div class="container">
             <div class="row">
+                <h1>Conditional Entropy calculator</h1>
                 <div class="col">
-                    <h1>Conditional Entropy calculator</h1>
                     <table class="table caption-top" id="table-cond-entropy-1">
                         <caption>Feature: </caption>
                         <thead>
@@ -34,7 +34,7 @@
                                 <td id="c12"><input value=5 type=text class="form-control"/></td>
                                 <td><label class="form-control-plaintext " id="r1">0.4</label></td>
                                 <td><label class="form-control-plaintext " id="e1">0.65</label></td>
-                                <td rowspan="2" style="vertical-align: middle;"><label id="ce" class="form-control-plaintext ">0.56</label></td>
+                                <td rowspan="2" style="vertical-align: middle;"><label id="ce1" class="form-control-plaintext ">0.56</label></td>
                             </tr>
                             <tr>
                                 <td><label class="form-control-plaintext ">Category 2:</label></td>
@@ -52,13 +52,67 @@
                                 <td></td>
                                 <td></td>
                                 <td>
-                                    <div class="btn btn-outline-dark " onclick="calcCondEntropy()">Calculate Entropy</div>
+                                    <div class="btn btn-outline-dark " onclick="calcCondEntropy(1)">Calculate Entropy</div>
                                 </td>
 
                             </tr>
                         </tfoot>
-                    </div>
-                </table>
+                    </table>
+                </div>
+                <div class="col">
+                    <table class="table caption-top" id="table-cond-entropy-2">
+                        <caption>Feature: </caption>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Class 1</th>
+                                <th>Class 2</th>
+                                <th>Ratio</th>
+                                <th>E(Category)</th>
+                                <th>CE(Feature)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="c1"><label class="form-control-plaintext ">Category 1:</label></td>
+                                <td id="c11"><input value=1 type=text class="form-control"/></td>
+                                <td id="c12"><input value=5 type=text class="form-control"/></td>
+                                <td><label class="form-control-plaintext " id="r1">0.26</label></td>
+                                <td><label class="form-control-plaintext " id="e1">0.65</label></td>
+                                <td id="ce2cell" rowspan="3" style="vertical-align: middle;"><label id="ce2" class="form-control-plaintext ">0.56</label></td>
+                            </tr>
+                            <tr>
+                                <td id="c2"><label class="form-control-plaintext ">Category 2:</label></td>
+                                <td id="c21"><input value=1 type=text class="form-control"/></td>
+                                <td id="c22"><input value=8 type=text class="form-control"/></td>
+                                <td><label class="form-control-plaintext " id="r2">0.39</label></td>
+                                <td><label class="form-control-plaintext " id="e2">0.5</label></td>
+                            </tr>
+                            <tr>
+                                <td id="c3"><label class="form-control-plaintext ">Category 3:</label></td>
+                                <td id="c31"><input value=1 type=text class="form-control"/></td>
+                                <td id="c32"><input value=7 type=text class="form-control"/></td>
+                                <td><label class="form-control-plaintext " id="r3">0.35</label></td>
+                                <td><label class="form-control-plaintext " id="e3">0.54</label></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr style="border-bottom: hidden;">
+                                <td>
+                                    <div class="btn btn-outline-primary " onclick="addCategory()">+</div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div class="btn btn-outline-dark " onclick="calcCondEntropy(2)">Calculate Entropy</div>
+                                </td>
+
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
         <script src="js/index.js"></script>
