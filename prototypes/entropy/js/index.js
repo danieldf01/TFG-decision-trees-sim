@@ -154,7 +154,7 @@ function calcEntropy() {
         var pCurrent = table.rows[i].cells[columnIndex].innerHTML;
         sum -= pCurrent * Math.log2(pCurrent);
     }
-    console.log(sum)
+    
     if (isNaN(sum)) {
         var output = document.getElementById('sum-entropy');
         output.innerHTML = 0;
