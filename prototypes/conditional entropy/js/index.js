@@ -1,5 +1,4 @@
 function calcRatio(tBodyRef, instanceVals){
-
     var sum = 0;
     rowSums = [];
     for (var i = 0; i < instanceVals.length; i++) {
@@ -51,14 +50,9 @@ function calcEntropyCat(rowSums, tBodyRef, instanceVals){
 
 }
 
-function calcCondEntropy(tableNr){
+function calcCondEntropy(){
     // Calculate ratios and Entropies for each category first
-    if (tableNr == 1){
-        var table = document.getElementById('table-cond-entropy-1');
-    } else{
-        var table = document.getElementById('table-cond-entropy-2');
-    }
-    
+    var table = document.getElementById('table-cond-entropy');
     var tBodyRef = table.getElementsByTagName('tbody')[0];
     var instanceVals = table.getElementsByTagName('input');
     var rowSumsRatios = calcRatio(tBodyRef, instanceVals);
@@ -70,20 +64,16 @@ function calcCondEntropy(tableNr){
     for (var i = 0; i < entropies.length; i++) {
         condEntropy += ratioVals[i] * entropies[i];
     }
-    if(tableNr == 1){
-        document.getElementById('ce1').innerHTML = condEntropy;
-    } else{
-        document.getElementById('ce2').innerHTML = condEntropy;
-    }
+    document.getElementById('ce').innerHTML = condEntropy;
 }
     
 function removeCategory(){
-    var table = document.getElementById('table-cond-entropy-2');
+    var table = document.getElementById('table-cond-entropy');
     var tBodyRef = table.getElementsByTagName('tbody')[0];
     table.deleteRow(tBodyRef.rows.length);
 
     // add "Category remove button" to the now last row
-    if(tBodyRef.rows.length >= 4) {
+    if(tBodyRef.rows.length >= 3) {
         var removeButton = document.createElement("div");
         removeButton.classList.add("btn");
         removeButton.classList.add("btn-outline-danger");
@@ -96,7 +86,7 @@ function removeCategory(){
 }
 
 function addCategory(){
-    var table = document.getElementById('table-cond-entropy-2');
+    var table = document.getElementById('table-cond-entropy');
     var tBodyRef = table.getElementsByTagName('tbody')[0];
 
     var catCount = +tBodyRef.rows[tBodyRef.rows.length - 1].cells[0].id[1] + 1;
@@ -147,10 +137,10 @@ function addCategory(){
     entropyLabel.innerHTML = "0";
     entropyCell.appendChild(entropyLabel);
 
-    document.getElementById('ce2cell').setAttribute("rowspan", catCount.toString());
+    document.getElementById('ceCell').setAttribute("rowspan", catCount.toString());
 
     // remove "Category remove button" of previous input group so that there is only one
-    if(tBodyRef.rows.length >= 5) {
+    if(tBodyRef.rows.length >= 4) {
         cell = tBodyRef.rows[tBodyRef.rows.length - 2].cells[0]
         button = cell.getElementsByTagName("div")[0];
         cell.removeChild(button);

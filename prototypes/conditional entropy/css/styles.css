@@ -9,7 +9,7 @@ body::before {
 }
 
 .table-wrapper {
-    max-height: 350px;
+    max-height: 450px;
     overflow: auto;
     display: inline-block;
 }
