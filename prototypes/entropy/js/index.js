@@ -88,20 +88,42 @@ function calcProbs() {
     var items = table.getElementsByTagName('input');
     var sum = 0;
     for (var i = 0; i < items.length; i++) {
-        sum += parseInt(items[i].value);
+        var value = parseInt(items[i].value);
+        // If there is a negative value, display alert and cancel the calculation
+        try{
+            if(value < 0) throw new Error;
+            sum += value;
+        } catch(err){
+            $('#alert-negative-val').removeClass('d-none');
+            // If the alert for all-0 values is still being displayed:
+            // hide it now that it is not all-0 values anymore
+            $('#alert-sum-0').addClass('d-none');
+            return;
+        }
     }
+
+    // If the alert is still being displayed, hide it now that there are no negative values anymore
+    $('#alert-negative-val').addClass('d-none');
+
     document.getElementById('sum-classes').innerHTML = sum;
 
     // Show alert about all instance values being 0
     if(sum == 0){
         $('#alert-sum-0').removeClass('d-none');
+    } else {
+        // If the alert is still being displayed, hide it now that there is at least one non-zero instance value
+        $('#alert-sum-0').addClass('d-none');
     }
     
+    var pValues = [];
     for (var i = 0; i < items.length; i++) {
         // To not divide by 0 if all instance values are 0
         var pValue = sum == 0? 0 : parseInt(items[i].value) / sum;
+        pValues.push(pValue);
         document.getElementById('p' + (i + 1).toString()).innerHTML = pValue;
     }
+    
+    return pValues;
 }
 
 function drawPoint(data, tableEntropy) {
@@ -150,16 +172,22 @@ function drawPoint(data, tableEntropy) {
 }
 
 function calcEntropy() {
+    // If there is a negative value, cancel the calculation
+    try{
+        var pValues = calcProbs();
+        if(pValues == null) throw new Error;
+    } catch(err){
+        return;
+    }
+
+    // Remove the previous point and line
     svg.select("#pointLine").remove();
     svg.selectAll("circle").remove();
-    calcProbs();
-    var table = document.getElementById('table-entropy');
-    var rowCount = table.tBodies[0].rows.length;
+
     var columnIndex = 1;
     var sum = 0;
-    for (var i = 0; i < rowCount; i++) {
-        var pCurrent = table.rows[i].cells[columnIndex].innerHTML;
-        sum -= pCurrent * Math.log2(pCurrent);
+    for (var i = 0; i < pValues.length; i++) {
+        sum -= pValues[i] * Math.log2(pValues[i]);
     }
     
     if (isNaN(sum)) {
@@ -169,10 +197,12 @@ function calcEntropy() {
         var output = document.getElementById('sum-entropy');
         output.innerHTML = sum;
     }
+
+    var tableEntropy = document.getElementById('table-entropy');
     var tableClasses = document.getElementById('table-classes');
     var numberClasses = tableClasses.getElementsByTagName('tbody')[0].rows.length;
     if (numberClasses == 2) {
-        drawPoint(data, table);
+        drawPoint(data, tableEntropy);
     }
 }
 

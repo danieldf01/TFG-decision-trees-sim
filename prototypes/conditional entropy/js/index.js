@@ -2,20 +2,39 @@ function calcRatio(tBodyRef, instanceVals){
     var sum = 0;
     var rowSums = [];
     for (var i = 0; i < instanceVals.length; i++) {
-        sum += parseInt(instanceVals[i].value);
+        var value = parseInt(instanceVals[i].value);
+
+        // If there is a negative value, display alert and cancel the calculation
+        try{
+            if(value < 0) throw new Error;
+            sum += value;
+        } catch(err){
+            $('#alert-negative-val').removeClass('d-none');
+            // If the alert for all-0 values is still being displayed:
+            // hide it now that it is not all-0 values anymore
+            $('#alert-sum-0').addClass('d-none');
+            return;
+        }
+
+        // Calculate the sum of the row's instance values
         if(i % 2){
             rowSums.push(parseInt(instanceVals[i-1].value) + parseInt(instanceVals[i].value));
         }
     }
     
-    var rowCount = tBodyRef.rows.length;
-    var ratioVals = []
+    // If the alert is still being displayed, hide it now that there are no negative values anymore
+    $('#alert-negative-val').addClass('d-none');
 
     // Show alert about all instance values being 0
     if(sum == 0){
         $('#alert-sum-0').removeClass('d-none');
+    } else {
+        // If the alert is still being displayed, hide it now that there is at least one non-zero instance value
+        $('#alert-sum-0').addClass('d-none');
     }
 
+    var rowCount = tBodyRef.rows.length;
+    var ratioVals = []
     for (var i = 0; i < rowCount; i++) {
         // To not divide by 0 if all instance values are 0
         var ratio = sum == 0? 0 : rowSums[i] / sum;
@@ -63,7 +82,15 @@ function calcCondEntropy(){
     var table = document.getElementById('table-cond-entropy');
     var tBodyRef = table.getElementsByTagName('tbody')[0];
     var instanceVals = table.getElementsByTagName('input');
-    var rowSumsRatios = calcRatio(tBodyRef, instanceVals);
+
+    // If there is a negative value, cancel the calculation
+    try{
+        var rowSumsRatios = calcRatio(tBodyRef, instanceVals);
+        if(rowSumsRatios == null) throw new Error;
+    } catch(err){
+        return;
+    }
+    
     var rowSums = rowSumsRatios[0];
     var ratioVals = rowSumsRatios[1];
     var entropies = calcEntropyCat(rowSums, tBodyRef, instanceVals);
