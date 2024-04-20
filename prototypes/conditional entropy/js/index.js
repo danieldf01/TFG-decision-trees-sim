@@ -2,28 +2,13 @@ function calcRatio(tBodyRef, instanceVals){
     var sum = 0;
     var rowSums = [];
     for (var i = 0; i < instanceVals.length; i++) {
-        var value = parseInt(instanceVals[i].value);
-
-        // If there is a negative value, display alert and cancel the calculation
-        try{
-            if(value < 0) throw new Error;
-            sum += value;
-        } catch(err){
-            $('#alert-negative-val').removeClass('d-none');
-            // If the alert for all-0 values is still being displayed:
-            // hide it now that it is not all-0 values anymore
-            $('#alert-sum-0').addClass('d-none');
-            return;
-        }
+        sum += parseInt(instanceVals[i].value);
 
         // Calculate the sum of the row's instance values
         if(i % 2){
             rowSums.push(parseInt(instanceVals[i-1].value) + parseInt(instanceVals[i].value));
         }
     }
-    
-    // If the alert is still being displayed, hide it now that there are no negative values anymore
-    $('#alert-negative-val').addClass('d-none');
 
     // Show alert about all instance values being 0
     if(sum == 0){
@@ -77,20 +62,38 @@ function calcEntropyCat(rowSums, tBodyRef, instanceVals){
 
 }
 
+function checkInput(instanceVals){
+    for (var i = 0; i < instanceVals.length; i++) {
+        var value = parseInt(instanceVals[i].value);
+        console.log(value);
+        // If there is a negative value, display alert and cancel the calculation
+        try{
+            if(value < 0) throw '#alert-negative-val';
+            if(isNaN(value)) throw '#alert-empty-input';
+        } catch(err){
+            $(err).removeClass('d-none');
+            // If the alert for all-0 values is still being displayed:
+            // hide it now that it is not all-0 values anymore
+            $('#alert-sum-0').addClass('d-none');
+            return 1;
+        }
+    }
+    return 0;
+}
+
 function calcCondEntropy(){
     // Calculate ratios and Entropies for each category first
     var table = document.getElementById('table-cond-entropy');
     var tBodyRef = table.getElementsByTagName('tbody')[0];
     var instanceVals = table.getElementsByTagName('input');
-
-    // If there is a negative value, cancel the calculation
-    try{
-        var rowSumsRatios = calcRatio(tBodyRef, instanceVals);
-        if(rowSumsRatios == null) throw new Error;
-    } catch(err){
+    if(checkInput(instanceVals) == 1){
         return;
     }
-    
+    // If the alert is still being displayed, hide it now that there are no negative values anymore
+    $('#alert-negative-val').addClass('d-none');
+    $('#alert-empty-input').addClass('d-none');
+
+    var rowSumsRatios = calcRatio(tBodyRef, instanceVals);
     var rowSums = rowSumsRatios[0];
     var ratioVals = rowSumsRatios[1];
     var entropies = calcEntropyCat(rowSums, tBodyRef, instanceVals);
