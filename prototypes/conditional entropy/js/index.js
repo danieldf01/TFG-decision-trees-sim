@@ -1,22 +1,30 @@
 function calcRatio(tBodyRef, instanceVals){
     var sum = 0;
-    rowSums = [];
+    var rowSums = [];
     for (var i = 0; i < instanceVals.length; i++) {
         sum += parseInt(instanceVals[i].value);
         if(i % 2){
             rowSums.push(parseInt(instanceVals[i-1].value) + parseInt(instanceVals[i].value));
         }
     }
+    
+    var rowCount = tBodyRef.rows.length;
+    var ratioVals = []
 
-    ratioVals = [];
-    rowCount = tBodyRef.rows.length;
+    // Show alert about all instance values being 0
+    if(sum == 0){
+        $('#alert-sum-0').removeClass('d-none');
+    }
+
     for (var i = 0; i < rowCount; i++) {
-        ratio = rowSums[i] / sum;
+        // To not divide by 0 if all instance values are 0
+        var ratio = sum == 0? 0 : rowSums[i] / sum;
         ratioVals.push(ratio);
-        ratioCell = tBodyRef.getElementsByTagName('tr')[i].getElementsByTagName('td')[3];
+        ratioCell = tBodyRef.rows[i].getElementsByTagName('td')[3];
         ratioLabel = ratioCell.getElementsByTagName('label')[0];
         ratioLabel.innerHTML = ratio;
     }
+    
     return [rowSums, ratioVals];
 }
 

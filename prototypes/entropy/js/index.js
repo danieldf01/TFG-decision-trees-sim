@@ -91,8 +91,15 @@ function calcProbs() {
         sum += parseInt(items[i].value);
     }
     document.getElementById('sum-classes').innerHTML = sum;
+
+    // Show alert about all instance values being 0
+    if(sum == 0){
+        $('#alert-sum-0').removeClass('d-none');
+    }
+    
     for (var i = 0; i < items.length; i++) {
-        var pValue = parseInt(items[i].value) / sum
+        // To not divide by 0 if all instance values are 0
+        var pValue = sum == 0? 0 : parseInt(items[i].value) / sum;
         document.getElementById('p' + (i + 1).toString()).innerHTML = pValue;
     }
 }
