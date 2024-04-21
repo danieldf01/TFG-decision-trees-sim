@@ -71,11 +71,8 @@ function checkInput(instanceVals){
         // Check if there are any negative values or empty inputs
         for (var i = 0; i < instanceVals.length; i++) {
             var value = instanceVals[i].value;
-            console.log(value);
             if(value < 0 || isNaN(value) || value % 1 != 0) invalidVal = true;
             if(value == "") emptyInput = true;
-            console.log(invalidVal);
-            console.log(emptyInput);
         }
 
         // If there are errors, display alerts and cancel the calculation

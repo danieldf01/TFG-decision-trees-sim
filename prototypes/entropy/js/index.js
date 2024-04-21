@@ -164,11 +164,8 @@ function checkInput(instanceVals){
         // Check if there are any negative values or empty inputs
         for (var i = 0; i < instanceVals.length; i++) {
             var value = instanceVals[i].value;
-            console.log(value);
             if(value < 0 || isNaN(value) || value % 1 != 0) invalidVal = true;
             if(value == "") emptyInput = true;
-            console.log(invalidVal);
-            console.log(emptyInput);
         }
 
         // If there are errors, display alerts and cancel the calculation
@@ -244,7 +241,13 @@ function addClass() {
     var tableClasses = document.getElementById('table-classes');
     var tableEntropy = document.getElementById('table-entropy');
     var tBodyRefClasses = tableClasses.getElementsByTagName('tbody')[0];
-    var tBodyRef = tableEntropy.getElementsByTagName('tbody')[0];
+    var tBodyRefEntropy = tableEntropy.getElementsByTagName('tbody')[0];
+
+    // Display info alert for calculating the Entropy with more than 2 classes
+    // (change it here so that it's only called when the rows length goes from 2 to 3)
+    if(tBodyRefClasses.rows.length == 2) {
+        $('#alert-3-plus-classes').removeClass('d-none');
+    }
 
     // Classes table
     // add border under class cell of the current last row
@@ -293,11 +296,10 @@ function addClass() {
         cell.removeChild(inputG);
         cell.appendChild(input);
     }
-    
 
     // Entropy table
-    var pCount = +tBodyRef.rows[tBodyRef.rows.length - 1].cells[1].id[1] + 1;
-    var newRow = tBodyRef.insertRow();
+    var pCount = +tBodyRefEntropy.rows[tBodyRefEntropy.rows.length - 1].cells[1].id[1] + 1;
+    var newRow = tBodyRefEntropy.insertRow();
     var pCell = newRow.insertCell();
     var valueCell = newRow.insertCell();
 
@@ -312,21 +314,23 @@ function addClass() {
 function removeClass() {
     var tableClasses = document.getElementById('table-classes');
     var tableEntropy = document.getElementById('table-entropy');
-    var numberClasses = tableClasses.getElementsByTagName('tbody')[0].rows.length;
+    var tBodyRefClasses = tableClasses.tBodies[0]
+    var numClassesBefore = tBodyRefClasses.rows.length;
 
-    tableClasses.deleteRow(tableClasses.tBodies[0].rows.length);
-    tableEntropy.deleteRow(tableEntropy.tBodies[0].rows.length - 1);
+    tableClasses.deleteRow(numClassesBefore);
+    tableEntropy.deleteRow(numClassesBefore - 1);
+
+    var numClassesAfter = tBodyRefClasses.rows.length;
 
     // remove border under class cell of the new last row
-    var tBodyRefClasses = tableClasses.getElementsByTagName('tbody')[0];
-    tBodyRefClasses.rows[tBodyRefClasses.rows.length - 1].cells[0].setAttribute("style", "border-bottom: hidden");
+    tBodyRefClasses.rows[numClassesAfter - 1].cells[0].setAttribute("style", "border-bottom: hidden");
 
     // add "Class remove button" to the now last row
-    if(tBodyRefClasses.rows.length >= 3) {
+    if(numClassesAfter >= 3) {
         inputGroup = document.createElement("div");
         inputGroup.classList.add("input-group");
         
-        cell = tBodyRefClasses.rows[tBodyRefClasses.rows.length - 1].cells[1]
+        cell = tBodyRefClasses.rows[numClassesAfter - 1].cells[1]
         input = cell.getElementsByTagName("input")[0];
         cell.removeChild(input);
         inputGroup.appendChild(input);
@@ -339,6 +343,12 @@ function removeClass() {
         inputGroup.appendChild(removeButton);
         
         cell.appendChild(inputGroup);
+    }
+
+    // Display info alert for calculating the Entropy with more than 2 classes
+    // (change it here so that it's only called when the rows length goes from 2 to 3)
+    if(numClassesAfter == 2) {
+        $('#alert-3-plus-classes').addClass('d-none');
     }
 }
 
