@@ -63,20 +63,44 @@ function calcEntropyCat(rowSums, tBodyRef, instanceVals){
 }
 
 function checkInput(instanceVals){
-    for (var i = 0; i < instanceVals.length; i++) {
-        var value = instanceVals[i].value;
-        console.log(value);
-        // If there is a negative value, display alert and cancel the calculation
-        try{
-            if(value < 0 || isNaN(value) || value % 1 != 0) throw '#alert-invalid-val';
-            if(value == "") throw '#alert-empty-input';
-        } catch(err){
-            $(err).removeClass('d-none');
-            // If the alert for all-0 values is still being displayed:
-            // hide it now that it is not all-0 values anymore
-            $('#alert-sum-0').addClass('d-none');
-            return 1;
+    try{
+        var invalidVal = false;
+        var emptyInput = false;
+        errors = [];
+
+        // Check if there are any negative values or empty inputs
+        for (var i = 0; i < instanceVals.length; i++) {
+            var value = instanceVals[i].value;
+            console.log(value);
+            if(value < 0 || isNaN(value) || value % 1 != 0) invalidVal = true;
+            if(value == "") emptyInput = true;
+            console.log(invalidVal);
+            console.log(emptyInput);
         }
+
+        // If there are errors, display alerts and cancel the calculation
+        if (invalidVal && emptyInput) throw ['#alert-invalid-val', '#alert-empty-input'];
+        if (invalidVal) throw ['#alert-invalid-val'];
+        if (emptyInput) throw ['#alert-empty-input'];
+
+    } catch(errors){
+        // Display all alerts
+        errors.forEach(error => {
+            $(error).removeClass('d-none');
+        });
+        // If only one error is found, remove the alert for the other in case it occurred before and has now been fixed
+        if (errors.length == 1){
+            if (errors[0] == '#alert-invalid-val'){
+                $('#alert-empty-input').addClass('d-none');
+            } else{
+                $('#alert-invalid-val').addClass('d-none');
+            }
+        
+        }
+        // If the alert for all-0 values is still being displayed:
+        // hide it now that it is not all-0 values anymore
+        $('#alert-sum-0').addClass('d-none');
+        return 1;
     }
     return 0;
 }
@@ -86,10 +110,13 @@ function calcCondEntropy(){
     var table = document.getElementById('table-cond-entropy');
     var tBodyRef = table.getElementsByTagName('tbody')[0];
     var instanceVals = table.getElementsByTagName('input');
+
+    // Cancel calculation if the input is invalid
     if(checkInput(instanceVals) == 1){
         return;
     }
-    // If the alert is still being displayed, hide it now that there are no negative values anymore
+
+    // If any of the alerts are still being displayed, hide it now that there are no input errors anymore
     $('#alert-invalid-val').addClass('d-none');
     $('#alert-empty-input').addClass('d-none');
 
