@@ -83,27 +83,11 @@ svg.append("path")
     .attr("d", line);
 
 
-function calcProbs() {
-    var table = document.getElementById('table-classes');
-    var items = table.getElementsByTagName('input');
+function calcProbs(inputElements) {
     var sum = 0;
-    for (var i = 0; i < items.length; i++) {
-        var value = parseInt(items[i].value);
-        // If there is a negative value, display alert and cancel the calculation
-        try{
-            if(value < 0) throw new Error;
-            sum += value;
-        } catch(err){
-            $('#alert-negative-val').removeClass('d-none');
-            // If the alert for all-0 values is still being displayed:
-            // hide it now that it is not all-0 values anymore
-            $('#alert-sum-0').addClass('d-none');
-            return;
-        }
+    for (var i = 0; i < inputElements.length; i++) {
+        sum += parseInt(inputElements[i].value);
     }
-
-    // If the alert is still being displayed, hide it now that there are no negative values anymore
-    $('#alert-negative-val').addClass('d-none');
 
     document.getElementById('sum-classes').innerHTML = sum;
 
@@ -116,9 +100,9 @@ function calcProbs() {
     }
     
     var pValues = [];
-    for (var i = 0; i < items.length; i++) {
+    for (var i = 0; i < inputElements.length; i++) {
         // To not divide by 0 if all instance values are 0
-        var pValue = sum == 0? 0 : parseInt(items[i].value) / sum;
+        var pValue = sum == 0? 0 : parseInt(inputElements[i].value) / sum;
         pValues.push(pValue);
         document.getElementById('p' + (i + 1).toString()).innerHTML = pValue;
     }
@@ -171,14 +155,64 @@ function drawPoint(data, tableEntropy) {
         .attr("id", "pointLine");
 }
 
-function calcEntropy() {
-    // If there is a negative value, cancel the calculation
+function checkInput(instanceVals){
     try{
-        var pValues = calcProbs();
-        if(pValues == null) throw new Error;
-    } catch(err){
+        var invalidVal = false;
+        var emptyInput = false;
+        errors = [];
+
+        // Check if there are any negative values or empty inputs
+        for (var i = 0; i < instanceVals.length; i++) {
+            var value = instanceVals[i].value;
+            console.log(value);
+            if(value < 0 || isNaN(value) || value % 1 != 0) invalidVal = true;
+            if(value == "") emptyInput = true;
+            console.log(invalidVal);
+            console.log(emptyInput);
+        }
+
+        // If there are errors, display alerts and cancel the calculation
+        if (invalidVal && emptyInput) throw ['#alert-invalid-val', '#alert-empty-input'];
+        if (invalidVal) throw ['#alert-invalid-val'];
+        if (emptyInput) throw ['#alert-empty-input'];
+
+    } catch(errors){
+        // Display all alerts
+        errors.forEach(error => {
+            $(error).removeClass('d-none');
+        });
+        // If only one error is found, remove the alert for the other in case it occurred before and has now been fixed
+        if (errors.length == 1){
+            if (errors[0] == '#alert-invalid-val'){
+                $('#alert-empty-input').addClass('d-none');
+            } else{
+                $('#alert-invalid-val').addClass('d-none');
+            }
+        
+        }
+        // If the alert for all-0 values is still being displayed:
+        // hide it now that it is not all-0 values anymore
+        $('#alert-sum-0').addClass('d-none');
+        return 1;
+    }
+    return 0;
+}
+
+function calcEntropy() {
+    var table = document.getElementById('table-classes');
+    var inputElements = table.getElementsByTagName('input');
+
+    // Cancel calculation if the input is invalid
+    if(checkInput(inputElements) == 1){
         return;
     }
+
+    // If any of the alerts are still being displayed, hide it now that there are no input errors anymore
+    $('#alert-invalid-val').addClass('d-none');
+    $('#alert-empty-input').addClass('d-none');
+
+    // Calculate the probabilities
+    var pValues = calcProbs(inputElements);
 
     // Remove the previous point and line
     svg.select("#pointLine").remove();
