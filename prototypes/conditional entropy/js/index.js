@@ -64,12 +64,12 @@ function calcEntropyCat(rowSums, tBodyRef, instanceVals){
 
 function checkInput(instanceVals){
     for (var i = 0; i < instanceVals.length; i++) {
-        var value = parseInt(instanceVals[i].value);
+        var value = instanceVals[i].value;
         console.log(value);
         // If there is a negative value, display alert and cancel the calculation
         try{
-            if(value < 0) throw '#alert-negative-val';
-            if(isNaN(value)) throw '#alert-empty-input';
+            if(value < 0 || isNaN(value) || value % 1 != 0) throw '#alert-invalid-val';
+            if(value == "") throw '#alert-empty-input';
         } catch(err){
             $(err).removeClass('d-none');
             // If the alert for all-0 values is still being displayed:
@@ -90,7 +90,7 @@ function calcCondEntropy(){
         return;
     }
     // If the alert is still being displayed, hide it now that there are no negative values anymore
-    $('#alert-negative-val').addClass('d-none');
+    $('#alert-invalid-val').addClass('d-none');
     $('#alert-empty-input').addClass('d-none');
 
     var rowSumsRatios = calcRatio(tBodyRef, instanceVals);
