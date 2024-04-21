@@ -4,7 +4,7 @@ Esta parte de la memoria tiene como objetivo presentar las técnicas metodológi
 No se pretende que este apartado se convierta en un capítulo de un libro dedicado a cada una de las alternativas, sino comentar los aspectos más destacados de cada opción, con un repaso somero a los fundamentos esenciales y referencias bibliográficas para que el lector pueda ampliar su conocimiento sobre el tema.
 
 \section{Bootstrap}
-Bootstrap ~\cite{bootstrap5_tutorial} is a front-end framework which is known for providing useful and easy-to-use HTML and CSS templates like tables, buttons, forms and many others. It also comes with JavaScript components like modal dialogues and dropdown menus.
+Bootstrap~\cite{bootstrap5_tutorial} is a front-end framework which is known for providing useful and easy-to-use HTML and CSS templates like tables, buttons, forms and many others. It also comes with JavaScript components like modal dialogues and dropdown menus.
 
 One of Bootstrap's key features is its grid system which lets users divide their web page's contents into rows and columns:
 \imagen{bootstrap_grid_system}{The Bootstrap grid system}{.9}
@@ -15,8 +15,23 @@ In addition to Bootstrap's ability to create responsive websites, the wide varie
 In this project, the newest version of Bootstrap at present, Bootstrap 5, is used. The main advantages are its usage of vanilla JavaScript for its components instead of relying on jQuery, new components for better customization and simplified CSS which reduces file size and loading times for the created pages.
 
 \section{D3.js}
-"D3" ~\cite{d3js_what_is_d3} stands for "data-driven documents" and perfectly describes the free, open-source JavaScript library. "Documents" refers to the Document Object Model (DOM). D3.js lets the user bind data to its elements. The library works like a toolbox that uses a variety of discrete modules which, e.g., allow selection and transition operations. It binds these modules together so all the necessary tools are at hand, ready to be applied.
+"D3"~\cite{d3js_what_is_d3} stands for "data-driven documents" and perfectly describes the free, open-source JavaScript library. "Documents" refers to the Document Object Model (DOM). D3.js lets the user bind data to its elements. The library works like a toolbox that uses a variety of discrete modules which, e.g., allow selection and transition operations. It binds these modules together so all the necessary tools are at hand, ready to be applied.
 
 D3.js does not invent new data presentation formats, instead, it makes use of web standards like SVG to display contents. Incorporating these standards, the library also allows the use of external stylesheets which can be employed to change the graphics' visual representations.
 
 A major feature of D3.js is its ability to dynamically change the displayed contents. Whether that change is triggered by user interactions or a change in underlying data, the library's data join concept allows separate operations for entering, updating and exiting existing DOM elements based on a given set of data. Besides filtering and sorting, it lets you control what happens to your contents in many ways when changes happen and update your website accordingly. 
+
+\section{PyCharm} \label{pycharm}
+PyCharm~\cite{pycharm} is the Integrated Development Environment (IDE) I used during the first 2 and part of the 3rd sprint. It is an IDE developed by JetBrains which is specifically designed for Python development and is the one I had mainly been using for university assignments. With its support for web development frameworks like Flask and features like code completion for HTML, CSS and JavaScript, it served useful in allowing a quick start into this project's development.
+PyCharm's built-in live preview for HTML files and its interactive debugging feature also made working on the prototypes much simpler.
+Its version control integration of systems like Git allowed an easier experience of making local changes remotely available.
+
+However, one of the Issues during the 3rd sprint was to start using Bootstrap to make the website's layout responsive. Due to set-up problems with the IDE, PyCharm was not able to provide auto-completion for the framework. To make use of that and other features, I started using a different program for developing the website during the 3rd sprint.
+
+\section{Visual Studio Code}
+Visual Studio Code~\cite{vscode} is an open-source code editor by Microsoft. While it also provides all the benefits mentioned in section \ref{pycharm}, it comes with a handful of other advantages of which the most significant one would be the vast variety of available extensions.
+These include Bootstrap IntelliSense which enables CSS class auto-completion, Live Server which launches a local server with a live reload feature, and GitLens which, e.g., allows the user to see inline information about when and in which commit the current line of code was last changed.
+These extensions allow the user to add features based on what they need. By only including essential coding features upon first installation, the editor take up less space than IDEs like PyCharm.
+In addition, its lightweight design that is optimized for performance leaves behind a smaller memory footprint.
+
+Ultimately, these features made me switch to Visual Studio Code for the remaining sprints.
