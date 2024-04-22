@@ -2,16 +2,17 @@ function calcRatio(tBodyRef, instanceVals){
     var sum = 0;
     var rowSums = [];
     for (var i = 0; i < instanceVals.length; i++) {
-        sum += parseInt(instanceVals[i].value);
+        currentVal = parseInt(instanceVals[i].value, 10);
+        sum += currentVal;
 
         // Calculate the sum of the row's instance values
         if(i % 2){
-            rowSums.push(parseInt(instanceVals[i-1].value) + parseInt(instanceVals[i].value));
+            rowSums.push(parseInt(instanceVals[i-1].value, 10) + currentVal);
         }
     }
 
     // Show alert about all instance values being 0
-    if(sum == 0){
+    if(sum === 0){
         $('#alert-sum-0').removeClass('d-none');
     } else {
         // If the alert is still being displayed, hide it now that there is at least one non-zero instance value
@@ -20,13 +21,13 @@ function calcRatio(tBodyRef, instanceVals){
 
     var rowCount = tBodyRef.rows.length;
     var ratioVals = []
-    for (var i = 0; i < rowCount; i++) {
+    for (i = 0; i < rowCount; i++) {
         // To not divide by 0 if all instance values are 0
-        var ratio = sum == 0? 0 : rowSums[i] / sum;
+        var ratio = sum === 0? 0 : rowSums[i] / sum;
         ratioVals.push(ratio);
-        ratioCell = tBodyRef.rows[i].getElementsByTagName('td')[3];
-        ratioLabel = ratioCell.getElementsByTagName('label')[0];
-        ratioLabel.innerHTML = ratio;
+        var ratioCell = tBodyRef.rows[i].getElementsByTagName('td')[3];
+        var ratioLabel = ratioCell.getElementsByTagName('label')[0];
+        ratioLabel.textContent = ratio;
     }
     
     return [rowSums, ratioVals];
@@ -34,28 +35,28 @@ function calcRatio(tBodyRef, instanceVals){
 
 function calcEntropyCat(rowSums, tBodyRef, instanceVals){
     // Get the Class values for each category
-    rowValues = [];
+    var rowValues = [];
     for (var i = 0; i < instanceVals.length; i++) {
         if(i % 2){
-            rowValue = [parseInt(instanceVals[i-1].value), parseInt(instanceVals[i].value)];
+            rowValue = [parseInt(instanceVals[i-1].value, 10), parseInt(instanceVals[i].value)];
             rowValues.push(rowValue);
         }
     }
 
     // Calculate the Entropy for each category
     var entropies = [];
-    for (var i = 0; i < rowSums.length; i++) {
-        entropy = 0;
+    for (i = 0; i < rowSums.length; i++) {
+        var entropy = 0;
         // Entropy is 0 if there are no instances belonging to one of the classes
-        if (rowValues[i][0] != 0 && rowValues[i][1] != 0){
+        if (rowValues[i][0] !== 0 && rowValues[i][1] !== 0){
             for (var j = 0; j < 2; j++) {
                 entropy -= (rowValues[i][j] / rowSums[i]) * Math.log2(rowValues[i][j] / rowSums[i]);
             }
         }
 
-        entropyCell = tBodyRef.getElementsByTagName('tr')[i].getElementsByTagName('td')[4];
-        entropyLabel = entropyCell.getElementsByTagName('label')[0];
-        entropyLabel.innerHTML = entropy;
+        var entropyCell = tBodyRef.getElementsByTagName('tr')[i].getElementsByTagName('td')[4];
+        var entropyLabel = entropyCell.getElementsByTagName('label')[0];
+        entropyLabel.textContent = entropy;
         entropies.push(entropy);
     }
     return entropies;
@@ -71,7 +72,7 @@ function checkInput(instanceVals){
         // Check if there are any negative values or empty inputs
         for (var i = 0; i < instanceVals.length; i++) {
             var value = instanceVals[i].value;
-            if(value < 0 || isNaN(value) || value % 1 != 0) invalidVal = true;
+            if(value < 0 || isNaN(value) || value % 1 !== 0) invalidVal = true;
             if(value == "") emptyInput = true;
         }
 
@@ -86,7 +87,7 @@ function checkInput(instanceVals){
             $(error).removeClass('d-none');
         });
         // If only one error is found, remove the alert for the other in case it occurred before and has now been fixed
-        if (errors.length == 1){
+        if (errors.length === 1){
             if (errors[0] == '#alert-invalid-val'){
                 $('#alert-empty-input').addClass('d-none');
             } else{
@@ -109,7 +110,7 @@ function calcCondEntropy(){
     var instanceVals = table.getElementsByTagName('input');
 
     // Cancel calculation if the input is invalid
-    if(checkInput(instanceVals) == 1){
+    if(checkInput(instanceVals) === 1){
         return;
     }
 
@@ -122,11 +123,11 @@ function calcCondEntropy(){
     var ratioVals = rowSumsRatios[1];
     var entropies = calcEntropyCat(rowSums, tBodyRef, instanceVals);
 
-    condEntropy = 0;
+    var condEntropy = 0;
     for (var i = 0; i < entropies.length; i++) {
         condEntropy += ratioVals[i] * entropies[i];
     }
-    document.getElementById('ce').innerHTML = condEntropy;
+    document.getElementById('ce').textContent = condEntropy;
 }
     
 function removeCategory(){
@@ -142,7 +143,7 @@ function removeCategory(){
         removeButton.setAttribute("onclick", "removeCategory()");
         removeButton.innerHTML = "-";
 
-        cell = tBodyRef.rows[tBodyRef.rows.length - 1].cells[0]
+        var cell = tBodyRef.rows[tBodyRef.rows.length - 1].cells[0]
         cell.appendChild(removeButton);
     }
 }
@@ -161,12 +162,12 @@ function addCategory(){
 
     // Category cell
     catCell.id = "c" + catCount;
-    catLabel = document.createElement("label");
+    var catLabel = document.createElement("label");
     catLabel.classList.add("form-control-plaintext");
-    catLabel.innerHTML = "Category " + +catCount + ":";
+    catLabel.textContent = "Category " + +catCount + ":";
     catCell.appendChild(catLabel);
 
-    removeButton = document.createElement("div");
+    var removeButton = document.createElement("div");
     removeButton.classList.add("btn");
     removeButton.classList.add("btn-outline-danger");
     removeButton.setAttribute("onclick", "removeCategory()");
@@ -188,7 +189,7 @@ function addCategory(){
     class2Cell.appendChild(class2Input);
 
     // Ratio cell
-    ratioLabel = document.createElement("label");
+    var ratioLabel = document.createElement("label");
     ratioLabel.classList.add("form-control-plaintext");
     ratioLabel.innerHTML = "0";
     ratioCell.appendChild(ratioLabel);
