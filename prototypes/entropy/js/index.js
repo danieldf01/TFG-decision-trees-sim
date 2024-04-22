@@ -100,7 +100,7 @@ function calcProbs(inputElements) {
     }
     
     var pValues = [];
-    for (i = 0; i < inputElements.length; i++) {
+    for (var i = 0; i < inputElements.length; i++) {
         // To not divide by 0 if all instance values are 0
         var pValue = sum === 0? 0 : parseInt(inputElements[i].value, 10) / sum;
         pValues.push(pValue);
@@ -159,11 +159,10 @@ function checkInput(instanceVals){
     try{
         var invalidVal = false;
         var emptyInput = false;
-        errors = [];
 
         // Check if there are any negative values or empty inputs
-        for (var i = 0; i < instanceVals.length; i++) {
-            var value = instanceVals[i].value;
+        for (const instanceVal of instanceVals){
+            var value = instanceVal.value;
             if(value < 0 || isNaN(value) || value % 1 !== 0) invalidVal = true;
             if(value == "") emptyInput = true;
         }
@@ -215,10 +214,9 @@ function calcEntropy() {
     svg.select("#pointLine").remove();
     svg.selectAll("circle").remove();
 
-    var columnIndex = 1;
     var sum = 0;
-    for (var i = 0; i < pValues.length; i++) {
-        sum -= pValues[i] * Math.log2(pValues[i]);
+    for(const pValue of pValues) {
+        sum -= pValue * Math.log2(pValue);
     }
     
     if (isNaN(sum)) {
@@ -245,7 +243,7 @@ function addClass() {
 
     // Display info alert for calculating the Entropy with more than 2 classes
     // (change it here so that it's only called when the rows length goes from 2 to 3)
-    if(tBodyRefClasses.rows.length == 2) {
+    if(tBodyRefClasses.rows.length === 2) {
         $('#alert-3-plus-classes').removeClass('d-none');
     }
 
@@ -288,10 +286,10 @@ function addClass() {
 
     // remove "Class remove button" of previous input group so that there is only one
     if(tBodyRefClasses.rows.length >= 4) {
-        cell = tBodyRefClasses.rows[tBodyRefClasses.rows.length - 2].cells[1]
-        inputG = cell.getElementsByTagName("div")[0];
-        input = inputG.getElementsByTagName("input")[0];
-        button = inputG.getElementsByTagName("div")[0];
+        var cell = tBodyRefClasses.rows[tBodyRefClasses.rows.length - 2].cells[1]
+        var inputG = cell.getElementsByTagName("div")[0];
+        var input = inputG.getElementsByTagName("input")[0];
+        var button = inputG.getElementsByTagName("div")[0];
         inputG.removeChild(button);
         cell.removeChild(inputG);
         cell.appendChild(input);
@@ -299,9 +297,9 @@ function addClass() {
 
     // Entropy table
     var pCount = +tBodyRefEntropy.rows[tBodyRefEntropy.rows.length - 1].cells[1].id[1] + 1;
-    var newRow = tBodyRefEntropy.insertRow();
-    var pCell = newRow.insertCell();
-    var valueCell = newRow.insertCell();
+    var newRowE = tBodyRefEntropy.insertRow();
+    var pCell = newRowE.insertCell();
+    var valueCell = newRowE.insertCell();
 
     // Probability cell
     pCell.textContent = "p(Class " + +pCount + "):";
@@ -327,19 +325,19 @@ function removeClass() {
 
     // add "Class remove button" to the now last row
     if(numClassesAfter >= 3) {
-        inputGroup = document.createElement("div");
+        var inputGroup = document.createElement("div");
         inputGroup.classList.add("input-group");
         
-        cell = tBodyRefClasses.rows[numClassesAfter - 1].cells[1]
-        input = cell.getElementsByTagName("input")[0];
+        var cell = tBodyRefClasses.rows[numClassesAfter - 1].cells[1]
+        var input = cell.getElementsByTagName("input")[0];
         cell.removeChild(input);
         inputGroup.appendChild(input);
         
-        removeButton = document.createElement("div");
+        var removeButton = document.createElement("div");
         removeButton.classList.add("btn");
         removeButton.classList.add("btn-outline-danger");
         removeButton.setAttribute("onclick", "removeClass()");
-        removeButton.innerHTML = "-";
+        removeButton.textContent = "-";
         inputGroup.appendChild(removeButton);
         
         cell.appendChild(inputGroup);
