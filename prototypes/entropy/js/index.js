@@ -50,7 +50,7 @@ svg.append("text")
     .html("Entropy");
 
 function E(x) {
-    if (x == 0 || x == 1 || 0.99999 <= x) {
+    if (x === 0 || x === 1 || 0.99999 <= x) {
         return 0;
     }
     return (-x) * Math.log2(x) - (1 - x) * Math.log2(1 - x);
@@ -58,11 +58,11 @@ function E(x) {
 
 // Returns array of points that represents E(x)
 function graphFunction() {
-    pointNum = 1;
+    var pointNum = 1;
 
     const data = [];
     for (var x = 0; x <= pointNum + 0.001; x = x + 0.001) {
-        y = E(x);
+        var y = E(x);
         data.push([x, y])
     }
     return data;
@@ -85,14 +85,14 @@ svg.append("path")
 
 function calcProbs(inputElements) {
     var sum = 0;
-    for (var i = 0; i < inputElements.length; i++) {
-        sum += parseInt(inputElements[i].value);
+    for(const element of inputElements) {
+        sum += parseInt(element.value, 10);
     }
 
-    document.getElementById('sum-classes').innerHTML = sum;
+    document.getElementById('sum-classes').textContent = sum;
 
     // Show alert about all instance values being 0
-    if(sum == 0){
+    if(sum === 0){
         $('#alert-sum-0').removeClass('d-none');
     } else {
         // If the alert is still being displayed, hide it now that there is at least one non-zero instance value
@@ -100,11 +100,11 @@ function calcProbs(inputElements) {
     }
     
     var pValues = [];
-    for (var i = 0; i < inputElements.length; i++) {
+    for (i = 0; i < inputElements.length; i++) {
         // To not divide by 0 if all instance values are 0
-        var pValue = sum == 0? 0 : parseInt(inputElements[i].value) / sum;
+        var pValue = sum === 0? 0 : parseInt(inputElements[i].value, 10) / sum;
         pValues.push(pValue);
-        document.getElementById('p' + (i + 1).toString()).innerHTML = pValue;
+        document.getElementById('p' + (i + 1).toString()).textContent = pValue;
     }
     
     return pValues;
@@ -112,28 +112,28 @@ function calcProbs(inputElements) {
 
 function drawPoint(data, tableEntropy) {
     // FInd the closest data point to the x-value of p(Class 1)
-    var targetValue = tableEntropy.tBodies[0].rows[0].cells[1].innerHTML;
+    var targetXvalue = tableEntropy.tBodies[0].rows[0].cells[1].textContent;
     var closest = data[0][0];
     var closestPoint = data[0];
     // Assume the first number is the closest
-    var closestDiff = Math.abs(targetValue - closest);
+    var closestDiff = Math.abs(targetXvalue - closest);
 
-    // Calculate the difference between the target and closest
-    for (var i = 0; i < data.length; i++) {
-        var current = data[i][0];
-        var currentDiff = Math.abs(targetValue - current);
+    // Calculate the difference between the target and closest  
+    for (const dataPoint of data) {
+        var currentXvalue = dataPoint[0];
+        var currentDiff = Math.abs(targetXvalue - currentXvalue);
 
         // Calculate the difference between the target and current number
         if (currentDiff < closestDiff) {
             // Update the closest number
-            closestPoint = data[i];
+            closestPoint = dataPoint;
 
             // Update the closest difference
             closestDiff = currentDiff;
         }
 
     }
-    points = [[closestPoint[0], closestPoint[1]], [closestPoint[0], 0]];
+    var points = [[closestPoint[0], closestPoint[1]], [closestPoint[0], 0]];
 
     // Draw point on x-axis
     svg.append("circle")
@@ -164,7 +164,7 @@ function checkInput(instanceVals){
         // Check if there are any negative values or empty inputs
         for (var i = 0; i < instanceVals.length; i++) {
             var value = instanceVals[i].value;
-            if(value < 0 || isNaN(value) || value % 1 != 0) invalidVal = true;
+            if(value < 0 || isNaN(value) || value % 1 !== 0) invalidVal = true;
             if(value == "") emptyInput = true;
         }
 
@@ -179,7 +179,7 @@ function checkInput(instanceVals){
             $(error).removeClass('d-none');
         });
         // If only one error is found, remove the alert for the other in case it occurred before and has now been fixed
-        if (errors.length == 1){
+        if (errors.length === 1){
             if (errors[0] == '#alert-invalid-val'){
                 $('#alert-empty-input').addClass('d-none');
             } else{
@@ -200,7 +200,7 @@ function calcEntropy() {
     var inputElements = table.getElementsByTagName('input');
 
     // Cancel calculation if the input is invalid
-    if(checkInput(inputElements) == 1){
+    if(checkInput(inputElements) === 1){
         return;
     }
 
@@ -223,16 +223,16 @@ function calcEntropy() {
     
     if (isNaN(sum)) {
         var output = document.getElementById('sum-entropy');
-        output.innerHTML = 0;
+        output.textContent = 0;
     } else {
         var output = document.getElementById('sum-entropy');
-        output.innerHTML = sum;
+        output.textContent = sum;
     }
 
     var tableEntropy = document.getElementById('table-entropy');
     var tableClasses = document.getElementById('table-classes');
     var numberClasses = tableClasses.getElementsByTagName('tbody')[0].rows.length;
-    if (numberClasses == 2) {
+    if (numberClasses === 2) {
         drawPoint(data, tableEntropy);
     }
 }
@@ -259,25 +259,25 @@ function addClass() {
     var cValueCell = newRow.insertCell();
     
     // Class cell
-    newLabel = document.createElement("label");
+    var newLabel = document.createElement("label");
     newLabel.classList.add("form-control-plaintext");
-    newLabel.innerHTML = "Class " + +cCount + ":";
+    newLabel.textContent = "Class " + +cCount + ":";
     cCell.appendChild(newLabel);
     cCell.setAttribute("style", "border-bottom: hidden");
     
     // Value (Number of instances) cell
     cValueCell.id = "c" + cCount;
-    inputGroup = document.createElement("div");
+    var inputGroup = document.createElement("div");
     inputGroup.classList.add("input-group");
 
-    newInput = document.createElement("input");
+    var newInput = document.createElement("input");
     newInput.setAttribute("value", "0");
     newInput.setAttribute("style", "width:100px");
     newInput.setAttribute("type", "text");
     newInput.classList.add("form-control");
     inputGroup.appendChild(newInput);
 
-    removeButton = document.createElement("div");
+    var removeButton = document.createElement("div");
     removeButton.classList.add("btn");
     removeButton.classList.add("btn-outline-danger");
     removeButton.setAttribute("onclick", "removeClass()");
@@ -304,10 +304,10 @@ function addClass() {
     var valueCell = newRow.insertCell();
 
     // Probability cell
-    pCell.innerHTML = "p(Class " + +pCount + "):";
+    pCell.textContent = "p(Class " + +pCount + "):";
 
     // Value cell
-    valueCell.innerHTML = 0;
+    valueCell.textContent = 0;
     valueCell.id = "p" + pCount;
 }
 
@@ -347,7 +347,7 @@ function removeClass() {
 
     // Display info alert for calculating the Entropy with more than 2 classes
     // (change it here so that it's only called when the rows length goes from 2 to 3)
-    if(numClassesAfter == 2) {
+    if(numClassesAfter === 2) {
         $('#alert-3-plus-classes').addClass('d-none');
     }
 }
