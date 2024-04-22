@@ -1,4 +1,4 @@
-function calcRatio(tBodyRef, instanceVals){
+function calcRatio(tBodyRef, instanceVals) {
     var sum = 0;
     var rowSums = [];
     for (var i = 0; i < instanceVals.length; i++) {
@@ -6,13 +6,13 @@ function calcRatio(tBodyRef, instanceVals){
         sum += currentVal;
 
         // Calculate the sum of the row's instance values
-        if(i % 2){
-            rowSums.push(parseInt(instanceVals[i-1].value, 10) + currentVal);
+        if (i % 2) {
+            rowSums.push(parseInt(instanceVals[i - 1].value, 10) + currentVal);
         }
     }
 
     // Show alert about all instance values being 0
-    if(sum === 0){
+    if (sum === 0) {
         $('#alert-sum-0').removeClass('d-none');
     } else {
         // If the alert is still being displayed, hide it now that there is at least one non-zero instance value
@@ -23,22 +23,22 @@ function calcRatio(tBodyRef, instanceVals){
     var ratioVals = []
     for (i = 0; i < rowCount; i++) {
         // To not divide by 0 if all instance values are 0
-        var ratio = sum === 0? 0 : rowSums[i] / sum;
+        var ratio = sum === 0 ? 0 : rowSums[i] / sum;
         ratioVals.push(ratio);
         var ratioCell = tBodyRef.rows[i].getElementsByTagName('td')[3];
         var ratioLabel = ratioCell.getElementsByTagName('label')[0];
         ratioLabel.textContent = ratio;
     }
-    
+
     return [rowSums, ratioVals];
 }
 
-function calcEntropyCat(rowSums, tBodyRef, instanceVals){
+function calcEntropyCat(rowSums, tBodyRef, instanceVals) {
     // Get the Class values for each category
     var rowValues = [];
     for (var i = 0; i < instanceVals.length; i++) {
-        if(i % 2){
-            var rowValue = [parseInt(instanceVals[i-1].value, 10), parseInt(instanceVals[i].value, 10)];
+        if (i % 2) {
+            var rowValue = [parseInt(instanceVals[i - 1].value, 10), parseInt(instanceVals[i].value, 10)];
             rowValues.push(rowValue);
         }
     }
@@ -48,7 +48,7 @@ function calcEntropyCat(rowSums, tBodyRef, instanceVals){
     for (i = 0; i < rowSums.length; i++) {
         var entropy = 0;
         // Entropy is 0 if there are no instances belonging to one of the classes
-        if (rowValues[i][0] !== 0 && rowValues[i][1] !== 0){
+        if (rowValues[i][0] !== 0 && rowValues[i][1] !== 0) {
             for (var j = 0; j < 2; j++) {
                 entropy -= (rowValues[i][j] / rowSums[i]) * Math.log2(rowValues[i][j] / rowSums[i]);
             }
@@ -63,16 +63,16 @@ function calcEntropyCat(rowSums, tBodyRef, instanceVals){
 
 }
 
-function checkInput(instanceVals){
-    try{
+function checkInput(instanceVals) {
+    try {
         var invalidVal = false;
         var emptyInput = false;
 
         // Check if there are any negative values or empty inputs
-        for(const instanceVal of instanceVals) {
+        for (const instanceVal of instanceVals) {
             var value = instanceVal.value;
-            if(value < 0 || isNaN(value) || value % 1 !== 0) invalidVal = true;
-            if(value == "") emptyInput = true;
+            if (value < 0 || isNaN(value) || value % 1 !== 0) invalidVal = true;
+            if (value == "") emptyInput = true;
         }
 
         // If there are errors, display alerts and cancel the calculation
@@ -80,19 +80,19 @@ function checkInput(instanceVals){
         if (invalidVal) throw ['#alert-invalid-val'];
         if (emptyInput) throw ['#alert-empty-input'];
 
-    } catch(errors){
+    } catch (errors) {
         // Display all alerts
         errors.forEach(error => {
             $(error).removeClass('d-none');
         });
         // If only one error is found, remove the alert for the other in case it occurred before and has now been fixed
-        if (errors.length === 1){
-            if (errors[0] == '#alert-invalid-val'){
+        if (errors.length === 1) {
+            if (errors[0] == '#alert-invalid-val') {
                 $('#alert-empty-input').addClass('d-none');
-            } else{
+            } else {
                 $('#alert-invalid-val').addClass('d-none');
             }
-        
+
         }
         // If the alert for all-0 values is still being displayed:
         // hide it now that it is not all-0 values anymore
@@ -102,14 +102,14 @@ function checkInput(instanceVals){
     return 0;
 }
 
-function calcCondEntropy(){
+function calcCondEntropy() {
     // Calculate ratios and Entropies for each category first
     var table = document.getElementById('table-cond-entropy');
     var tBodyRef = table.getElementsByTagName('tbody')[0];
     var instanceVals = table.getElementsByTagName('input');
 
     // Cancel calculation if the input is invalid
-    if(checkInput(instanceVals) === 1){
+    if (checkInput(instanceVals) === 1) {
         return;
     }
 
@@ -128,26 +128,31 @@ function calcCondEntropy(){
     }
     document.getElementById('ce').textContent = condEntropy;
 }
-    
-function removeCategory(){
+
+function createRemoveButton() {
+    var removeButton = document.createElement("div");
+    removeButton.classList.add("btn");
+    removeButton.classList.add("btn-outline-danger");
+    removeButton.setAttribute("onclick", "removeCategory()");
+    removeButton.textContent = "-";
+    return removeButton;
+}
+
+function removeCategory() {
     var table = document.getElementById('table-cond-entropy');
     var tBodyRef = table.getElementsByTagName('tbody')[0];
     table.deleteRow(tBodyRef.rows.length);
 
     // add "Category remove button" to the now last row
-    if(tBodyRef.rows.length >= 3) {
-        var removeButton = document.createElement("div");
-        removeButton.classList.add("btn");
-        removeButton.classList.add("btn-outline-danger");
-        removeButton.setAttribute("onclick", "removeCategory()");
-        removeButton.innerHTML = "-";
+    if (tBodyRef.rows.length >= 3) {
+        var removeButton = createRemoveButton();
 
         var cell = tBodyRef.rows[tBodyRef.rows.length - 1].cells[0]
         cell.appendChild(removeButton);
     }
 }
 
-function addCategory(){
+function addCategory() {
     var table = document.getElementById('table-cond-entropy');
     var tBodyRef = table.getElementsByTagName('tbody')[0];
 
@@ -166,11 +171,7 @@ function addCategory(){
     catLabel.textContent = "Category " + +catCount + ":";
     catCell.appendChild(catLabel);
 
-    var removeButton = document.createElement("div");
-    removeButton.classList.add("btn");
-    removeButton.classList.add("btn-outline-danger");
-    removeButton.setAttribute("onclick", "removeCategory()");
-    removeButton.innerHTML = "-";
+    var removeButton = createRemoveButton();
     catCell.appendChild(removeButton);
 
     // Class 1 cell
@@ -202,7 +203,7 @@ function addCategory(){
     document.getElementById('ceCell').setAttribute("rowspan", catCount.toString());
 
     // remove "Category remove button" of previous input group so that there is only one
-    if(tBodyRef.rows.length >= 4) {
+    if (tBodyRef.rows.length >= 4) {
         var cell = tBodyRef.rows[tBodyRef.rows.length - 2].cells[0]
         var button = cell.getElementsByTagName("div")[0];
         cell.removeChild(button);
