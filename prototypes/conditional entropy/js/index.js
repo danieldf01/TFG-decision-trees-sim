@@ -2,7 +2,7 @@ function calcRatio(tBodyRef, instanceVals){
     var sum = 0;
     var rowSums = [];
     for (var i = 0; i < instanceVals.length; i++) {
-        currentVal = parseInt(instanceVals[i].value, 10);
+        var currentVal = parseInt(instanceVals[i].value, 10);
         sum += currentVal;
 
         // Calculate the sum of the row's instance values
@@ -38,7 +38,7 @@ function calcEntropyCat(rowSums, tBodyRef, instanceVals){
     var rowValues = [];
     for (var i = 0; i < instanceVals.length; i++) {
         if(i % 2){
-            rowValue = [parseInt(instanceVals[i-1].value, 10), parseInt(instanceVals[i].value)];
+            var rowValue = [parseInt(instanceVals[i-1].value, 10), parseInt(instanceVals[i].value, 10)];
             rowValues.push(rowValue);
         }
     }
@@ -67,11 +67,11 @@ function checkInput(instanceVals){
     try{
         var invalidVal = false;
         var emptyInput = false;
-        errors = [];
+        var errors = [];
 
         // Check if there are any negative values or empty inputs
-        for (var i = 0; i < instanceVals.length; i++) {
-            var value = instanceVals[i].value;
+        for(const instanceVal of instanceVals) {
+            var value = instanceVal.value;
             if(value < 0 || isNaN(value) || value % 1 !== 0) invalidVal = true;
             if(value == "") emptyInput = true;
         }
@@ -175,14 +175,14 @@ function addCategory(){
     catCell.appendChild(removeButton);
 
     // Class 1 cell
-    class1Input = document.createElement("input");
+    var class1Input = document.createElement("input");
     class1Input.setAttribute("value", "0");
     class1Input.setAttribute("type", "text");
     class1Input.classList.add("form-control");
     class1Cell.appendChild(class1Input);
 
     // Class 2 cell
-    class2Input = document.createElement("input");
+    var class2Input = document.createElement("input");
     class2Input.setAttribute("value", "0");
     class2Input.setAttribute("type", "text");
     class2Input.classList.add("form-control");
@@ -195,7 +195,7 @@ function addCategory(){
     ratioCell.appendChild(ratioLabel);
 
     // Entropy cell
-    entropyLabel = document.createElement("label");
+    var entropyLabel = document.createElement("label");
     entropyLabel.classList.add("form-control-plaintext");
     entropyLabel.innerHTML = "0";
     entropyCell.appendChild(entropyLabel);
@@ -204,8 +204,8 @@ function addCategory(){
 
     // remove "Category remove button" of previous input group so that there is only one
     if(tBodyRef.rows.length >= 4) {
-        cell = tBodyRef.rows[tBodyRef.rows.length - 2].cells[0]
-        button = cell.getElementsByTagName("div")[0];
+        var cell = tBodyRef.rows[tBodyRef.rows.length - 2].cells[0]
+        var button = cell.getElementsByTagName("div")[0];
         cell.removeChild(button);
     }
 }
