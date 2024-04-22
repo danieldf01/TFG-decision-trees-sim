@@ -67,7 +67,6 @@ function checkInput(instanceVals){
     try{
         var invalidVal = false;
         var emptyInput = false;
-        var errors = [];
 
         // Check if there are any negative values or empty inputs
         for(const instanceVal of instanceVals) {
