@@ -1,4 +1,7 @@
+// disabled because this is the recommended way to import modules for Jest testing
+/* eslint-disable */
 const E = require('./calculator')
+/* eslint-enable */
 
 test('properly calculates the Entropy of a p value 0.5', () => {
     expect(E(0.5)).toBe(1);

@@ -94,17 +94,17 @@ function drawPoint(data, tableEntropy) {
 }
 
 function checkInput(instanceVals) {
+    var invalidVal = false;
+    var emptyInput = false;
+    
+    // Check if there are any negative values or empty inputs
+    for (const instanceVal of instanceVals) {
+        var value = instanceVal.value;
+        if (value < 0 || isNaN(value) || value % 1 !== 0) invalidVal = true;
+        if (value == "") emptyInput = true;
+    }
+
     try {
-        var invalidVal = false;
-        var emptyInput = false;
-
-        // Check if there are any negative values or empty inputs
-        for (const instanceVal of instanceVals) {
-            var value = instanceVal.value;
-            if (value < 0 || isNaN(value) || value % 1 !== 0) invalidVal = true;
-            if (value == "") emptyInput = true;
-        }
-
         // If there are errors, display alerts and cancel the calculation
         if (invalidVal && emptyInput) throw ['#alert-invalid-val', '#alert-empty-input'];
         if (invalidVal) throw ['#alert-invalid-val'];
