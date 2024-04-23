@@ -1,5 +1,9 @@
 function E(x) {
-    if (x === 0 || x === 1 || 0.99999 <= x) {
+    if (x < 0 || x > 1.00001) throw new Error("The Binary Entropy function was tried to be calculated with an invalid x value input");
+
+    // using an interval for the last value of x because the increment of data points (x values)
+    // in graphFunction() becomes continuously more inaccurate, not reaching exactly 1
+    if (x === 0 || x === 1 || (0.99999 <= x && x <= 1.00001)) {
         return 0;
     }
     return (-x) * Math.log2(x) - (1 - x) * Math.log2(1 - x);
@@ -168,4 +172,8 @@ function calcEntropy() {
         var data = graphFunction();
         drawPoint(data, tableEntropy);
     }
+}
+
+if (typeof module === 'object') {
+    module.exports = E;
 }
