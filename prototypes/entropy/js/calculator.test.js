@@ -142,11 +142,11 @@ test('checkInput: 2 inputs with values -5 and "" should produce error (return 1)
     expect(checkInput(inputElements)).toBe(1);
 })
 
-test('checkInput: 2 inputs with values 5 and 3.5 should produce error (return 1)', () => {
+test('checkInput: 2 inputs with values t and 3.5 should produce error (return 1)', () => {
     document.body.innerHTML = html;
     var inputElements = []
     var input1 = document.createElement('input');
-    input1.setAttribute("value", "5");
+    input1.setAttribute("value", "t");
     var input2 = document.createElement('input');
     input2.setAttribute("value", "3.5");
     inputElements.push(input1);

@@ -128,3 +128,7 @@ function calcCondEntropy() {
     }
     document.getElementById('ce').textContent = condEntropy;
 }
+
+if (typeof module === 'object') {
+    module.exports = {calcRatio, calcEntropyCat, checkInput, calcCondEntropy};
+}
