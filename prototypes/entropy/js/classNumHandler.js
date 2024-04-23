@@ -83,6 +83,8 @@ function removeClass() {
     var tBodyRefClasses = tableClasses.tBodies[0]
     var numClassesBefore = tBodyRefClasses.rows.length;
 
+    if (numClassesBefore === 2) throw new Error("No classes can be removed if there are only 2 left");
+
     tableClasses.deleteRow(numClassesBefore);
     tableEntropy.deleteRow(numClassesBefore - 1);
 
@@ -114,3 +116,6 @@ function removeClass() {
     }
 }
 
+if (typeof module === 'object') {
+    module.exports = {addClass, removeClass};
+}
