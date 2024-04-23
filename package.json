@@ -1,0 +1,18 @@
+{
+  "name": "tfg-decision-trees-sim",
+  "version": "1.0.0",
+  "description": "The aim of this project is to create a web application that simulates the operation of decision tree algorithms.",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
