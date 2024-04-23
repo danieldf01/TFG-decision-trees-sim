@@ -136,6 +136,17 @@ function checkInput(instanceVals) {
     return 0;
 }
 
+function entropy(pValues){
+    var entropy = 0;
+    for (const pValue of pValues) {
+        entropy -= pValue * Math.log2(pValue);
+    }
+    if (isNaN(entropy)) {
+        entropy = 0;
+    }
+    return entropy;
+}
+
 function calcEntropy() {
     var table = document.getElementById('table-classes');
     var inputElements = table.getElementsByTagName('input');
@@ -159,18 +170,10 @@ function calcEntropy() {
     svg.select("#pointLine").remove();
     svg.selectAll("circle").remove();
 
-    var sum = 0;
-    for (const pValue of pValues) {
-        sum -= pValue * Math.log2(pValue);
-    }
+    var e = entropy(pValues);
 
-    if (isNaN(sum)) {
-        var output = document.getElementById('sum-entropy');
-        output.textContent = 0;
-    } else {
-        var output = document.getElementById('sum-entropy');
-        output.textContent = sum;
-    }
+    var output = document.getElementById('sum-entropy');
+    output.textContent = e;
 
     var tableEntropy = document.getElementById('table-entropy');
     var tableClasses = document.getElementById('table-classes');
@@ -182,5 +185,5 @@ function calcEntropy() {
 }
 
 if (typeof module === 'object') {
-    module.exports = {E, graphFunction, calcSum, calcProbs, checkInput, calcEntropy};
+    module.exports = {E, graphFunction, calcSum, calcProbs, checkInput, entropy};
 }

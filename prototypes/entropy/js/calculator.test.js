@@ -1,42 +1,41 @@
 // disabled because this is the recommended way to import modules for Jest testing
 /* eslint-disable */
-const { E, graphFunction, calcSum, calcProbs, checkInput, calcEntropy } = require('./calculator')
-/* eslint-enable */
+const { E, graphFunction, calcSum, calcProbs, checkInput, entropy } = require('./calculator')
 const fs = require('fs');
 const path = require('path');
+/* eslint-enable */
 const html = fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf8');
 
 jest
     .dontMock('fs');
-
     
-test('properly calculates the Entropy of a p value 0.5', () => {
+test('E: properly calculates the Binary Entropy of a p value 0.5', () => {
     expect(E(0.5)).toBe(1);
 })
 
-test('properly calculates the Entropy of a p value 0', () => {
+test('E: properly calculates the Entropy of a p value 0', () => {
     expect(E(0)).toBe(0);
 })
 
-test('properly calculates the Entropy of a p value 1', () => {
+test('E: properly calculates the Entropy of a p value 1', () => {
     expect(E(1)).toBe(0);
 })
 
-test('throws error when calculating values below 0', () => {
+test('E: throws error when calculating values below 0', () => {
     expect(() => E(-0.01)).toThrow(Error);
     expect(() => E(-0.01)).toThrow("The Binary Entropy function was tried to be calculated with an invalid x value input");
 })
 
-test('throws error when calculating values above 1.00001', () => {
+test('E: throws error when calculating values above 1.00001', () => {
     expect(() => E(-0.01)).toThrow(Error);
     expect(() => E(-0.01)).toThrow("The Binary Entropy function was tried to be calculated with an invalid x value input");
 })
 
-test('graphFunction creates 1001 data points', () => {
+test('graphFunction: creates 1001 data points', () => {
     expect(graphFunction().length).toBe(1001);
 })
 
-test('the first and last data points returned by graphFunction have an y-value of 0', () => {
+test('graphFunction: the first and last data points have an y-value of 0', () => {
     expect(graphFunction()[0][1]).toBe(0);
     expect(graphFunction()[1000][1]).toBe(0);
 })
@@ -153,4 +152,19 @@ test('checkInput: 2 inputs with values 5 and 3.5 should produce error (return 1)
     inputElements.push(input1);
     inputElements.push(input2);
     expect(checkInput(inputElements)).toBe(1);
+})
+
+test('entropy: properly calculate Entropy for probability values [1, 0]', () => {
+    var pValues = [1, 0];
+    expect(entropy(pValues)).toBe(0);
+})
+
+test('entropy: properly calculate Entropy for probability values [0.5, 0.5]', () => {
+    var pValues = [0.5, 0.5];
+    expect(entropy(pValues)).toBe(1);
+})
+
+test('entropy: properly calculate Entropy for probability values [0.5, 0.5, 0, 0]', () => {
+    var pValues = [0.5, 0.5, 0, 0];
+    expect(entropy(pValues)).toBe(0);
 })
