@@ -10,6 +10,9 @@ function createRemoveButton() {
 function removeCategory() {
     var table = document.getElementById('table-cond-entropy');
     var tBodyRef = table.getElementsByTagName('tbody')[0];
+
+    if (tBodyRef.rows.length === 2) throw new Error("No categories can be removed if there are only 2 left");
+
     table.deleteRow(tBodyRef.rows.length);
 
     // add "Category remove button" to the now last row
@@ -77,4 +80,8 @@ function addCategory() {
         var button = cell.getElementsByTagName("div")[0];
         cell.removeChild(button);
     }
+}
+
+if (typeof module === 'object') {
+    module.exports = {addCategory, removeCategory};
 }

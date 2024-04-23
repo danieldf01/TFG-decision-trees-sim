@@ -36,7 +36,7 @@ test('removeClass: properly remove one class after adding one', () => {
     expect(tBodyRefClasses.rows.length).toBe(2);
 })
 
-test('removeClass: properly remove two class after adding three', () => {
+test('removeClass: properly remove two classes after adding three', () => {
     document.body.innerHTML = html;
     addClass();
     addClass();
