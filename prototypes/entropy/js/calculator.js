@@ -21,7 +21,7 @@ function graphFunction() {
     return data;
 }
 
-function calcProbs(inputElements) {
+function calcSum(inputElements){
     var sum = 0;
     for (const element of inputElements) {
         sum += parseInt(element.value, 10);
@@ -37,6 +37,10 @@ function calcProbs(inputElements) {
         $('#alert-sum-0').addClass('d-none');
     }
 
+    return sum;
+}
+
+function calcProbs(inputElements, sum) {
     var pValues = [];
     for (var i = 0; i < inputElements.length; i++) {
         // To not divide by 0 if all instance values are 0
@@ -145,8 +149,11 @@ function calcEntropy() {
     $('#alert-invalid-val').addClass('d-none');
     $('#alert-empty-input').addClass('d-none');
 
+    // Calculate the sum of instances
+    var sum = calcSum(inputElements);
+
     // Calculate the probabilities
-    var pValues = calcProbs(inputElements);
+    var pValues = calcProbs(inputElements, sum);
 
     // Remove the previous point and line
     svg.select("#pointLine").remove();
@@ -175,5 +182,5 @@ function calcEntropy() {
 }
 
 if (typeof module === 'object') {
-    module.exports = E;
+    module.exports = {E, graphFunction, calcSum, calcProbs, checkInput, calcEntropy};
 }
