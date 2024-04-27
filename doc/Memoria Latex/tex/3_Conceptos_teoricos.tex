@@ -1,8 +1,6 @@
-\capitulo{3}{Conceptos teóricos}
+\capitulo{3}{Theoretical concepts}
 
 In the following, all the theoretical concepts relevant for the understanding of the project will be explained.
-
-Algunos conceptos teóricos de \LaTeX{} \footnote{Créditos a los proyectos de Álvaro López Cantero: Configurador de Presupuestos y Roberto Izquierdo Amo: PLQuiz}.
 
 \section{Decision Trees}
 
@@ -12,8 +10,8 @@ It starts at the root, which represents the feature that best separates the unde
 
 Decision tree learning utilizes a divide and conquer approach, iteratively finding the best split points until all or most of the input data is classified.
 
-An example of a decision tree which evaluates whether a person is going to be an astronaut or not:
-\imagen{decision_tree_example1}{Decision tree example}{.5}
+An example of a decision tree which evaluates whether a person should buy a game or not:
+\imagen{decision_tree_example}{Decision tree example}{1}
 
 \subsection{Subsecciones}
 
@@ -26,11 +24,15 @@ Y subsecciones.
 \section{Entropy} \label{entropy}
 In the context of decision tree algorithms, entropy ~\cite{entropy_dash} can be viewed as a measure of impurity in a dataset. It can also be described as a measure of disorder, uncertainty or the expected surprise of a classification, but going forward, the term impurity will be used to avoid confusion. In datasets with binary classes, where variables can only have two possible outcome values, the entropy value lies between 0 and 1, inclusive. The higher the entropy, the more impure the dataset is. In a binary-class dataset, a node that has an equal distribution of, e.g., 5 instances belonging to one class and the other 5 instances belonging to the other class, would have an entropy value of 1. Inversely, a node that has all its instances belong to only one class would have an entropy value of 0, making´it a pure node.
 The value is calculated using the following formula:
-\[ \scalebox{2}{$\displaystyle E(X) = -\sum_{i=1}^{n} {p_i} {log_2 (p_i)}$} \]
+
+
+\[ E(X) = -\sum_{i=1}^{n} {p_i} {log_2 (p_i)} \]
+
+
 $E(X)$ is the entropy of dataset $X$, $n$ describes the number of classes in the dataset, and $p_i$ the proportion of instances in class $i$ or, in other words, the probability of an instance belonging to class $i$.
 
 This following graph ~\cite{entropy_T} that describes the entropy function in relation to the composition of a node shows really well how entropy is used to determine how impure a node is:
-\imagen{entropy_graph}{Descriptive graph of the entropy function}{.5}
+\imagen{entropy_graph}{Descriptive graph of the entropy function}{.7}
 In a dataset with binary classes, the x-axis describes the amount of instances in a dataset belonging to the positive class while the y-axis measures their entropy values. It records the lowest values at the extremes where there are only or no positive instances recorded in a given dataset while the highest impurity is reached when the numbers of positive and negative instances are equal.
 However, it must be mentioned that the value of entropy can reach values higher than 1 if the dataset possesses more than 2 class labels. 
 
