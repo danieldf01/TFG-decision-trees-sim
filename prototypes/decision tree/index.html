@@ -18,7 +18,7 @@
 
 <body>
     <div class="container">
-        <div class="row p-3">
+        <div class="row p-2">
             <!-- Data table -->
             <div class="col-auto">
                 <table class="table caption-top ">
@@ -147,80 +147,103 @@
                             <th style="border-left: 1px solid black;">No</th>
                         </tr>
                     </tbody>
-                </div>
+                </table>
             </div>
             <!-- Decision Tree -->
             <div class="col-auto">
-                <svg width="500" height="500" viewBox="0 0 500 300">
-                    <g id="g0">
-                        <a type="button" class="btn-primary" onclick="hideChildren(this)" href="#" style="text-decoration: none">
-                            <rect id="n0" width="20%" height="10%" x="40%" y="-10%" rx="10" ry="10" fill="white" stroke="blue" />
-                            <text x="44%" y="-3%" fill="black">Outlook</text>
-                        </a>
-                    </g>
-                    <g id="g1">
-                        <path id="e1" d="M130 60 230 0" stroke-width="1" stroke="black" data-connected-to="n0"/>
-                        <rect width="14%" height="8%" x="20%" y="4%" fill="lightgray" />
-                        <text x="21%" y="10%">Overcast</text>
+                <div class="svg-container">
+                    <svg viewBox="0 0 500 500">
+                        <g id="g0">
+                            <a type="button" class="btn-primary" onclick="hideChildren(this)" href="#" style="text-decoration: none">
+                                <ellipse id="n0" rx="12%" ry="5%" cx="50%" cy="-6%" style="fill:white;stroke:blue;stroke-width: 2;" />
+                                <text x="41%" y="-4%" font-size="25" fill="black">Outlook</text>
+                            </a>
+                        </g>
+                        <g id="g1">
+                            <path id="e1" d="M88 108 200 -15" stroke-width="1" stroke="black" data-connected-to="n0"/>
+                            <text>
+                                <textPath href="#e1" startOffset="25%">
+                                    <tspan font-size="16" dy="-1%">Overcast</tspan>
+                                </textPath>
+                            </text>
 
-                        <rect id="n1" width="10%" height="10%" x="20%" y="20%" rx="10" ry="10" fill="white" stroke="green" />
-                        <text x="23%" y="27%" fill="black">Yes</text>
-                    </g>
-                    <g id="g2">
-                        <path id="e2" d="M250 0 250 60" stroke-width="1" stroke="black" data-connected-to="n0"/>
-                        <rect width="11%" height="8%" x="43.5%" y="4%" fill="lightgray" />
-                        <text x="45%" y="10%">Sunny</text>
+                            <ellipse id="n1" rx="5%" ry="4%" cx="15%" cy="25%" style="fill:white;stroke:black" />
+                            <text x="12%" y="26%" font-size="20" fill="black">Yes</text>
+                        </g>
+                        <g id="g2">
+                            <path id="e2" d="M250 -4 250 100" stroke-width="1" stroke="black" data-connected-to="n0"/>
+                            <text>
+                                <textPath href="#e2" startOffset="25%">
+                                    <tspan font-size="16" dy="-1%">Sunny</tspan>
+                                </textPath>
+                            </text>
 
-                        <a type="button" class="btn-primary" onclick="hideChildren(this)" href="#" style="text-decoration: none">
-                            <rect id="n2" width="20%" height="10%" x="40%" y="20%" rx="10" ry="10" fill="white" stroke="blue" />
-                            <text x="44%" y="27%" fill="black">Humidity</text>
-                        </a>
-                    </g>
-                    <g id="g3">
-                        <path id="e3" d="M230 90 130 150" stroke-width="1" stroke="black" data-connected-to="n2"/>
-                        <rect width="10%" height="8%" x="24%" y="34%" fill="lightgray" />
-                        <text x="26%" y="40%">High</text>
+                            <a type="button" class="btn-primary" onclick="hideChildren(this)" href="#" style="text-decoration: none">
+                                <ellipse id="n2" rx="12%" ry="5%" cx="50%" cy="25%" style="fill:white;stroke:blue;stroke-width: 2;" />
+                                <text x="41%" y="26.5%" font-size="23" fill="black">Humidity</text>
+                            </a>
+                        </g>
+                        <g id="g3">
+                            <path id="e3" d="M210 250 230 149" stroke-width="1" stroke="black" data-connected-to="n2"/>
+                            <text>
+                                <textPath href="#e3" startOffset="37%">
+                                    <tspan font-size="16" dy="-1%">High</tspan>
+                                </textPath>
+                            </text>
 
-                        <rect id="n3" width="10%" height="10%" x="20%" y="50%" rx="10" ry="10" fill="white" stroke="red" />
-                        <text x="23%" y="57%" fill="black">No</text>
-                    </g>
-                    <g id="g4">
-                        <path id="e4" d="M250 90 250 150" stroke-width="1" stroke="black" data-connected-to="n2"/>
-                        <rect width="13%" height="8%" x="43.5%" y="34%" fill="lightgray" />
-                        <text x="45%" y="40%">Normal</text>
+                            <ellipse id="n3" rx="5%" ry="4%" cx="41%" cy="54%" style="fill:white;stroke:black" />
+                            <text x="38.5%" y="55%" font-size="20" fill="black">No</text>
+                        </g>
+                        <g id="g4">
+                            <path id="e4" d="M270 149 290 250" stroke-width="1" stroke="black" data-connected-to="n2"/>
+                            <text>
+                                <textPath href="#e4" startOffset="30%">
+                                    <tspan font-size="16" dy="-1%">Normal</tspan>
+                                </textPath>
+                            </text>
 
-                        <rect id="n4" width="10%" height="10%" x="45%" y="50%" rx="10" ry="10" fill="white" stroke="green" />
-                        <text x="48%" y="57%" fill="black">Yes</text>
-                    </g>
-                    <g id="g5">
-                        <path id="e5" d="M280 0 390 60" stroke-width="1" stroke="black" data-connected-to="n0"/>
-                        <rect width="10%" height="8%" x="69%" y="4%" fill="lightgray" />
-                        <text x="70%" y="10%">Rainy</text>
+                            <ellipse id="n4" rx="5%" ry="4%" cx="59%" cy="54%" style="fill:white;stroke:black" />
+                            <text x="56%" y="55%" font-size="20" fill="black">Yes</text>
+                        </g>
+                        <g id="g5">
+                            <path id="e5" d="M297 -15 380 108" stroke-width="1" stroke="black" data-connected-to="n0"/>
+                            <text>
+                                <textPath href="#e5" startOffset="40%">
+                                    <tspan font-size="16" dy="-1%">Rainy</tspan>
+                                </textPath>
+                            </text>
 
-                        <a type="button" class="btn-primary" onclick="hideChildren(this)" href="#" style="text-decoration: none">
-                            <rect id="n5" width="15%" height="10%" x="70%" y="20%" rx="10" ry="10" fill="white" stroke="blue" />
-                            <text x="73%" y="27%" fill="black">Windy</text>
-                        </a>
-                    </g>
-                    <g id="g6">
-                        <path id="e6" d="M380 90 350 150" stroke-width="1" stroke="black" data-connected-to="n5"/>
-                        <rect width="8%" height="8%" x="67%" y="34%" fill="lightgray" />
-                        <text x="68%" y="40%">True</text>
+                            <a type="button" class="btn-primary" onclick="hideChildren(this)" href="#" style="text-decoration: none">
+                                <ellipse id="n5" rx="12%" ry="5%" cx="85%" cy="25%" style="fill:white;stroke:blue;stroke-width: 2;" />
+                                <text x="78%" y="26.5%" font-size="23" fill="black">Windy</text>
+                            </a>
+                        </g>
+                        <g id="g6">
+                            <path id="e6" d="M390 250 400 147" stroke-width="1" stroke="black" data-connected-to="n5"/>
+                            <text>
+                                <textPath href="#e6" startOffset="37%">
+                                    <tspan font-size="16" dy="-1%">True</tspan>
+                                </textPath>
+                            </text>
 
-                        <rect id="n6" width="10%" height="10%" x="65%" y="50%" rx="10" ry="10" fill="white" stroke="red" />
-                        <text x="68%" y="57%" fill="black">No</text>
-                    </g>
-                    <g id="g7">
-                        <path id="e7" d="M400 90 430 150" stroke-width="1" stroke="black" data-connected-to="n5"/>
-                        <rect width="9%" height="8%" x="80%" y="34%" fill="lightgray" />
-                        <text x="81%" y="40%">False</text>
+                            <ellipse id="n6" rx="5%" ry="4%" cx="77%" cy="54%" style="fill:white;stroke:black" />
+                            <text x="74.5%" y="55%" font-size="20" fill="black">No</text>
+                        </g>
+                        <g id="g7">
+                            <path id="e7" d="M450 147 460 250" stroke-width="1" stroke="black" data-connected-to="n5"/>
+                            <text>
+                                <textPath href="#e7" startOffset="32%">
+                                    <tspan font-size="16" dy="-1%">False</tspan>
+                                </textPath>
+                            </text>
 
-                        <rect id="n7" width="10%" height="10%" x="80%" y="50%" rx="10" ry="10" fill="white" stroke="green" />
-                        <text x="83%" y="57%" fill="black">Yes</text>
-                    </g>
+                            <ellipse id="n7" rx="5%" ry="4%" cx="93%" cy="54%" style="fill:white;stroke:black" />
+                            <text x="90%" y="55%" font-size="20" fill="black">Yes</text>
+                        </g>
 
 
-                </svg>
+                    </svg>
+                </div>
             </div>
         </div>
     </div>

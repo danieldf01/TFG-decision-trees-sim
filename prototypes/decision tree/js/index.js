@@ -176,45 +176,8 @@ function id3(data, attributes){
     return tree;
 }
 
-function collectChildren(groupNumber){
-    // Collect all the groups and edges that are connected to the clicked group
-    var endFound = false;
-    var groups = [];
-    var edgeGroups = [];
-    while(!endFound){
-        var edgeGroup = document.getElementById("e" + groupNumber);
-        if (edgeGroup == null){
-            endFound = true;
-            continue;
-        } else{
-            edgeGroups.push(edgeGroup);
-        }
-        groupNumber++;
-        var group = document.getElementById("g" + groupNumber);
-        if (group == null){
-            endFound = true;
-            continue;
-        } else{
-            groups.push(group);
-        }
-    }
-    return [groups, edgeGroups];
-}
-
-function showChildren(groupNumber){
-    var children = collectChildren(groupNumber);
-    var groupsToShow = children[0];
-    var edgesToShow = children[1];
-
-    // Hide all the groups and edges that are connected to the clicked group
-    for (var i = 0; i < groupsToShow.length; i++) {
-        groupsToShow[i].style.display = "block";
-        edgesToShow[i].style.display = "block";
-    }
-}
-
 function hideChildren(element){
-    var node = element.querySelector('rect');
+    var node = element.querySelector('ellipse');
     var nodeId = node.id;
 
     var connectedPaths = document.querySelectorAll('path[data-connected-to="' + nodeId + '"]');

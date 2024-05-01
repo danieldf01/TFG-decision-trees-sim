@@ -39,5 +39,15 @@ body::before {
 }
 
 svg {
-    border: 1px solid blue;
-  }
+    /* border: 1px solid blue; */
+    width: 95%;
+    height: 95%;
+}
+
+.svg-container {
+    width: 450px;
+    height: 650px;
+    /* resize: both; */
+    overflow: auto;
+    border: 1px dashed #aaa;
+}
