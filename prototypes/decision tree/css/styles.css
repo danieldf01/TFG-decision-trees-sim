@@ -37,3 +37,7 @@ body::before {
         content: "XXL";
     }
 }
+
+svg {
+    border: 1px solid blue;
+  }

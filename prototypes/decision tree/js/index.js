@@ -143,25 +143,30 @@ function id3(data, attributes){
             allNegative = false;
         }
     }
+
+    // Check if we have reached a leaf node
     if (allPositive){
         return new TreeNode(null, 'yes', true);
     }
     if (allNegative){
         return new TreeNode(null, 'no', true);
     }
-
     if (attributes.length === 0){
         return new TreeNode(null, mostCommonLabel(data), true);
     }
 
+    // Find the current best attribute to split the data on
     var bestAttribute = findBestAttribute(data, attributes);
     var tree = new TreeNode(bestAttribute, null);
     
+    // Split the data on the best attribute
     var attributeValues = new Set(data.map(instance => instance.attributes[bestAttribute]));
+    
+    // Do a recursive call for each value of the selected attribute or add a leaf node if the value's subset is empty
     for (const value of attributeValues){
         var subset = data.filter(instance => instance.attributes[bestAttribute] === value);
         var remainingAttributes = attributes.filter(attribute => attribute!== bestAttribute);
-        console.log(remainingAttributes);
+
         if(subset.length === 0){
             tree.children.push([value, new TreeNode(null, mostCommonLabel(subset), true)]);
         } else{
@@ -169,6 +174,65 @@ function id3(data, attributes){
         }
     }
     return tree;
+}
+
+function collectChildren(groupNumber){
+    // Collect all the groups and edges that are connected to the clicked group
+    var endFound = false;
+    var groups = [];
+    var edgeGroups = [];
+    while(!endFound){
+        var edgeGroup = document.getElementById("e" + groupNumber);
+        if (edgeGroup == null){
+            endFound = true;
+            continue;
+        } else{
+            edgeGroups.push(edgeGroup);
+        }
+        groupNumber++;
+        var group = document.getElementById("g" + groupNumber);
+        if (group == null){
+            endFound = true;
+            continue;
+        } else{
+            groups.push(group);
+        }
+    }
+    return [groups, edgeGroups];
+}
+
+function showChildren(groupNumber){
+    var children = collectChildren(groupNumber);
+    var groupsToShow = children[0];
+    var edgesToShow = children[1];
+
+    // Hide all the groups and edges that are connected to the clicked group
+    for (var i = 0; i < groupsToShow.length; i++) {
+        groupsToShow[i].style.display = "block";
+        edgesToShow[i].style.display = "block";
+    }
+}
+
+function hideChildren(event){
+    // Get the parent group and its group number of the element that was clicked on
+    var parentGroup = event.target.parentNode.parentNode;
+    var groupNumber = +parentGroup.id[1];
+
+    var nextEdgeGroup = document.getElementById("e" + groupNumber);
+    if (nextEdgeGroup != null && nextEdgeGroup.style.display == "none"){
+        showChildren(groupNumber);
+        return;
+    }
+
+    var children = collectChildren(groupNumber);
+    var groupsToHide = children[0];
+    var edgesToHide = children[1];
+
+    // Hide all the groups and edges that are connected to the clicked group
+    for (var i = 0; i < groupsToHide.length; i++) {
+        groupsToHide[i].style.display = "none";
+        edgesToHide[i].style.display = "none";
+    }
 }
 
 var decisionTree = id3(data, attributes);

@@ -151,7 +151,57 @@
             </div>
             <!-- Decision Tree -->
             <div class="col-auto">
-                
+                <svg width="500" height="500" viewBox="0 0 500 300">
+                    <g id="g1">
+                        <a type="button" class="btn-primary" onclick="hideChildren(event)" href="#" style="text-decoration: none">
+                            <rect width="20%" height="10%" x="40%" y="-10%" rx="10" ry="10" fill="white" stroke="blue" />
+                            <text x="44%" y="-3%" fill="black">Outlook</text>
+                        </a>
+                    </g>
+                    <g id="e1">
+                        <path id="e11" d="M130 60 230 0" stroke-width="1" stroke="black"/>
+                        <rect width="14%" height="8%" x="20%" y="4%" fill="lightgray" />
+                        <text x="21%" y="10%">Overcast</text>
+                        <path id="e12" d="M250 0 250 60" stroke-width="1" stroke="black"/>
+                        <rect width="11%" height="8%" x="43.5%" y="4%" fill="lightgray" />
+                        <text x="45%" y="10%">Sunny</text>
+                        <path id="e13" d="M280 0 390 60" stroke-width="1" stroke="black"/>
+                        <rect width="10%" height="8%" x="69%" y="4%" fill="lightgray" />
+                        <text x="70%" y="10%">Rainy</text>
+                    </g>
+                    <g id="g2">
+                        <rect width="10%" height="10%" x="20%" y="20%" rx="10" ry="10" fill="white" stroke="green" />
+                        <text x="23%" y="27%" fill="black">Yes</text>
+                        <rect width="20%" height="10%" x="40%" y="20%" rx="10" ry="10" fill="white" stroke="blue" />
+                        <text x="44%" y="27%" fill="black">Humidity</text>
+                        <rect width="15%" height="10%" x="70%" y="20%" rx="10" ry="10" fill="white" stroke="blue" />
+                        <text x="73%" y="27%" fill="black">Windy</text>
+                    </g>
+                    <g id="e2">
+                        <path id="e21" d="M230 90 130 150" stroke-width="1" stroke="black"/>
+                        <rect width="10%" height="8%" x="24%" y="34%" fill="lightgray" />
+                        <text x="26%" y="40%">High</text>
+                        <path id="e22" d="M250 90 250 150" stroke-width="1" stroke="black"/>
+                        <rect width="13%" height="8%" x="43.5%" y="34%" fill="lightgray" />
+                        <text x="45%" y="40%">Normal</text>
+                        <path id="e21" d="M380 90 350 150" stroke-width="1" stroke="black"/>
+                        <rect width="8%" height="8%" x="67%" y="34%" fill="lightgray" />
+                        <text x="68%" y="40%">True</text>
+                        <path id="e21" d="M400 90 430 150" stroke-width="1" stroke="black"/>
+                        <rect width="9%" height="8%" x="80%" y="34%" fill="lightgray" />
+                        <text x="81%" y="40%">False</text>
+                    </g>
+                    <g id="g3">
+                        <rect width="10%" height="10%" x="20%" y="50%" rx="10" ry="10" fill="white" stroke="red" />
+                        <text x="23%" y="57%" fill="black">No</text>
+                        <rect width="10%" height="10%" x="45%" y="50%" rx="10" ry="10" fill="white" stroke="green" />
+                        <text x="48%" y="57%" fill="black">Yes</text>
+                        <rect width="10%" height="10%" x="65%" y="50%" rx="10" ry="10" fill="white" stroke="red" />
+                        <text x="68%" y="57%" fill="black">No</text>
+                        <rect width="10%" height="10%" x="80%" y="50%" rx="10" ry="10" fill="white" stroke="green" />
+                        <text x="83%" y="57%" fill="black">Yes</text>
+                    </g>
+                </svg>
             </div>
         </div>
     </div>
