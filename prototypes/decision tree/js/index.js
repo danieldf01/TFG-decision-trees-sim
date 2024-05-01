@@ -213,25 +213,45 @@ function showChildren(groupNumber){
     }
 }
 
-function hideChildren(event){
-    // Get the parent group and its group number of the element that was clicked on
-    var parentGroup = event.target.parentNode.parentNode;
-    var groupNumber = +parentGroup.id[1];
+function hideChildren(element){
+    var node = element.querySelector('rect');
+    var nodeId = node.id;
 
-    var nextEdgeGroup = document.getElementById("e" + groupNumber);
-    if (nextEdgeGroup != null && nextEdgeGroup.style.display == "none"){
-        showChildren(groupNumber);
-        return;
+    var connectedPaths = document.querySelectorAll('path[data-connected-to="' + nodeId + '"]');
+    if (connectedPaths.length !== 0 && connectedPaths[0].parentNode.style.display == "none"){
+        showConnectedNodes(nodeId);
+    } else{
+        hideConnectedNodes(nodeId);
     }
+}
 
-    var children = collectChildren(groupNumber);
-    var groupsToHide = children[0];
-    var edgesToHide = children[1];
+function hideConnectedNodes(nodeId){
+    var connectedPaths = document.querySelectorAll('path[data-connected-to="' + nodeId + '"]');
+    if (connectedPaths.length === 0) return;
 
-    // Hide all the groups and edges that are connected to the clicked group
-    for (var i = 0; i < groupsToHide.length; i++) {
-        groupsToHide[i].style.display = "none";
-        edgesToHide[i].style.display = "none";
+    for (const path of connectedPaths){
+        var pathGroup = path.parentNode;
+        pathGroup.style.display = "none";
+
+        var pathIdNum = +path.id[1];
+        var connectedNodeId = "n" + pathIdNum;
+
+        hideConnectedNodes(connectedNodeId);
+    }
+}
+
+function showConnectedNodes(nodeId){
+    var connectedPaths = document.querySelectorAll('path[data-connected-to="' + nodeId + '"]');
+    if (connectedPaths.length === 0) return;
+
+    for (const path of connectedPaths){
+        var pathGroup = path.parentNode;
+        pathGroup.style.display = "block";
+
+        var pathIdNum = +path.id[1];
+        var connectedNodeId = "n" + pathIdNum;
+
+        showConnectedNodes(connectedNodeId);
     }
 }
 
