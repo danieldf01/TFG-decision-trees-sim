@@ -13,23 +13,34 @@ In addition to Bootstrap's ability to create responsive websites, the wide varie
 
 In this project, the newest version of Bootstrap at present, Bootstrap 5, is used. The main advantages are its usage of vanilla JavaScript for its components instead of relying on jQuery, new components for better customization and simplified CSS which reduces file size and loading times for the created pages.
 
+The following images show how Bootstrap was incorporated to display a custom alert to the user, making use of Bootstrap's grid system with the ``row'' and ``col'' CSS classes and the ``alert'' class for the alert:
+\imagen{bootstrap_proof_code}{Usage of Bootstrap}{1}
+\imagen{bootstrap_proof_alert}{Bootstrap Alert}{1}
+
 \section{D3.js}
 "D3"~\cite{d3js_what_is_d3} stands for "data-driven documents" and perfectly describes the free, open-source JavaScript library. "Documents" refers to the Document Object Model (DOM). D3.js lets the user bind data to its elements. The library works like a toolbox that uses a variety of discrete modules which, e.g., allow selection and transition operations. It binds these modules together so all the necessary tools are at hand, ready to be applied.
 
 D3.js does not invent new data presentation formats, instead, it makes use of web standards like SVG to display contents. Incorporating these standards, the library also allows the use of external stylesheets which can be employed to change the graphics' visual representations.
 
-A major feature of D3.js is its ability to dynamically change the displayed contents. Whether that change is triggered by user interactions or a change in underlying data, the library's data join concept allows separate operations for entering, updating and exiting existing DOM elements based on a given set of data. Besides filtering and sorting, it lets you control what happens to your contents in many ways when changes happen and update your website accordingly. 
+A major feature of D3.js is its ability to dynamically change the displayed contents. Whether that change is triggered by user interactions or a change in underlying data, the library's data join concept allows separate operations for entering, updating and exiting existing DOM elements based on a given set of data. Besides filtering and sorting, it lets you control what happens to your contents in many ways when changes happen and update your website accordingly.
+
+The following images show the usage of D3.js in this project. It was used to create a coordinate system with a graph displaying the binary entropy function. It is also used to dynamically add a point and line to the graph, corresponding to the binary entropy value that was calculated by the user:
+\imagen{d3js_proof_graph}{Usage of D3.js: Defining the chart area}{1}
+\imagen{d3js_proof_drawpoint}{Usage of D3.js: drawing the point and line}{.6}
+\imagen{d3js_proof_entropygraph}{D3.js graph}{.5}
 
 \section{PyCharm} \label{pycharm}
 PyCharm~\cite{pycharm} is the Integrated Development Environment (IDE) I used during the first 2 and part of the 3rd sprint. It is an IDE developed by JetBrains which is specifically designed for Python development and is the one I had mainly been using for university assignments. With its support for web development frameworks like Flask and features like code completion for HTML, CSS and JavaScript, it served useful in allowing a quick start into this project's development.
-PyCharm's built-in live preview for HTML files and its interactive debugging feature also made working on the prototypes much simpler.
+PyCharm's built-in live preview for HTML files and its interactive debugging feature also made working on the prototypes much simpler. The following image shows the usage of that feature:
+\imagen{pycharm_proof_livepreview}{PyCharm's live preview}{1}
 Its version control integration of systems like Git allowed an easier experience of making local changes remotely available.
 
 However, one of the Issues during the 3rd sprint was to start using Bootstrap to make the website's layout responsive. Due to set-up problems with the IDE, PyCharm was not able to provide auto-completion for the framework. To make use of that and other features, I started using a different program for developing the website during the 3rd sprint.
 
 \section{Visual Studio Code}
 Visual Studio Code~\cite{vscode} is an open-source code editor by Microsoft. While it also provides all the benefits mentioned in section \ref{pycharm}, it comes with a handful of other advantages of which the most significant one would be the vast variety of available extensions.
-These include Bootstrap IntelliSense which enables CSS class auto-completion, Live Server which launches a local server with a live reload feature, and GitLens which, e.g., allows the user to see inline information about when and in which commit the current line of code was last changed.
+These include Bootstrap IntelliSense which enables CSS class auto-completion, Live Server which launches a local server with a live reload feature, and GitLens which, e.g., allows the user to see inline information about when and in which commit the current line of code was last changed. The following image shows this feature:
+\imagen{vscode_proof_gitlens}{GitLens extension}{1}
 These extensions allow the user to add features based on what they need. By only including essential coding features upon first installation, the editor take up less space than IDEs like PyCharm.
 In addition, its lightweight design that is optimized for performance leaves behind a smaller memory footprint.
 
