@@ -144,7 +144,7 @@
                         <div class="table-wrapper">
                             <table class="table caption-top table-hover" id="table-classes">
                                 <caption>Feature: </caption>
-                                <thead>
+                                <thead class="sticky-top">
                                     <tr>
                                         <th>Classes</th>
                                         <th>Nr. of instances</th>
@@ -157,7 +157,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border-bottom: hidden;"><label class="form-control-plaintext ">Class
+                                        <td><label class="form-control-plaintext ">Class
                                                 2:</label></td>
                                         <td id="c2">
                                             <input value=5 style="width:100px" type=text class="form-control" />
@@ -167,7 +167,7 @@
                                 <tfoot style="border-bottom: hidden;">
                                     <tr>
                                         <td>
-                                            <div class="btn btn-outline-primary" onclick="addClass()">Add Class</div>
+                                            <div class="btn btn-outline-primary" onclick="addClass()">+</div>
                                         </td>
                                         <td class="table-group-divider">
                                             <div id="sum-classes">10</div>
@@ -175,6 +175,8 @@
                                     </tr>
                                 </tfoot>
                             </table>
+                        </div>
+                        <div class="btn btn-primary  " onclick="calcEntropy()">Calculate Entropy
                         </div>
                     </div>
 
@@ -197,12 +199,6 @@
                                         <td>E(Feature):</td>
                                         <td>
                                             <div id="sum-entropy">1</div>
-                                        </td>
-                                    </tr>
-                                    <tr style="border-top: hidden;">
-                                        <td>
-                                            <div class="btn btn-outline-dark " onclick="calcEntropy()">Calculate Entropy
-                                            </div>
                                         </td>
                                     </tr>
                                 </tfoot>

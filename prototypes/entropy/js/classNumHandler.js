@@ -33,7 +33,6 @@ function addClass() {
     newLabel.classList.add("form-control-plaintext");
     newLabel.textContent = "Class " + +cCount + ":";
     cCell.appendChild(newLabel);
-    cCell.setAttribute("style", "border-bottom: hidden");
 
     // Value (Number of instances) cell
     cValueCell.id = "c" + cCount;
@@ -89,9 +88,6 @@ function removeClass() {
     tableEntropy.deleteRow(numClassesBefore - 1);
 
     var numClassesAfter = tBodyRefClasses.rows.length;
-
-    // remove border under class cell of the new last row
-    tBodyRefClasses.rows[numClassesAfter - 1].cells[0].setAttribute("style", "border-bottom: hidden");
 
     // add "Class remove button" to the now last row
     if (numClassesAfter >= 3) {
