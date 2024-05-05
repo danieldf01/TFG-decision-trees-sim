@@ -28,7 +28,7 @@
                 <div class="card bg-light mx-auto ">
                     <!-- General Info -->
                     <div class="card-header fs-5" id="generalInfo">
-                        <a class="collapsed d-block link-secondary link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        <a class="collapsed d-block link-body-emphasis link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-50-hover"
                             data-bs-toggle="collapse" href="#generalInfoCondEntropy" aria-expanded="false"
                             aria-controls="generalInfoCondEntropy">
                             General Information
@@ -52,7 +52,7 @@
                     </div>
                     <!-- Calculation -->
                     <div class="card-header fs-5" id="calculation">
-                        <a class="collapsed d-block link-secondary link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                        <a class="collapsed d-block link-body-emphasis link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-50-hover"
                             data-bs-toggle="collapse" href="#calcInfoCondEntropy" aria-expanded="false"
                             aria-controls="calcInfoCondEntropy">
                             Calculation
@@ -67,7 +67,7 @@
                                 using the following formula:
                             </p>
                             <p class="card-text fw-light">
-                                \[ E(Y|X) = - \sum_{x \in X} p(x) E(Y|X = x) \]
+                                \[ E(Y|X) = \sum_{x \in X} p(x) E(Y|X = x) \]
                             </p>
                             <p class="card-text fw-light">
                                 Where:
@@ -80,7 +80,8 @@
                             </ul>
                             <p class="card-text fw-light">
                                 Calculating the conditional entropies for the individual values \( x \) of attribute \(
-                                X \) is possible with the following formula:
+                                X \) (depicted as \( E(Category) \) in the calculator below) is possible with the
+                                following formula:
                             </p>
                             <p class="card-text fw-light">
                                 \[ E(Y|X = x) = - \sum_{y \in Y} p(y|x) log_2(p(y|x)) \]
