@@ -146,7 +146,7 @@ function findBestAttribute(data, attributes){
     return bestAttribute;
 }
 
-function id3(data, attributes, id, prevBranchVal){
+function id3(data, attributes, prevBranchVal, nodeId, leafId){
     if (data.length === 0) return null;
     var allPositive = true;
     var allNegative = true;
@@ -174,25 +174,28 @@ function id3(data, attributes, id, prevBranchVal){
         }
     }
 
-    var nextId = id[0] + (+id[1] + 1);
-
     // Check if we have reached a leaf node
     if (allPositive){
-        return new TreeNode(id, null, new NodeValues(class1, class2, n, e), true, 'yes', prevBranchVal);
+        var nextLeafId = leafId[0] + (+leafId[1] + 1);
+        return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, 'yes', prevBranchVal), nodeId, nextLeafId];
     }
     if (allNegative){
-        return new TreeNode(id, null, new NodeValues(class1, class2, n, e), true, 'no', prevBranchVal);
+        var nextLeafId = leafId[0] + (+leafId[1] + 1);
+        return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, 'no', prevBranchVal), nodeId, nextLeafId];
     }
     if (attributes.length === 0){
-        return new TreeNode(id, null, new NodeValues(class1, class2, n, e), true, mostCommonLabel(data), prevBranchVal);
+        var nextLeafId = leafId[0] + (+leafId[1] + 1);
+        return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, mostCommonLabel(data), prevBranchVal), nodeId, nextLeafId];
     }
 
     // Find the current best attribute to split the data on
     var bestAttribute = findBestAttribute(data, attributes);
-    var tree = new TreeNode(id, bestAttribute, new NodeValues(class1, class2, n, e), false, null, null);
+    var tree = new TreeNode(nodeId, bestAttribute, new NodeValues(class1, class2, n, e), false, null, null);
     
     // Split the data on the best attribute
     var attributeValues = new Set(data.map(instance => instance.attributes[bestAttribute]));
+
+    nodeId = nodeId[0] + (+nodeId[1] + 1);
     
     // Do a recursive call for each value of the selected attribute or add a leaf node if the value's subset is empty
     for (const value of attributeValues){
@@ -200,34 +203,20 @@ function id3(data, attributes, id, prevBranchVal){
         var remainingAttributes = attributes.filter(attribute => attribute!== bestAttribute);
 
         if(subset.length === 0){
-            tree.children.push(new TreeNode(nextId, null, new NodeValues(class1, class2, n, e), true, mostCommonLabel(subset), prevBranchVal));
+            tree.children.push(new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, mostCommonLabel(subset), prevBranchVal));
         } else{
             tree.prevBranchVal = prevBranchVal;
-            tree.children.push(id3(subset, remainingAttributes, nextId, value));
+            var returnVals = id3(subset, remainingAttributes, value, nodeId, leafId);
+            tree.children.push(returnVals[0]);
+            nodeId = returnVals[1];
+            leafId = returnVals[2];
         }
     }
-    return tree;
-}
-
-function addIds(tree, nodeId, leafId){
-    tree.id = nodeId;
-    tree.children.forEach(function(child){
-        if(child.isLeaf){
-            child.id = leafId;
-            leafId = leafId[0] + (+leafId[1] + 1);
-        } else{
-            nodeId = nodeId[0] + (+nodeId[1] + 1);
-            newIds = addIds(child, nodeId, leafId);
-            nodeId = newIds[0];
-            leafId = newIds[1];
-        }
-    });
-    return [nodeId, leafId];
+    return [tree, nodeId, leafId];
 }
 
 function buildTree(){
-    var decisionTree = id3(data, attributes, "n1", null);
-    addIds(decisionTree, "n1", "l1");
+    var decisionTree = id3(data, attributes, null, "n1", "l1")[0];
     console.log(decisionTree);
 
 }
