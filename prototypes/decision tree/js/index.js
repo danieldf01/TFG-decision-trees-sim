@@ -18,12 +18,26 @@ const data = [
 
 const attributes = ['outlook', 'temperature', 'humidity', 'windy'];
 
+class NodeValues{
+    constructor(class1, class2, n, entropy) {
+        this.class1 = class1;
+        this.class2 = class2;
+        this.n = n;
+        this.entropy = entropy;
+    }
+}
+
 class TreeNode{
-    constructor(attribute, label, isLeaf = false){
+    constructor(id, attribute, nodeValues, isLeaf = false, label, prevBranchVal){
+        this.id = id;
         this.attribute = attribute;
-        this.label = label;
-        this.children = [];
+
+        this.nodeValues = nodeValues;
         this.isLeaf = isLeaf;
+        this.label = label;
+
+        this.prevBranchVal = prevBranchVal;
+        this.children = [];
     }
 }
 
@@ -52,13 +66,7 @@ function mostCommonLabel(data){
     return maxLabel;
 }
 
-function entropy(valueLabels){
-    var sum = valueLabels.length;
-    var labels = [];
-    valueLabels.forEach(function (row){
-        labels.push(row[1]);
-    });
-
+function entropy(labels){
     // Count the occurrence of each label value
     var counts = {};
     for (const label of labels){
@@ -66,6 +74,7 @@ function entropy(valueLabels){
     }
 
     // Calculate probabilities
+    var sum = labels.length;
     var pValues = [];
     for (const labelCount of Object.values(counts)) {
         pValues.push(labelCount / sum);
@@ -89,8 +98,14 @@ function infoGain(data, attribute){
         attributeLabels.push([row.attributes[attribute], row.label]);
     });
 
+    // Save only the labels to calculate this attribute's entropy
+    var labels = [];
+    attributeLabels.forEach(function (row){
+        labels.push(row[1]);
+    });
+
     // Caclulate entropy for the whole attribute
-    var e = entropy(attributeLabels);
+    var e = entropy(labels);
 
     // Save the attribute values in a set
     var attributeValues = new Set(data.map(instance => instance.attributes[attribute]));
@@ -131,33 +146,50 @@ function findBestAttribute(data, attributes){
     return bestAttribute;
 }
 
-function id3(data, attributes){
+function id3(data, attributes, id, prevBranchVal){
     if (data.length === 0) return null;
     var allPositive = true;
     var allNegative = true;
+    var class1 = 0;
+    var class2 = 0;
+    var n = data.length;
+
+    // Save the labels in an array
+    var datasetLabels = [];
+    data.forEach(function(row){
+        datasetLabels.push(row.label);
+    });
+
+    // Caclulate entropy for the dataset
+    var e = entropy(datasetLabels);
+
     for (const row of data){
         if (row.label == 'no'){
+            class2++;
             allPositive = false;
         }
         if (row.label == 'yes'){
+            class1++;
             allNegative = false;
         }
     }
 
+    var nextId = id[0] + (+id[1] + 1);
+
     // Check if we have reached a leaf node
     if (allPositive){
-        return new TreeNode(null, 'yes', true);
+        return new TreeNode(id, null, new NodeValues(class1, class2, n, e), true, 'yes', prevBranchVal);
     }
     if (allNegative){
-        return new TreeNode(null, 'no', true);
+        return new TreeNode(id, null, new NodeValues(class1, class2, n, e), true, 'no', prevBranchVal);
     }
     if (attributes.length === 0){
-        return new TreeNode(null, mostCommonLabel(data), true);
+        return new TreeNode(id, null, new NodeValues(class1, class2, n, e), true, mostCommonLabel(data), prevBranchVal);
     }
 
     // Find the current best attribute to split the data on
     var bestAttribute = findBestAttribute(data, attributes);
-    var tree = new TreeNode(bestAttribute, null);
+    var tree = new TreeNode(id, bestAttribute, new NodeValues(class1, class2, n, e), false, null, null);
     
     // Split the data on the best attribute
     var attributeValues = new Set(data.map(instance => instance.attributes[bestAttribute]));
@@ -168,12 +200,36 @@ function id3(data, attributes){
         var remainingAttributes = attributes.filter(attribute => attribute!== bestAttribute);
 
         if(subset.length === 0){
-            tree.children.push([value, new TreeNode(null, mostCommonLabel(subset), true)]);
+            tree.children.push(new TreeNode(nextId, null, new NodeValues(class1, class2, n, e), true, mostCommonLabel(subset), prevBranchVal));
         } else{
-            tree.children.push([value, id3(subset, remainingAttributes)]);
+            tree.prevBranchVal = prevBranchVal;
+            tree.children.push(id3(subset, remainingAttributes, nextId, value));
         }
     }
     return tree;
+}
+
+function addIds(tree, nodeId, leafId){
+    tree.id = nodeId;
+    tree.children.forEach(function(child){
+        if(child.isLeaf){
+            child.id = leafId;
+            leafId = leafId[0] + (+leafId[1] + 1);
+        } else{
+            nodeId = nodeId[0] + (+nodeId[1] + 1);
+            newIds = addIds(child, nodeId, leafId);
+            nodeId = newIds[0];
+            leafId = newIds[1];
+        }
+    });
+    return [nodeId, leafId];
+}
+
+function buildTree(){
+    var decisionTree = id3(data, attributes, "n1", null);
+    addIds(decisionTree, "n1", "l1");
+    console.log(decisionTree);
+
 }
 
 function hideChildren(element){
@@ -218,5 +274,4 @@ function showConnectedNodes(nodeId){
     }
 }
 
-var decisionTree = id3(data, attributes);
-console.log(decisionTree);
+buildTree();
