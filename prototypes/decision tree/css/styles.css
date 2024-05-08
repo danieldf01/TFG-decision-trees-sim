@@ -45,7 +45,7 @@ svg {
 }
 
 .svg-container {
-    width: 450px;
+    width: 600px;
     height: 650px;
     /* resize: both; */
     overflow: auto;
