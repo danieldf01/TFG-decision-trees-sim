@@ -308,8 +308,16 @@
             <!-- Decision Tree -->
             <div class="col-auto">
                 <div class="svg-container">
-                    <svg id="svgDT">
-                        <g id="g0">
+                    <svg id="svgDT" viewBox="0 0 700 700">
+                        <defs>
+                            <marker id="arrowMarker" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="black" />
+                            </marker>
+                            <marker id="arrowMarkerReverse" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                                <path d="M 10 0 L 0 5 L 10 10 z" fill="black" />
+                            </marker>
+                        </defs>
+                        <!-- <g id="g0">
                             <a type="button" class="btn-primary" onclick="hideChildren(this)" href="#"
                                 style="text-decoration: none">
                                 <ellipse id="n0" rx="12%" ry="5%" cx="50%" cy="-6%"
@@ -401,22 +409,27 @@
 
                             <ellipse id="n7" rx="5%" ry="4%" cx="93%" cy="54%" style="fill:white;stroke:black" />
                             <text x="90%" y="55%" font-size="20" fill="black">Yes</text>
-                        </g>
+                        </g> -->
 
                         <symbol id="node" viewBox="0 0 82 92">
-                            <rect x="1" y="1" width="80" height="26" style="fill:limegreen; stroke-width:2; stroke:black;" />
+                            <rect x="1" y="1" width="80" height="26"
+                                style="fill:limegreen; stroke-width:2; stroke:black;" />
                             <text id="nodeNr" x="12" y="20" font-size="18" fill="black" font-weight="500">Node </text>
-                            <rect x="1" y="27" width="80" height="42" style="fill:white; stroke-width:2; stroke:black;" />
+                            <rect x="1" y="27" width="80" height="42"
+                                style="fill:white; stroke-width:2; stroke:black;" />
                             <text id="nodeN" x="5" y="43" font-size="16" fill="black">N = </text>
                             <path d="M 1 48 81 48" stroke="black" stroke-width="1.3" stroke-dasharray="5.3" />
                             <text id="nodeE" x="5" y="64" font-size="16" fill="black">E = </text>
-                            <rect x="1" y="69" width="80" height="21" style="fill:orange; stroke-width:2; stroke:black;" />
+                            <rect x="1" y="69" width="80" height="21"
+                                style="fill:orange; stroke-width:2; stroke:black;" />
                             <text id="nodeAttribute" x="5" y="84" font-size="16" fill="black"></text>
                         </symbol>
                         <symbol id="leaf" viewBox="0 0 82 133">
-                            <rect x="1" y="1" width="80" height="26" style="fill:limegreen; stroke-width:2; stroke:black;" />
+                            <rect x="1" y="1" width="80" height="26"
+                                style="fill:limegreen; stroke-width:2; stroke:black;" />
                             <text id="leafNr" x="17" y="20" font-size="18" fill="black" font-weight="500">Leaf </text>
-                            <rect x="1" y="27" width="80" height="84" style="fill:white; stroke-width:2; stroke:black;" />
+                            <rect x="1" y="27" width="80" height="84"
+                                style="fill:white; stroke-width:2; stroke:black;" />
                             <text id="leafN" x="5" y="43" font-size="16" fill="black">N = </text>
                             <path d="M 1 48 81 48" stroke="black" stroke-width="1.3" stroke-dasharray="5.3" />
                             <text id="leafYes" x="5" y="64" font-size="16" fill="black">Yes = </text>
@@ -424,8 +437,18 @@
                             <text id="leafNo" x="5" y="85" font-size="16" fill="black">No = </text>
                             <path d="M 1 90 81 90" stroke="black" stroke-width="1.3" stroke-dasharray="5.3" />
                             <text id="leafE" x="5" y="106" font-size="16" fill="black">E = </text>
-                            <rect x="1" y="111" width="80" height="21" style="fill:yellow; stroke-width:2; stroke:black;" />
+                            <rect x="1" y="111" width="80" height="21"
+                                style="fill:yellow; stroke-width:2; stroke:black;" />
                             <text id="leafLabel" x="5" y="127" font-size="16" fill="black">Label: </text>
+                        </symbol>
+                        <symbol id="branch">
+                            <path id="branchPath" d="M100 100 100 200" stroke-width="1" stroke="black"
+                                marker-end="url(#arrowMarker)" />
+                            <text>
+                                <textPath id="branchTP" href="#branchPath" startOffset="10">
+                                    <tspan id="branchValue" font-size="16" dy="-0.5%"></tspan>
+                                </textPath>
+                            </text>
                         </symbol>
                     </svg>
                 </div>
@@ -433,21 +456,21 @@
         </div>
     </div>
     <script>
-        function createNodes(nodeId, n, e, attribute, x, y, width, height) {
+        function createNode(nodeId, n, e, attribute, x, y, width, height) {
             var svgEl = document.getElementById('svgDT');
             var nodeTemplate = document.getElementById('node');
             var nodeNumber = nodeId.substring(1);
-            
+
             // Clone the template
             var clonedTemplate = nodeTemplate.cloneNode(true);
             clonedTemplate.setAttribute('id', 'node' + nodeNumber);
-            
+
             // Update text contents
             clonedTemplate.querySelector('#nodeNr').textContent += nodeNumber;
             clonedTemplate.querySelector('#nodeN').textContent += n;
             clonedTemplate.querySelector('#nodeE').textContent += e;
             clonedTemplate.querySelector('#nodeAttribute').textContent = attribute;
-    
+
             // Create a new 'use' element and set the node's position attributes
             var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
             newUse.setAttribute('id', 'useNode' + nodeNumber);
@@ -456,24 +479,24 @@
             newUse.setAttribute('y', y);
             newUse.setAttribute('width', width);
             newUse.setAttribute('height', height);
-            
+
             // Append cloned template and use element to the svg
             svgEl.appendChild(clonedTemplate);
             svgEl.appendChild(newUse);
         }
 
-        createNodes("n1", 14, 0.94, "Outlook", 200, 300, 81, 91);
-        createNodes("n2", 5, 0.97, "Humidity", 200, 400, 81, 91);
+        createNode("n1", 14, 0.94, "Outlook", 200, 300, 81, 91);
+        createNode("n2", 5, 0.97, "Humidity", 200, 400, 81, 91);
 
-        function createLeaves(leafId, n, yes, no, e, label, x, y, width, height) {
+        function createLeaf(leafId, n, yes, no, e, label, x, y, width, height) {
             var svgEl = document.getElementById('svgDT');
             var leafTemplate = document.getElementById('leaf');
             var leafNumber = leafId.substring(1);
-            
+
             // Clone the template
             var clonedTemplate = leafTemplate.cloneNode(true);
             clonedTemplate.setAttribute('id', 'leaf' + leafNumber);
-            
+
             // Update text contents
             clonedTemplate.querySelector('#leafNr').textContent += leafNumber;
             clonedTemplate.querySelector('#leafN').textContent += n;
@@ -481,7 +504,7 @@
             clonedTemplate.querySelector('#leafNo').textContent += no;
             clonedTemplate.querySelector('#leafE').textContent += e;
             clonedTemplate.querySelector('#leafLabel').textContent += label;
-    
+
             // Create a new 'use' element and set the leaf's position attributes
             var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
             newUse.setAttribute('id', 'useLeaf' + leafNumber);
@@ -490,12 +513,49 @@
             newUse.setAttribute('y', y);
             newUse.setAttribute('width', width);
             newUse.setAttribute('height', height);
-            
+
             // Append cloned template and use element to the svg
             svgEl.appendChild(clonedTemplate);
             svgEl.appendChild(newUse);
         }
 
-        createLeaves("l1", 4, 4, 0, 0, "Yes", 282, 300, 81, 132);
-      </script>
+        createLeaf("l1", 4, 4, 0, 0, "Yes", 282, 300, 81, 132);
+
+        function createBranch(nodeId, x1, y1, x2, y2, value){
+            var svgEl = document.getElementById('svgDT');
+            var branchTemplate = document.getElementById('branch');
+
+            // Clone the template
+            var clonedTemplate = branchTemplate.cloneNode(true);
+            clonedTemplate.setAttribute('id', 'branch' + nodeId);
+
+            // Update position attributes and ids
+            if(x2 < x1){
+                var positionAttribute = 'M' + x2 + ' ' + y2 + ' ' + x1 + ' ' + y1;
+                clonedTemplate.querySelector('#branchPath').setAttribute('marker-end', '');
+                clonedTemplate.querySelector('#branchPath').setAttribute('marker-start', 'url(#arrowMarkerReverse)');
+            } else{
+                var positionAttribute = 'M' + x1 + ' ' + y1 + ' ' + x2 + ' ' + y2;
+                clonedTemplate.querySelector('#branchPath').setAttribute('marker-end', 'url(#arrowMarker)');
+            }
+            clonedTemplate.querySelector('#branchPath').setAttribute('d', positionAttribute);
+            clonedTemplate.querySelector('#branchValue').textContent = value;
+            clonedTemplate.querySelector('#branchPath').setAttribute('id', 'branchPath' + nodeId);
+            clonedTemplate.querySelector('#branchTP').setAttribute('href', '#branchPath' + nodeId);
+            clonedTemplate.querySelector('#branchTP').setAttribute('id', 'branchTP' + nodeId);
+        
+            // Create a new 'use' element
+            var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+            newUse.setAttribute('id', 'useBranch' + nodeId);
+            newUse.setAttribute('href', '#branch' + nodeId);
+
+            // Append cloned template and use element to the svg
+            svgEl.appendChild(clonedTemplate);
+            svgEl.appendChild(newUse);
+        }
+
+        createBranch("n2", 200, 100, 200, 200, "Sunny");
+        createBranch("n1", 100, 100, 50, 200, "Overcast");
+
+    </script>
 </body>
