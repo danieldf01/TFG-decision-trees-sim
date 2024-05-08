@@ -403,7 +403,7 @@
                             <text x="90%" y="55%" font-size="20" fill="black">Yes</text>
                         </g>
 
-                        <symbol id="node" viewBox="0 0 82 100">
+                        <symbol id="node" viewBox="0 0 82 92">
                             <rect x="1" y="1" width="80" height="26" style="fill:limegreen; stroke-width:2; stroke:black;" />
                             <text id="nodeNr" x="12" y="20" font-size="18" fill="black" font-weight="500">Node </text>
                             <rect x="1" y="27" width="80" height="42" style="fill:white; stroke-width:2; stroke:black;" />
@@ -413,7 +413,7 @@
                             <rect x="1" y="69" width="80" height="21" style="fill:orange; stroke-width:2; stroke:black;" />
                             <text id="nodeAttribute" x="5" y="84" font-size="16" fill="black"></text>
                         </symbol>
-                        <symbol id="leaf" viewBox="0 0 82 134">
+                        <symbol id="leaf" viewBox="0 0 82 133">
                             <rect x="1" y="1" width="80" height="26" style="fill:limegreen; stroke-width:2; stroke:black;" />
                             <text id="leafNr" x="17" y="20" font-size="18" fill="black" font-weight="500">Leaf </text>
                             <rect x="1" y="27" width="80" height="84" style="fill:white; stroke-width:2; stroke:black;" />
@@ -433,23 +433,6 @@
         </div>
     </div>
     <script>
-        // Get the 'use' element
-        // var useElement = document.getElementById('n1');
-      
-        // // Get the SVG document fragment
-        // var href = useElement.getAttribute('href').substring(1);
-      
-        // var text = document.getElementById('attribute');
-        // var nodeattr = document.getElementById('nodeattr').cloneNode(true);
-
-        // Get the rect element inside the symbol
-        // var text = clone.('attribute');
-      
-        // Modify the rect element
-        // text.innerHTML = "hallo";
-        // nodeattr.setAttribute('fill', 'blue');
-
-
         function createNodes(nodeId, n, e, attribute, x, y, width, height) {
             var svgEl = document.getElementById('svgDT');
             var nodeTemplate = document.getElementById('node');
@@ -479,8 +462,8 @@
             svgEl.appendChild(newUse);
         }
 
-        createNodes("n1", 14, 0.94, "Outlook", 200, 300, 81, 99);
-        createNodes("n2", 5, 0.97, "Humidity", 200, 400, 81, 99);
+        createNodes("n1", 14, 0.94, "Outlook", 200, 300, 81, 91);
+        createNodes("n2", 5, 0.97, "Humidity", 200, 400, 81, 91);
 
         function createLeaves(leafId, n, yes, no, e, label, x, y, width, height) {
             var svgEl = document.getElementById('svgDT');
@@ -513,16 +496,6 @@
             svgEl.appendChild(newUse);
         }
 
-        createLeaves("l1", 4, 4, 0, 0, "Yes", 282, 300, 81, 133);
-
-        // <use href="#leaf" x="282" y="300" width="81" height="133" />
-
-        // <use id="n1" href="#node" x="200" y="300" width="81" height="99" />
-
-        // Update text content for instance1
-        // updateTextContent('instance1', 'Dynamic Text 1', 'Dynamic Text A');
-
-        // Update text content for instance2
-        // updateTextContent('instance2', 'Dynamic Text 2', 'Dynamic Text B');
+        createLeaves("l1", 4, 4, 0, 0, "Yes", 282, 300, 81, 132);
       </script>
 </body>
