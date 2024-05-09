@@ -363,27 +363,83 @@ function calcSvgSize(decisionTree) {
 
     console.log('Width:', width);
     console.log('Height:', height);
+
+    return [width, height];
+}
+
+function resizeViewBox(svgWidth, svgHeight) {
+    var svgEl = document.getElementById('svgDT');
+    svgEl.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
+}
+
+// Calculate the tree's depth (including the root node)
+function calcTreeDepth(rootNode) {
+    if (!rootNode) return 0;
+    if (rootNode.children.length === 0) return 1;
+
+    var maxDepth = 0;
+
+    rootNode.children.forEach(child => {
+        maxDepth = Math.max(maxDepth, calcTreeDepth(child));
+    });
+
+    return maxDepth + 1;
+}
+
+// Calculate the tree's width by getting the maximum amount of nodes a level has
+function calcMaxTreeWidth(rootNode){
+    if (!rootNode) return 0;
+    if (rootNode.children.length === 0) return 0;
+
+    var maxWidth = 0;
+    var maxWidth2 = 0;
+
+    rootNode.children.forEach(child => {
+        maxWidth++;
+        child.children.forEach(child2 => {
+            maxWidth2++;
+        });
+    });
+    maxWidth = Math.max(maxWidth, maxWidth2);
+
+    rootNode.children.forEach(child => {
+        maxWidth = Math.max(maxWidth, calcMaxTreeWidth(child));
+    });
+
+    return maxWidth;
 }
 
 function buildTree() {
     var decisionTree = id3(data, attributes, null, "n1", "l1")[0];
     console.log(decisionTree);
-    createNode("n1", 14, 0.94, "Outlook", 200, 300, 81, 91);
+
+    var svgSize = calcSvgSize(decisionTree);
+    var svgWidth = svgSize[0];
+    var svgHeight = svgSize[1];
+    resizeViewBox(svgWidth, svgHeight);
+
+    createNode("n1", 14, 0.94, "Outlook", 100, 300, 81, 91);
     createNode("n2", 5, 0.97, "Humidity", 200, 400, 81, 91);
 
-    createLeaf("l1", 4, 4, 0, 0, "Yes", 282, 300, 81, 132);
+    createLeaf("l1", 4, 4, 0, 0, "Yes", 1, 0, 111.5, 138.6);
+    createLeaf("l1", 4, 4, 0, 0, "Yes", 1, 138.6, 111.5, 138.6);
+    createLeaf("l1", 4, 4, 0, 0, "Yes", 1, 277.2, 111.5, 138.6);
+    createLeaf("l1", 4, 4, 0, 0, "Yes", 1, 415.8, 111.5, 138.6);
+    createLeaf("l1", 4, 4, 0, 0, "Yes", 1, 554.4, 111.5, 138.6);
 
     createBranch("n2", 200, 100, 200, 200, "Sunny");
     createBranch("n1", 100, 100, 50, 200, "Overcast");
 
-    calcSvgSize(decisionTree);
+    var treeDepth = calcTreeDepth(decisionTree);
+    console.log(treeDepth);
 
+    var treeWidth = calcMaxTreeWidth(decisionTree);
+    console.log(treeWidth);
+
+    
 }
 
 function handleResize() {
-    if (window.innerWidth < 576) {
-        calcSvgSize();
-    }
     if (571 <= window.innerWidth <= 581) {
         calcSvgSize();
     }
