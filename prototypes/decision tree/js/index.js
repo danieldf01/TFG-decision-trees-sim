@@ -1,3 +1,13 @@
+// const BOOTSTRAP_XS = 0;
+// const BOOTSTRAP_SM = 576;
+// const BOOTSTRAP_MD = 768;
+// const BOOTSTRAP_LG = 992;
+// const BOOTSTRAP_XL = 1200;
+// const BOOTSTRAP_XXL = 1400;
+
+var svgWidth = 0;
+var svgHeight = 0;
+
 // Example data
 const data = [
     { attributes: { outlook: 'sunny', temperature: 'hot', humidity: 'high', windy: false }, label: 'no' },
@@ -414,8 +424,8 @@ function buildTree() {
     console.log(decisionTree);
 
     var svgSize = calcSvgSize(decisionTree);
-    var svgWidth = svgSize[0];
-    var svgHeight = svgSize[1];
+    svgWidth = svgSize[0];
+    svgHeight = svgSize[1];
     resizeViewBox(svgWidth, svgHeight);
 
     createNode("n1", 14, 0.94, "Outlook", 100, 300, 81, 91);
@@ -440,20 +450,8 @@ function buildTree() {
 }
 
 function handleResize() {
-    if (571 <= window.innerWidth <= 581) {
-        calcSvgSize();
-    }
-    if (763 <= window.innerWidth <= 773) {
-        calcSvgSize();
-    }
-    if (987 <= window.innerWidth <= 997) {
-        calcSvgSize();
-    }
-    if (1195 <= window.innerWidth <= 1205) {
-        calcSvgSize();
-    }
-    if (1395 <= window.innerWidth <= 1405) {
-        calcSvgSize();
+    if (calcSvgSize() != svgWidth || calcSvgSize() != svgHeight){
+        buildTree();
     }
 }
 
