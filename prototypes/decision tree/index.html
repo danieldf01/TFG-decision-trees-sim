@@ -18,7 +18,7 @@
     <title>Decision Tree</title>
 </head>
 
-<body>
+<body onload="buildTree()">
     <div class="container">
         <div class="row p-2">
             <!-- Info card -->
@@ -176,7 +176,7 @@
         </div>
         <div class="row p-2">
             <!-- Data table -->
-            <div class="col-auto">
+            <div class="col-lg-6">
                 <table class="table caption-top ">
                     <caption>Example data</caption>
                     <thead class="sticky-top">
@@ -306,7 +306,7 @@
                 </table>
             </div>
             <!-- Decision Tree -->
-            <div class="col-auto">
+            <div class="col-lg-6 col-sm-8">
                 <div class="svg-container">
                     <svg id="svgDT" viewBox="0 0 700 700">
                         <defs>
@@ -317,100 +317,6 @@
                                 <path d="M 10 0 L 0 5 L 10 10 z" fill="black" />
                             </marker>
                         </defs>
-                        <!-- <g id="g0">
-                            <a type="button" class="btn-primary" onclick="hideChildren(this)" href="#"
-                                style="text-decoration: none">
-                                <ellipse id="n0" rx="12%" ry="5%" cx="50%" cy="-6%"
-                                    style="fill:white;stroke:blue;stroke-width: 2;" />
-                                <text x="41%" y="-4%" font-size="25" fill="black">Outlook</text>
-                            </a>
-                        </g>
-                        <g id="g1">
-                            <path id="e1" d="M88 108 200 -15" stroke-width="1" stroke="black" data-connected-to="n0" />
-                            <text>
-                                <textPath href="#e1" startOffset="25%">
-                                    <tspan font-size="16" dy="-1%">Overcast</tspan>
-                                </textPath>
-                            </text>
-
-                            <ellipse id="n1" rx="5%" ry="4%" cx="15%" cy="25%" style="fill:white;stroke:black" />
-                            <text x="12%" y="26%" font-size="20" fill="black">Yes</text>
-                        </g>
-                        <g id="g2">
-                            <path id="e2" d="M250 -4 250 100" stroke-width="1" stroke="black" data-connected-to="n0" />
-                            <text>
-                                <textPath href="#e2" startOffset="25%">
-                                    <tspan font-size="16" dy="-1%">Sunny</tspan>
-                                </textPath>
-                            </text>
-
-                            <a type="button" class="btn-primary" onclick="hideChildren(this)" href="#"
-                                style="text-decoration: none">
-                                <ellipse id="n2" rx="12%" ry="5%" cx="50%" cy="25%"
-                                    style="fill:white;stroke:blue;stroke-width: 2;" />
-                                <text x="41%" y="26.5%" font-size="23" fill="black">Humidity</text>
-                            </a>
-                        </g>
-                        <g id="g3">
-                            <path id="e3" d="M210 250 230 149" stroke-width="1" stroke="black" data-connected-to="n2" />
-                            <text>
-                                <textPath href="#e3" startOffset="37%">
-                                    <tspan font-size="16" dy="-1%">High</tspan>
-                                </textPath>
-                            </text>
-
-                            <ellipse id="n3" rx="5%" ry="4%" cx="41%" cy="54%" style="fill:white;stroke:black" />
-                            <text x="38.5%" y="55%" font-size="20" fill="black">No</text>
-                        </g>
-                        <g id="g4">
-                            <path id="e4" d="M270 149 290 250" stroke-width="1" stroke="black" data-connected-to="n2" />
-                            <text>
-                                <textPath href="#e4" startOffset="30%">
-                                    <tspan font-size="16" dy="-1%">Normal</tspan>
-                                </textPath>
-                            </text>
-
-                            <ellipse id="n4" rx="5%" ry="4%" cx="59%" cy="54%" style="fill:white;stroke:black" />
-                            <text x="56%" y="55%" font-size="20" fill="black">Yes</text>
-                        </g>
-                        <g id="g5">
-                            <path id="e5" d="M297 -15 380 108" stroke-width="1" stroke="black" data-connected-to="n0" />
-                            <text>
-                                <textPath href="#e5" startOffset="40%">
-                                    <tspan font-size="16" dy="-1%">Rainy</tspan>
-                                </textPath>
-                            </text>
-
-                            <a type="button" class="btn-primary" onclick="hideChildren(this)" href="#"
-                                style="text-decoration: none">
-                                <ellipse id="n5" rx="12%" ry="5%" cx="85%" cy="25%"
-                                    style="fill:white;stroke:blue;stroke-width: 2;" />
-                                <text x="78%" y="26.5%" font-size="23" fill="black">Windy</text>
-                            </a>
-                        </g>
-                        <g id="g6">
-                            <path id="e6" d="M390 250 400 147" stroke-width="1" stroke="black" data-connected-to="n5" />
-                            <text>
-                                <textPath href="#e6" startOffset="37%">
-                                    <tspan font-size="16" dy="-1%">True</tspan>
-                                </textPath>
-                            </text>
-
-                            <ellipse id="n6" rx="5%" ry="4%" cx="77%" cy="54%" style="fill:white;stroke:black" />
-                            <text x="74.5%" y="55%" font-size="20" fill="black">No</text>
-                        </g>
-                        <g id="g7">
-                            <path id="e7" d="M450 147 460 250" stroke-width="1" stroke="black" data-connected-to="n5" />
-                            <text>
-                                <textPath href="#e7" startOffset="32%">
-                                    <tspan font-size="16" dy="-1%">False</tspan>
-                                </textPath>
-                            </text>
-
-                            <ellipse id="n7" rx="5%" ry="4%" cx="93%" cy="54%" style="fill:white;stroke:black" />
-                            <text x="90%" y="55%" font-size="20" fill="black">Yes</text>
-                        </g> -->
-
                         <symbol id="node" viewBox="0 0 82 92">
                             <rect x="1" y="1" width="80" height="26"
                                 style="fill:limegreen; stroke-width:2; stroke:black;" />
@@ -452,110 +358,9 @@
                         </symbol>
                     </svg>
                 </div>
+                <!-- <div class="btn btn-primary " onclick="createTree()">Calculate Conditional Entropy
+                </div> -->
             </div>
         </div>
     </div>
-    <script>
-        function createNode(nodeId, n, e, attribute, x, y, width, height) {
-            var svgEl = document.getElementById('svgDT');
-            var nodeTemplate = document.getElementById('node');
-            var nodeNumber = nodeId.substring(1);
-
-            // Clone the template
-            var clonedTemplate = nodeTemplate.cloneNode(true);
-            clonedTemplate.setAttribute('id', 'node' + nodeNumber);
-
-            // Update text contents
-            clonedTemplate.querySelector('#nodeNr').textContent += nodeNumber;
-            clonedTemplate.querySelector('#nodeN').textContent += n;
-            clonedTemplate.querySelector('#nodeE').textContent += e;
-            clonedTemplate.querySelector('#nodeAttribute').textContent = attribute;
-
-            // Create a new 'use' element and set the node's position attributes
-            var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-            newUse.setAttribute('id', 'useNode' + nodeNumber);
-            newUse.setAttribute('href', '#node' + nodeNumber);
-            newUse.setAttribute('x', x);
-            newUse.setAttribute('y', y);
-            newUse.setAttribute('width', width);
-            newUse.setAttribute('height', height);
-
-            // Append cloned template and use element to the svg
-            svgEl.appendChild(clonedTemplate);
-            svgEl.appendChild(newUse);
-        }
-
-        createNode("n1", 14, 0.94, "Outlook", 200, 300, 81, 91);
-        createNode("n2", 5, 0.97, "Humidity", 200, 400, 81, 91);
-
-        function createLeaf(leafId, n, yes, no, e, label, x, y, width, height) {
-            var svgEl = document.getElementById('svgDT');
-            var leafTemplate = document.getElementById('leaf');
-            var leafNumber = leafId.substring(1);
-
-            // Clone the template
-            var clonedTemplate = leafTemplate.cloneNode(true);
-            clonedTemplate.setAttribute('id', 'leaf' + leafNumber);
-
-            // Update text contents
-            clonedTemplate.querySelector('#leafNr').textContent += leafNumber;
-            clonedTemplate.querySelector('#leafN').textContent += n;
-            clonedTemplate.querySelector('#leafYes').textContent += yes;
-            clonedTemplate.querySelector('#leafNo').textContent += no;
-            clonedTemplate.querySelector('#leafE').textContent += e;
-            clonedTemplate.querySelector('#leafLabel').textContent += label;
-
-            // Create a new 'use' element and set the leaf's position attributes
-            var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-            newUse.setAttribute('id', 'useLeaf' + leafNumber);
-            newUse.setAttribute('href', '#leaf' + leafNumber);
-            newUse.setAttribute('x', x);
-            newUse.setAttribute('y', y);
-            newUse.setAttribute('width', width);
-            newUse.setAttribute('height', height);
-
-            // Append cloned template and use element to the svg
-            svgEl.appendChild(clonedTemplate);
-            svgEl.appendChild(newUse);
-        }
-
-        createLeaf("l1", 4, 4, 0, 0, "Yes", 282, 300, 81, 132);
-
-        function createBranch(nodeId, x1, y1, x2, y2, value){
-            var svgEl = document.getElementById('svgDT');
-            var branchTemplate = document.getElementById('branch');
-
-            // Clone the template
-            var clonedTemplate = branchTemplate.cloneNode(true);
-            clonedTemplate.setAttribute('id', 'branch' + nodeId);
-
-            // Update position attributes and ids
-            if(x2 < x1){
-                var positionAttribute = 'M' + x2 + ' ' + y2 + ' ' + x1 + ' ' + y1;
-                clonedTemplate.querySelector('#branchPath').setAttribute('marker-end', '');
-                clonedTemplate.querySelector('#branchPath').setAttribute('marker-start', 'url(#arrowMarkerReverse)');
-            } else{
-                var positionAttribute = 'M' + x1 + ' ' + y1 + ' ' + x2 + ' ' + y2;
-                clonedTemplate.querySelector('#branchPath').setAttribute('marker-end', 'url(#arrowMarker)');
-            }
-            clonedTemplate.querySelector('#branchPath').setAttribute('d', positionAttribute);
-            clonedTemplate.querySelector('#branchValue').textContent = value;
-            clonedTemplate.querySelector('#branchPath').setAttribute('id', 'branchPath' + nodeId);
-            clonedTemplate.querySelector('#branchTP').setAttribute('href', '#branchPath' + nodeId);
-            clonedTemplate.querySelector('#branchTP').setAttribute('id', 'branchTP' + nodeId);
-        
-            // Create a new 'use' element
-            var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-            newUse.setAttribute('id', 'useBranch' + nodeId);
-            newUse.setAttribute('href', '#branch' + nodeId);
-
-            // Append cloned template and use element to the svg
-            svgEl.appendChild(clonedTemplate);
-            svgEl.appendChild(newUse);
-        }
-
-        createBranch("n2", 200, 100, 200, 200, "Sunny");
-        createBranch("n1", 100, 100, 50, 200, "Overcast");
-
-    </script>
 </body>
