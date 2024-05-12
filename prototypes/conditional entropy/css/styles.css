@@ -43,3 +43,7 @@ body::before {
         content: "XXL";
     }
 }
+
+.fill-viewport-height {
+    min-height: 23vh;
+}
