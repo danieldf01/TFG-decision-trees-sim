@@ -15,6 +15,9 @@ const STD_BRANCH_FONTSIZE = 16;
 var svgWidth = 0;
 var svgHeight = 0;
 
+var nodeCount = 0;
+var leafCount = 0;
+
 // Example data
 const data = [
     { attributes: { outlook: 'sunny', temperature: 'hot', humidity: 'high', windy: false }, label: 'no' },
@@ -388,10 +391,7 @@ function calcSvgSize() {
     console.log('SVG Width:', width);
     console.log('SVG Height:', height);
 
-    svgWidth = width;
-    svgHeight = height;
-
-    return [svgWidth, svgHeight];
+    return [width, height];
 }
 
 function resizeViewBox() {
@@ -520,7 +520,6 @@ function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, 
     for (var i = 0; i < childrenNr; i++) {
         var nextGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         nextGroup.setAttribute('id', 'g' + (+groupId.substring(1) + 1));
-        console.log(nextGroup);
 
         nextGroup.appendChild(createBranch(node.children[i].id, branchX1values[i], branchY1value, branchX2values[i], branchY2value, node.children[i].prevBranchVal));
 
@@ -531,7 +530,10 @@ function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, 
 }
 
 function buildTree() {
-    var decisionTree = id3(data, attributes, null, "n1", "l1")[0];
+    var treeValues = id3(data, attributes, null, "n1", "l1");
+    var decisionTree = treeValues[0];
+    nodeCount = +((treeValues[1])[1]) - 1;
+    leafCount = +((treeValues[2])[1]) - 1;
     console.log(decisionTree);
 
     // var newNode = new TreeNode("n4", "testAttr", new NodeValues(3, 3, 6, 0.5), isLeaf = false, null, 'test1');
@@ -559,7 +561,9 @@ function buildTree() {
     // decisionTree.children[1].children[0].children[0].children.push(newLeaf);
     // decisionTree.children[1].children[0].children[0].children.push(newLeaf2);
 
-    calcSvgSize(decisionTree);
+    var svgSizes = calcSvgSize(decisionTree);
+    svgWidth = svgSizes[0];
+    svgHeight = svgSizes[1];
     resizeViewBox();
 
     var treeDepth = calcTreeDepth(decisionTree);
@@ -594,8 +598,48 @@ function buildTree() {
 
 }
 
+function destroyTree(svgEl){
+    // Remove all the groups in which the use elements are located
+    for (var i = 0; i < nodeCount + leafCount; i++) {
+        var groupId = 'g' + (i+1);
+        var groupToRemove = document.getElementById(groupId);
+        svgEl.removeChild(groupToRemove);
+    }
+
+    // Remove all the specifically created symbols/templates related to nodes
+    for (var i = 0; i < nodeCount; i++){
+        var nodeId = 'node' + (i+1);
+        var nodeToRemove = document.getElementById(nodeId);
+        svgEl.removeChild(nodeToRemove);
+
+        // There is no branch belonging to the root node
+        if (i === 0) continue;
+        var branchId = 'branchn' + (i+1);
+        var branchToRemove = document.getElementById(branchId);
+        svgEl.removeChild(branchToRemove);
+    }
+
+    //Remove all the specifically created symbols/templates related to leaves
+    for (var i = 0; i < leafCount; i++){
+        var leafId = 'leaf' + (i+1);
+        var leafToRemove = document.getElementById(leafId);
+        svgEl.removeChild(leafToRemove);
+
+        var branchId = 'branchl' + (i+1);
+        var branchToRemove = document.getElementById(branchId);
+        svgEl.removeChild(branchToRemove);
+    }
+}
+
 function handleResize() {
-    if (calcSvgSize()[0] != svgWidth || calcSvgSize()[1] != svgHeight) {
+    var newSizes = calcSvgSize();
+    if (newSizes[0] != svgWidth || newSizes[1] != svgHeight) {
+        svgWidth = newSizes[0];
+        svgHeight = newSizes[1];
+
+        // Rebuild the tree with the new sizes
+        var svgEl = document.getElementById('svgDT');
+        destroyTree(svgEl);
         buildTree();
     }
 }
