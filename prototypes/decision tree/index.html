@@ -12,6 +12,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -300,6 +301,24 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="row pb-2 justify-content-center">
+            <div class="col-auto">
+                <span id="stepCount">Step: 1</span>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group me-2" role="group" aria-label="First group">
+                      <button type="button" class="btn btn-outline-secondary " onclick="initialStep()"><div class="bi-chevron-bar-left"></button>
+                      <button type="button" class="btn btn-outline-secondary" onclick="stepBack()"><div class="bi-chevron-compact-left"></div></button>
+                      <button type="button" class="btn btn-outline-secondary" onclick="stepForward()"><div class="bi-chevron-compact-right"></div></button>
+                      <button type="button" class="btn btn-outline-secondary" onclick="lastStep()"><div class="bi-chevron-bar-right"></button>
+                      
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row p-2 justify-content-center">

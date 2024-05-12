@@ -10,13 +10,15 @@ const STD_NODEHEIGHT = 92;
 const STD_LEAFWIDTH = 82;
 const STD_NODEWIDTH = 82;
 
-const STD_BRANCH_FONTSIZE = 16;
+const STD_BRANCH_FONTSIZE = 12;
 
 var svgWidth = 0;
 var svgHeight = 0;
 
 var nodeCount = 0;
 var leafCount = 0;
+
+var currentStep = 1;
 
 // Example data
 const data = [
@@ -520,6 +522,7 @@ function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, 
     for (var i = 0; i < childrenNr; i++) {
         var nextGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         nextGroup.setAttribute('id', 'g' + (+groupId.substring(1) + 1));
+        nextGroup.style.display = 'none';
 
         nextGroup.appendChild(createBranch(node.children[i].id, branchX1values[i], branchY1value, branchX2values[i], branchY2value, node.children[i].prevBranchVal));
 
@@ -641,6 +644,44 @@ function handleResize() {
         var svgEl = document.getElementById('svgDT');
         destroyTree(svgEl);
         buildTree();
+    }
+}
+
+function initialStep(){
+    currentStep = 1;
+    document.getElementById('stepCount').textContent = "Step: 1";
+    for (var i = 2; i <= nodeCount + leafCount; i++){
+        var groupId = 'g' + i;
+        var groupToHide = document.getElementById(groupId);
+        groupToHide.style.display = "none";
+    }
+}
+
+function stepForward(){
+    if (currentStep === nodeCount + leafCount) return;
+    currentStep++;
+    document.getElementById('stepCount').textContent = "Step: " + currentStep;
+    var groupId = 'g' + currentStep;
+    var groupToShow = document.getElementById(groupId);
+    groupToShow.style.display = "block";
+}
+
+function stepBack(){
+    if (currentStep === 1) return;
+    currentStep--;
+    document.getElementById('stepCount').textContent = "Step: " + currentStep;
+    var groupId = 'g' + (currentStep + 1);
+    var groupToHide = document.getElementById(groupId);
+    groupToHide.style.display = "none";
+}
+
+function lastStep(){
+    currentStep = nodeCount + leafCount;
+    document.getElementById('stepCount').textContent = "Step: " + (nodeCount + leafCount);
+    for (var i = 2; i <= nodeCount + leafCount; i++){
+        var groupId = 'g' + i;
+        var groupToShow = document.getElementById(groupId);
+        groupToShow.style.display = "block";
     }
 }
 
