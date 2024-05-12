@@ -10,6 +10,8 @@ const STD_NODEHEIGHT = 92;
 const STD_LEAFWIDTH = 82;
 const STD_NODEWIDTH = 82;
 
+const STD_BRANCH_FONTSIZE = 16;
+
 var svgWidth = 0;
 var svgHeight = 0;
 
@@ -299,7 +301,7 @@ function createNode(nodeId, n, e, attribute, x, y, width, height) {
 
     // Append cloned template and use element to the svg
     svgEl.appendChild(clonedTemplate);
-    svgEl.appendChild(newUse);
+    return newUse;
 }
 
 
@@ -331,7 +333,7 @@ function createLeaf(leafId, n, yes, no, e, label, x, y, width, height) {
 
     // Append cloned template and use element to the svg
     svgEl.appendChild(clonedTemplate);
-    svgEl.appendChild(newUse);
+    return newUse;
 }
 
 
@@ -354,6 +356,9 @@ function createBranch(nodeId, x1, y1, x2, y2, value) {
     }
     clonedTemplate.querySelector('#branchPath').setAttribute('d', positionAttribute);
     clonedTemplate.querySelector('#branchValue').textContent = value;
+
+    var textSizeRatio = (y2 - y1) / 100;
+    clonedTemplate.querySelector('#branchValue').setAttribute('font-size', textSizeRatio * STD_BRANCH_FONTSIZE);
     if (x1 === x2) {
         clonedTemplate.querySelector('#branchTP').setAttribute('startOffset', (y2 - y1) * 0.1);
     } else {
@@ -370,7 +375,7 @@ function createBranch(nodeId, x1, y1, x2, y2, value) {
 
     // Append cloned template and use element to the svg
     svgEl.appendChild(clonedTemplate);
-    svgEl.appendChild(newUse);
+    return newUse;
 }
 
 function calcSvgSize() {
@@ -439,20 +444,23 @@ function calcSubtreesRightBorder(treeLeftBorder, childrenNr, treeSplitByChildren
     return subtreesRightBorders;
 }
 
-function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, leafHeight) {
+function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, leafHeight, group, groupId, svgEl) {
     // console.log(treeBorders);
     var nodeXvalue = ((treeBorders[0] + treeBorders[1]) / 2) - (nodeWidth / 2);
 
+    var useNode = null;
     if (node.isLeaf) {
-        createLeaf(node.id, node.nodeValues.n, node.nodeValues.class1, node.nodeValues.class2, node.nodeValues.entropy, node.label,
+        useNode = createLeaf(node.id, node.nodeValues.n, node.nodeValues.class1, node.nodeValues.class2, node.nodeValues.entropy, node.label,
             nodeXvalue, treeBorders[2], leafWidth, leafHeight);
     } else {
-        createNode(node.id, node.nodeValues.n, node.nodeValues.entropy, node.attribute, nodeXvalue, treeBorders[2], nodeWidth, nodeHeight);
+        useNode = createNode(node.id, node.nodeValues.n, node.nodeValues.entropy, node.attribute, nodeXvalue, treeBorders[2], nodeWidth, nodeHeight);
     }
+    svgEl.appendChild(group);
+    group.appendChild(useNode);
 
     // Return if it's a leaf node
     var childrenNr = node.children.length;
-    if (childrenNr === 0) return;
+    if (childrenNr === 0) return groupId;
 
     var treeSplitByChildren = (treeBorders[1] - treeBorders[0]) / childrenNr;
 
@@ -464,20 +472,20 @@ function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, 
         var subtreeLeftBorder = treeBorders[0] - (treeSplitByChildren / childrenNr);
 
         // Shift the following subtrees to the right if it would go too far left
-        if (subtreeLeftBorder < 0){
+        if (subtreeLeftBorder < 0) {
             subtreeLeftBorder = 0;
             subtreesRightBorders = calcSubtreesRightBorder(subtreeLeftBorder, childrenNr, treeSplitByChildren);
         }
         subtreesRightBorders = calcSubtreesRightBorder(subtreeLeftBorder, childrenNr, treeSplitByChildren);
 
         // Shift the following subtrees to the left if it would go too far right
-        if (subtreesRightBorders[childrenNr - 1] > svgWidth){
+        if (subtreesRightBorders[childrenNr - 1] > svgWidth) {
             var spaceNeeded = subtreesRightBorders[childrenNr - 1] - svgWidth;
             // console.log(spaceNeeded);
             subtreeLeftBorder -= spaceNeeded;
             subtreesRightBorders = calcSubtreesRightBorder(subtreeLeftBorder, childrenNr, treeSplitByChildren);
         }
-    } else{
+    } else {
         // Calculate right borders for each subtree
         var subtreesRightBorders = calcSubtreesRightBorder(treeBorders[0], childrenNr, treeSplitByChildren);
     }
@@ -510,11 +518,16 @@ function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, 
     var branchY1value = treeBorders[2] + nodeHeight - 1;
     var branchY2value = subtreesBorders[0][2] - 3;
     for (var i = 0; i < childrenNr; i++) {
-        createBranch(node.children[i].id, branchX1values[i], branchY1value, branchX2values[i], branchY2value, node.children[i].prevBranchVal);
+        var nextGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        nextGroup.setAttribute('id', 'g' + (+groupId.substring(1) + 1));
+        console.log(nextGroup);
+
+        nextGroup.appendChild(createBranch(node.children[i].id, branchX1values[i], branchY1value, branchX2values[i], branchY2value, node.children[i].prevBranchVal));
+
+        //Recursive call
+        groupId = calcNodePositions(node.children[i], subtreesBorders[i], nodeWidth, nodeHeight, leafWidth, leafHeight, nextGroup, nextGroup.id, svgEl);
     }
-    for (var i = 0; i < childrenNr; i++) {
-        calcNodePositions(node.children[i], subtreesBorders[i], nodeWidth, nodeHeight, leafWidth, leafHeight);
-    }
+    return groupId;
 }
 
 function buildTree() {
@@ -522,16 +535,29 @@ function buildTree() {
     console.log(decisionTree);
 
     // var newNode = new TreeNode("n4", "testAttr", new NodeValues(3, 3, 6, 0.5), isLeaf = false, null, 'test1');
+    // var newNode2 = new TreeNode("n5", "testAttr", new NodeValues(3, 3, 6, 0.5), isLeaf = false, null, 'test2');
+    // var newNode3 = new TreeNode("n6", "testAttr", new NodeValues(3, 3, 6, 0.5), isLeaf = false, null, 'test3');
     // var newLeaf = new TreeNode("l6", null, new NodeValues(3, 0, 3, 0), isLeaf = true, 'yes', 'testl1');
     // var newLeaf2 = new TreeNode("l7", null, new NodeValues(0, 3, 3, 0), isLeaf = true, 'no', 'testl2');
     // var newLeaf3 = new TreeNode("l8", null, new NodeValues(0, 3, 3, 0), isLeaf = true, 'no', 'testl3');
     // var newLeaf4 = new TreeNode("l9", null, new NodeValues(0, 3, 3, 0), isLeaf = true, 'no', 'testl4');
-    // decisionTree.children[2].children.push(newNode);
+    // decisionTree.children.push(newNode);
+    // decisionTree.children.push(newNode2);
+    // decisionTree.children[3].children.push(newLeaf);
+    // decisionTree.children[3].children.push(newLeaf2);
     // decisionTree.children[2].children[2].children.push(newLeaf);
     // decisionTree.children[2].children[2].children.push(newLeaf2);
     // decisionTree.children.push(newLeaf3);
     // decisionTree.children.push(newLeaf4);
     // decisionTree.children.splice(2, 1);
+    // decisionTree.children.splice(1, 1);
+    // decisionTree.children.push(newNode);
+    // console.log(decisionTree);
+    // decisionTree.children[1].children.push(newNode2);
+    // console.log(decisionTree);
+    // decisionTree.children[1].children[0].children.push(newNode3);
+    // decisionTree.children[1].children[0].children[0].children.push(newLeaf);
+    // decisionTree.children[1].children[0].children[0].children.push(newLeaf2);
 
     calcSvgSize(decisionTree);
     resizeViewBox();
@@ -556,7 +582,15 @@ function buildTree() {
 
     var treeBorders = [0, svgWidth, 0, svgHeight];
 
-    calcNodePositions(decisionTree, treeBorders, nodeWidth, nodeHeight, leafWidth, leafHeight);
+    var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    group.setAttribute("id", "g1");
+    var svgEl = document.getElementById('svgDT');
+
+    calcNodePositions(decisionTree, treeBorders, nodeWidth, nodeHeight, leafWidth, leafHeight, group, "g1", svgEl);
+
+    var branchToHide = document.getElementById("useBranchn2");
+    branchToHide.style.display = "none";
+    branchToHide.style.display = "block";
 
 }
 
