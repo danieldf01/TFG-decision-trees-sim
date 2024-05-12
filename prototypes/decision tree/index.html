@@ -20,13 +20,33 @@
 </head>
 
 <body onload="buildTree()">
+    <!-- Header -->
+    <header class="py-3 mb-4 border-bottom bg-body-secondary bg-opacity-75 ">
+        <div class="container d-flex flex-wrap align-items-center justify-content-center ">
+            <a href="https://www.ubu.es" class="d-flex align-items-center me-2 ">
+                <img src="img/ubulogocolorfull.png" width="100" height="50">
+            </a>
+            <span class="fw-bold fs-5 ms-2 me-2 ">Decision Tree Simulator</span>
+            <ul class="nav me-auto mx-auto">
+                <li class="nav-item">
+                    <a href="../entropy/" class="nav-link link-dark px-2 link-opacity-50-hover ">Entropy</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../conditional entropy/" class="nav-link link-dark px-2 link-opacity-50-hover ">Conditional Entropy</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../decision tree/" class="nav-link link-dark px-2 opacity-50 ">Decision Tree ID3</a>
+                </li>
+            </ul>
+        </div>
+    </header>
     <div class="container">
         <!-- Info card -->
         <div class="row-auto p-2">
             <div class="accordion" id="accordionInfo">
                 <div class="card bg-light mx-auto ">
                     <!-- General Info -->
-                    <div class="card-header fs-5" id="generalInfo">
+                    <div class="card-header fs-6" id="generalInfo">
                         <a class="collapsed d-block link-body-emphasis link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-50-hover"
                             data-bs-toggle="collapse" href="#generalInfoDT" aria-expanded="false"
                             aria-controls="generalInfoDT">
@@ -64,7 +84,7 @@
                     </div>
 
                     <!-- Algorithm -->
-                    <div class="card-header fs-5" id="algorithm">
+                    <div class="card-header fs-6" id="algorithm">
                         <a class="collapsed d-block link-body-emphasis link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-50-hover"
                             data-bs-toggle="collapse" href="#algorithmDT" aria-expanded="false"
                             aria-controls="algorithmDT">
@@ -137,7 +157,7 @@
                     </div>
 
                     <!-- Calculation -->
-                    <div class="card-header fs-5" id="calculation">
+                    <div class="card-header fs-6" id="calculation">
                         <a class="collapsed d-block link-body-emphasis link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-50-hover"
                             data-bs-toggle="collapse" href="#calcInfoDT" aria-expanded="false"
                             aria-controls="calcInfoDT">
@@ -173,7 +193,7 @@
         </div>
         <div class="row p-2 justify-content-center">
             <!-- Data table -->
-            <div class="col-lg-8 col-sm-12 col-auto" >
+            <div class="col-lg-8 col-sm-12 col-auto">
                 <table class="table caption-top ">
                     <caption>Example data</caption>
                     <thead class="sticky-top">
@@ -312,11 +332,19 @@
             <div class="col-auto">
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group me-2" role="group" aria-label="First group">
-                      <button type="button" class="btn btn-outline-secondary " onclick="initialStep()"><div class="bi-chevron-bar-left"></button>
-                      <button type="button" class="btn btn-outline-secondary" onclick="stepBack()"><div class="bi-chevron-compact-left"></div></button>
-                      <button type="button" class="btn btn-outline-secondary" onclick="stepForward()"><div class="bi-chevron-compact-right"></div></button>
-                      <button type="button" class="btn btn-outline-secondary" onclick="lastStep()"><div class="bi-chevron-bar-right"></button>
-                      
+                        <button type="button" class="btn btn-outline-secondary " onclick="initialStep()">
+                            <div class="bi-chevron-bar-left">
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="stepBack()">
+                            <div class="bi-chevron-compact-left"></div>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="stepForward()">
+                            <div class="bi-chevron-compact-right"></div>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="lastStep()">
+                            <div class="bi-chevron-bar-right">
+                        </button>
+
                     </div>
                 </div>
             </div>

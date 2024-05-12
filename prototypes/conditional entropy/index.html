@@ -20,14 +20,33 @@
 </head>
 
 <body>
-
-    <div class="container p-3">
+    <!-- Header -->
+    <header class="py-3 mb-4 border-bottom bg-body-secondary bg-opacity-75 ">
+        <div class="container d-flex flex-wrap align-items-center justify-content-center ">
+            <a href="https://www.ubu.es" class="d-flex align-items-center me-2 ">
+                <img src="img/ubulogocolorfull.png" width="100" height="50">
+            </a>
+            <span class="fw-bold fs-5 ms-2 me-2 ">Decision Tree Simulator</span>
+            <ul class="nav me-auto mx-auto">
+                <li class="nav-item">
+                    <a href="../entropy/" class="nav-link link-dark px-2 link-opacity-50-hover ">Entropy</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../conditional entropy/" class="nav-link link-dark px-2 opacity-50 ">Conditional Entropy</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../decision tree/" class="nav-link link-dark px-2 link-opacity-50-hover ">Decision Tree ID3</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <div class="container">
         <!-- Info card -->
         <div class="row-auto p-2">
             <div class="accordion" id="accordionInfo">
                 <div class="card bg-light mx-auto ">
                     <!-- General Info -->
-                    <div class="card-header fs-5" id="generalInfo">
+                    <div class="card-header fs-6" id="generalInfo">
                         <a class="collapsed d-block link-body-emphasis link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-50-hover"
                             data-bs-toggle="collapse" href="#generalInfoCondEntropy" aria-expanded="false"
                             aria-controls="generalInfoCondEntropy">
@@ -51,7 +70,7 @@
                         </div>
                     </div>
                     <!-- Calculation -->
-                    <div class="card-header fs-5" id="calculation">
+                    <div class="card-header fs-6" id="calculation">
                         <a class="collapsed d-block link-body-emphasis link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-50-hover"
                             data-bs-toggle="collapse" href="#calcInfoCondEntropy" aria-expanded="false"
                             aria-controls="calcInfoCondEntropy">
@@ -178,7 +197,8 @@
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <div class="btn btn-primary " onclick="calcCondEntropy()">Calculate Conditional Entropy
+                                        <div class="btn btn-primary " onclick="calcCondEntropy()">Calculate Conditional
+                                            Entropy
                                         </div>
                                     </td>
 
