@@ -1,10 +1,3 @@
-// const BOOTSTRAP_XS = 0;
-// const BOOTSTRAP_SM = 576;
-// const BOOTSTRAP_MD = 768;
-// const BOOTSTRAP_LG = 992;
-// const BOOTSTRAP_XL = 1200;
-// const BOOTSTRAP_XXL = 1400;
-
 const STD_LEAFHEIGHT = 133;
 const STD_NODEHEIGHT = 92;
 const STD_LEAFWIDTH = 82;
@@ -18,27 +11,18 @@ var svgHeight = 0;
 var nodeCount = 0;
 var leafCount = 0;
 
-var currentStep = 1;
 
-// Example data
-const data = [
-    { attributes: { outlook: 'sunny', temperature: 'hot', humidity: 'high', windy: false }, label: 'no' },
-    { attributes: { outlook: 'sunny', temperature: 'hot', humidity: 'high', windy: true }, label: 'no' },
-    { attributes: { outlook: 'overcast', temperature: 'hot', humidity: 'high', windy: false }, label: 'yes' },
-    { attributes: { outlook: 'rainy', temperature: 'mild', humidity: 'high', windy: false }, label: 'yes' },
-    { attributes: { outlook: 'rainy', temperature: 'cool', humidity: 'normal', windy: false }, label: 'yes' },
-    { attributes: { outlook: 'rainy', temperature: 'cool', humidity: 'normal', windy: true }, label: 'no' },
-    { attributes: { outlook: 'overcast', temperature: 'cool', humidity: 'normal', windy: true }, label: 'yes' },
-    { attributes: { outlook: 'sunny', temperature: 'mild', humidity: 'high', windy: false }, label: 'no' },
-    { attributes: { outlook: 'sunny', temperature: 'cool', humidity: 'normal', windy: false }, label: 'yes' },
-    { attributes: { outlook: 'rainy', temperature: 'mild', humidity: 'normal', windy: false }, label: 'yes' },
-    { attributes: { outlook: 'sunny', temperature: 'mild', humidity: 'normal', windy: true }, label: 'yes' },
-    { attributes: { outlook: 'overcast', temperature: 'mild', humidity: 'high', windy: true }, label: 'yes' },
-    { attributes: { outlook: 'overcast', temperature: 'hot', humidity: 'normal', windy: false }, label: 'yes' },
-    { attributes: { outlook: 'rainy', temperature: 'mild', humidity: 'high', windy: true }, label: 'no' }
-];
+// Get example data
+var data;
+var attributes;
+fetch('./exampledata/example1.json')
+    .then(response => response.json())
+    .then(jsonData => {
+        data = jsonData;
+        attributes = Object.keys(data[0].attributes);
+    })
+    .catch(error => console.error('Error fetching example data:', error));
 
-const attributes = ['outlook', 'temperature', 'humidity', 'windy'];
 
 class NodeValues {
     constructor(class1, class2, n, entropy) {
@@ -237,49 +221,6 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
     return [tree, nodeId, leafId];
 }
 
-
-function hideChildren(element) {
-    var node = element.querySelector('ellipse');
-    var nodeId = node.id;
-
-    var connectedPaths = document.querySelectorAll('path[data-connected-to="' + nodeId + '"]');
-    if (connectedPaths.length !== 0 && connectedPaths[0].parentNode.style.display == "none") {
-        showConnectedNodes(nodeId);
-    } else {
-        hideConnectedNodes(nodeId);
-    }
-}
-
-function hideConnectedNodes(nodeId) {
-    var connectedPaths = document.querySelectorAll('path[data-connected-to="' + nodeId + '"]');
-    if (connectedPaths.length === 0) return;
-
-    for (const path of connectedPaths) {
-        var pathGroup = path.parentNode;
-        pathGroup.style.display = "none";
-
-        var pathIdNum = +path.id[1];
-        var connectedNodeId = "n" + pathIdNum;
-
-        hideConnectedNodes(connectedNodeId);
-    }
-}
-
-function showConnectedNodes(nodeId) {
-    var connectedPaths = document.querySelectorAll('path[data-connected-to="' + nodeId + '"]');
-    if (connectedPaths.length === 0) return;
-
-    for (const path of connectedPaths) {
-        var pathGroup = path.parentNode;
-        pathGroup.style.display = "block";
-
-        var pathIdNum = +path.id[1];
-        var connectedNodeId = "n" + pathIdNum;
-
-        showConnectedNodes(connectedNodeId);
-    }
-}
-
 function createNode(nodeId, n, e, attribute, x, y, width, height) {
     var svgEl = document.getElementById('svgDT');
     var nodeTemplate = document.getElementById('node');
@@ -383,23 +324,6 @@ function createBranch(nodeId, x1, y1, x2, y2, value) {
     return newUse;
 }
 
-function calcSvgSize() {
-    var svgEl = document.getElementById('svgDT');
-    const rect = svgEl.getBoundingClientRect();
-
-    const width = rect.width;
-    const height = rect.height;
-
-    console.log('SVG Width:', width);
-    console.log('SVG Height:', height);
-
-    return [width, height];
-}
-
-function resizeViewBox() {
-    var svgEl = document.getElementById('svgDT');
-    svgEl.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
-}
 
 // Calculate the tree's depth (including the root node)
 function calcTreeDepth(rootNode) {
@@ -634,6 +558,24 @@ function destroyTree(svgEl){
     }
 }
 
+function calcSvgSize() {
+    var svgEl = document.getElementById('svgDT');
+    const rect = svgEl.getBoundingClientRect();
+
+    const width = rect.width;
+    const height = rect.height;
+
+    console.log('SVG Width:', width);
+    console.log('SVG Height:', height);
+
+    return [width, height];
+}
+
+function resizeViewBox() {
+    var svgEl = document.getElementById('svgDT');
+    svgEl.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
+}
+
 function handleResize() {
     var newSizes = calcSvgSize();
     if (newSizes[0] != svgWidth || newSizes[1] != svgHeight) {
@@ -644,53 +586,7 @@ function handleResize() {
         var svgEl = document.getElementById('svgDT');
         destroyTree(svgEl);
         buildTree();
-        goToStep(currentStep);
-    }
-}
-
-function initialStep(){
-    currentStep = 1;
-    document.getElementById('stepCount').textContent = "Step: 1";
-    for (var i = 2; i <= nodeCount + leafCount; i++){
-        var groupId = 'g' + i;
-        var groupToHide = document.getElementById(groupId);
-        groupToHide.style.display = "none";
-    }
-}
-
-function stepForward(){
-    if (currentStep === nodeCount + leafCount) return;
-    currentStep++;
-    document.getElementById('stepCount').textContent = "Step: " + currentStep;
-    var groupId = 'g' + currentStep;
-    var groupToShow = document.getElementById(groupId);
-    groupToShow.style.display = "block";
-}
-
-function stepBack(){
-    if (currentStep === 1) return;
-    currentStep--;
-    document.getElementById('stepCount').textContent = "Step: " + currentStep;
-    var groupId = 'g' + (currentStep + 1);
-    var groupToHide = document.getElementById(groupId);
-    groupToHide.style.display = "none";
-}
-
-function lastStep(){
-    currentStep = nodeCount + leafCount;
-    document.getElementById('stepCount').textContent = "Step: " + (nodeCount + leafCount);
-    for (var i = 2; i <= nodeCount + leafCount; i++){
-        var groupId = 'g' + i;
-        var groupToShow = document.getElementById(groupId);
-        groupToShow.style.display = "block";
-    }
-}
-
-function goToStep(step){
-    for (var i = 2; i <= step; i++){
-        var groupId = 'g' + i;
-        var groupToShow = document.getElementById(groupId);
-        groupToShow.style.display = "block";
+        goToStep();
     }
 }
 
