@@ -13,15 +13,36 @@ var leafCount = 0;
 
 
 // Get example data
-var data;
-var attributes;
-fetch('./exampledata/example1.json')
-    .then(response => response.json())
-    .then(jsonData => {
-        data = jsonData;
-        attributes = Object.keys(data[0].attributes);
-    })
-    .catch(error => console.error('Error fetching example data:', error));
+const data = [
+    { attributes: { outlook: 'sunny', temperature: 'hot', humidity: 'high', windy: false }, label: 'no' },
+    { attributes: { outlook: 'sunny', temperature: 'hot', humidity: 'high', windy: true }, label: 'no' },
+    { attributes: { outlook: 'overcast', temperature: 'hot', humidity: 'high', windy: false }, label: 'yes' },
+    { attributes: { outlook: 'rainy', temperature: 'mild', humidity: 'high', windy: false }, label: 'yes' },
+    { attributes: { outlook: 'rainy', temperature: 'cool', humidity: 'normal', windy: false }, label: 'yes' },
+    { attributes: { outlook: 'rainy', temperature: 'cool', humidity: 'normal', windy: true }, label: 'no' },
+    { attributes: { outlook: 'overcast', temperature: 'cool', humidity: 'normal', windy: true }, label: 'yes' },
+    { attributes: { outlook: 'sunny', temperature: 'mild', humidity: 'high', windy: false }, label: 'no' },
+    { attributes: { outlook: 'sunny', temperature: 'cool', humidity: 'normal', windy: false }, label: 'yes' },
+    { attributes: { outlook: 'rainy', temperature: 'mild', humidity: 'normal', windy: false }, label: 'yes' },
+    { attributes: { outlook: 'sunny', temperature: 'mild', humidity: 'normal', windy: true }, label: 'yes' },
+    { attributes: { outlook: 'overcast', temperature: 'mild', humidity: 'high', windy: true }, label: 'yes' },
+    { attributes: { outlook: 'overcast', temperature: 'hot', humidity: 'normal', windy: false }, label: 'yes' },
+    { attributes: { outlook: 'rainy', temperature: 'mild', humidity: 'high', windy: true }, label: 'no' }
+];
+const attributes = Object.keys(data[0].attributes);
+
+// import data from '../exampledata/example1.mjs';
+// const attributes = Object.keys(data[0].attributes);
+
+// function loadExampleData(){
+//     fetch('./exampledata/example1.json')
+//     .then(response => response.json())
+//     .then(jsonData => {
+//         data = jsonData;
+//         attributes = Object.keys(data[0].attributes);
+//     })
+//     .catch(error => console.error('Error fetching example data:', error));
+// }
 
 
 class NodeValues {
@@ -590,4 +611,12 @@ function handleResize() {
     }
 }
 
+// document.addEventListener("DOMContentLoaded", function() {
+//     buildTree();
+// });
 window.onresize = handleResize;
+
+
+if (typeof module === 'object') {
+    module.exports = {mostCommonLabel};
+}
