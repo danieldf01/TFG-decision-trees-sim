@@ -148,7 +148,12 @@ function infoGain(data, attribute) {
     var entropies = [];
     for (const value of attributeValues) {
         var subset = attributeLabels.filter(instance => instance[0] === value);
-        entropies.push([entropy(subset), counts[value], value]);
+        // Save only the labels to calculate this attribute's entropy
+        var subsetLabels = [];
+        subset.forEach(function (row) {
+            subsetLabels.push(row[1]);
+        });
+        entropies.push([entropy(subsetLabels), counts[value], value]);
     }
 
     // Calculate the information gain
@@ -543,37 +548,36 @@ function buildTree() {
     var branchToHide = document.getElementById("useBranchn2");
     branchToHide.style.display = "none";
     branchToHide.style.display = "block";
-
 }
 
-function destroyTree(svgEl){
+function destroyTree(svgEl) {
     // Remove all the groups in which the use elements are located
     for (var i = 0; i < nodeCount + leafCount; i++) {
-        var groupId = 'g' + (i+1);
+        var groupId = 'g' + (i + 1);
         var groupToRemove = document.getElementById(groupId);
         svgEl.removeChild(groupToRemove);
     }
 
     // Remove all the specifically created symbols/templates related to nodes
-    for (var i = 0; i < nodeCount; i++){
-        var nodeId = 'node' + (i+1);
+    for (var i = 0; i < nodeCount; i++) {
+        var nodeId = 'node' + (i + 1);
         var nodeToRemove = document.getElementById(nodeId);
         svgEl.removeChild(nodeToRemove);
 
         // There is no branch belonging to the root node
         if (i === 0) continue;
-        var branchId = 'branchn' + (i+1);
+        var branchId = 'branchn' + (i + 1);
         var branchToRemove = document.getElementById(branchId);
         svgEl.removeChild(branchToRemove);
     }
 
     //Remove all the specifically created symbols/templates related to leaves
-    for (var i = 0; i < leafCount; i++){
-        var leafId = 'leaf' + (i+1);
+    for (var i = 0; i < leafCount; i++) {
+        var leafId = 'leaf' + (i + 1);
         var leafToRemove = document.getElementById(leafId);
         svgEl.removeChild(leafToRemove);
 
-        var branchId = 'branchl' + (i+1);
+        var branchId = 'branchl' + (i + 1);
         var branchToRemove = document.getElementById(branchId);
         svgEl.removeChild(branchToRemove);
     }
@@ -618,5 +622,5 @@ window.onresize = handleResize;
 
 
 if (typeof module === 'object') {
-    module.exports = {mostCommonLabel};
+    module.exports = { mostCommonLabel, entropy, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch };
 }
