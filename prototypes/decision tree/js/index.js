@@ -644,6 +644,7 @@ function handleResize() {
         var svgEl = document.getElementById('svgDT');
         destroyTree(svgEl);
         buildTree();
+        goToStep(currentStep);
     }
 }
 
@@ -679,6 +680,14 @@ function lastStep(){
     currentStep = nodeCount + leafCount;
     document.getElementById('stepCount').textContent = "Step: " + (nodeCount + leafCount);
     for (var i = 2; i <= nodeCount + leafCount; i++){
+        var groupId = 'g' + i;
+        var groupToShow = document.getElementById(groupId);
+        groupToShow.style.display = "block";
+    }
+}
+
+function goToStep(step){
+    for (var i = 2; i <= step; i++){
         var groupId = 'g' + i;
         var groupToShow = document.getElementById(groupId);
         groupToShow.style.display = "block";
