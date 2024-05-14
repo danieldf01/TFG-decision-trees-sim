@@ -5,3 +5,21 @@ Debe incluir desde la exposición del ciclo de vida utilizado, hasta los detalle
 Se busca que no sea una mera operación de copiar y pegar diagramas y extractos del código fuente, sino que realmente se justifiquen los caminos de solución que se han tomado, especialmente aquellos que no sean triviales.
 Puede ser el lugar más adecuado para documentar los aspectos más interesantes del diseño y de la implementación, con un mayor hincapié en aspectos tales como el tipo de arquitectura elegido, los índices de las tablas de la base de datos, normalización y desnormalización, distribución en ficheros3, reglas de negocio dentro de las bases de datos (EDVHV GH GDWRV DFWLYDV), aspectos de desarrollo relacionados con el WWW...
 Este apartado, debe convertirse en el resumen de la experiencia práctica del proyecto, y por sí mismo justifica que la memoria se convierta en un documento útil, fuente de referencia para los autores, los tutores y futuros alumnos.
+
+\section{Decision Tree creation without D3.js}
+As mentioned in \ref{d3js}, D3.js is an open-source JavaScript library which, among other things, allows the user to dynamically create and change DOM contents based on underlying data. For that reason, at the beginning of development, it was chosen to help create the graph for the Entropy function and later, dynamically create and change the decision trees examples.
+
+However, as development of the project went on and it was time to create a prototype for the creation of decision trees, the plan of using D3.js as the main tool to reach that goal was discarded. This decision was made after an extensive web research on how SVGs displaying trees were created with the library and how they would end up looking. With a few exceptions showing slight deviations, the standard D3.js tree looked like this:
+\imagen{d3js_tree}{SVG displaying a tree, created with D3.js}{1}
+Since this specific library was not exactly easy to use in the first place, trying to make it look the intended way (displaying labels on the edges and other important values connected to the nodes) would have made the creation significantly harder, if it had been possible at all.
+
+With that in mind, the decision was made not to use D3.js to create the decision trees, but to assemble the decision trees from simple SVG elements to form templates for branches, decision and leaf nodes, and to develop an algorithm that calculates the tree's elements' relative position to each other in an SVG that is responsive to different screen sizes.
+
+Even though that solution meant more work, it allowed the decision trees to look the intended way in the end:
+\imagen{decision_tree_webapp}{Dynamically created decision tree using the web application}{.7}
+
+\section{Evaluation of code quality with Codacy before reviews}
+As mentioned in \ref{codacy}, Codacy is a code analysis tool that helps developers to improve the quality of their code. With the biweekly meetings having functioned not only as a way to figure out the tasks for the next sprint, but also as an opportunity to review what had been done so far, there was often no time to check the code quality. Codacy provided everything needed to improve the code condition even before the review with the tutors.
+
+It offered the opportunity of checking the code's quality without having to wait for a review meeting or ask the tutors whether a certain way of implementing something was good or not.
+This gave the review meetings more space to focus on what had been done rather than how it had been done. Especially during the meetings towards the end of development, this extra time was needed to discuss additional changes that needed to be made before the project was finalized.
