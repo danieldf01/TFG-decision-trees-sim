@@ -6,7 +6,7 @@ In the following, all the theoretical concepts relevant for the understanding of
 
 A decision tree ~\cite{decisiontrees} is a versatile supervised learning algorithm used for classification and regression tasks. Its goal is to predict the value of a variable based on previously processed input. Its hierarchical structure includes a root node and several internal and leaf nodes.
 
-It starts at the root, which represents the feature that best separates the underlying dataset based on a certain criterion. An example would be information gain, which will be explained in a later section. From there branches extend to internal nodes, also called decision nodes. These internal nodes also represent features along with a decision rule that tells us how to further split the data. These features are continuously evaluated until homogenous subsets are created by the leaf nodes. These represent all the possible outcomes of the dataset with each one corresponding to a class label.
+It starts at the root, which represents the feature that best separates the underlying dataset based on a certain criterion. An example would be information gain, which is explained in \ref{information_gain}. From there branches extend to internal nodes, also called decision nodes. These internal nodes also represent features along with a decision rule that tells us how to further split the data. These features are continuously evaluated until homogenous subsets are created by the leaf nodes. These represent all the possible outcomes of the dataset with each one corresponding to a class label.
 
 Decision tree learning utilizes a divide and conquer approach, iteratively finding the best split points until all or most of the input data is classified.
 
@@ -37,7 +37,7 @@ In a dataset with binary classes, the x-axis describes the amount of instances i
 However, it must be mentioned that the value of entropy can reach values higher than 1 if the dataset possesses more than 2 class labels. 
 
 
-\subsection{Conditional Entropy}
+\subsection{Conditional Entropy} \label{conditional_entropy}
 In the context of decision trees, the conditional entropy~\cite{conditional_entropy_wiki} $E(Y\mid X)$measures the uncertainty in the target variable $Y$, which is usually the class labels, given a certain value of the attribute $X$ that is used for splitting a node.
 It can be described as the weighted sum of $E(Y\mid X = x)$ for every possible value $x$ of $X$:
 \[E(Y\mid X) = \sum_{x \in X} {p(x)} {E(Y\mid X = x)}\]
@@ -103,6 +103,33 @@ Precision is useful for cases where False Positives are a bigger concern than Fa
 Recall~\cite{evaluation_metrics} describes how many of the actual positive cases our model was able to correctly predict. It measures the ability of the model to find all positive instances and is calculated using the following formula:
 \[ Recall = {TP}/{TP + FN} \]
 Recall is useful when False Negatives are of a higher concern than False Positives.
+
+\section{Feature Selection}
+In machine learning, feature selection~\cite{feature_selection} is indispensable when the goal is to build an accurate and efficient model. In the context of prediction tasks, feature selection helps in finding the features or attributes that are most beneficial for the prediction. 
+
+But how is determined which feature is better or more important than another? In the context of classification problems, the main idea is to select those features that best prove their ability to differentiate between different target classes. Those features are most likely to improve the model's capability of performing prediction tasks and with that, its overall performance.
+
+There are multiple supervised and unsupervised techniques to select the best feature. While each comes with its own advantages and disadvantages, the focus in this work will be on two supervised techniques: Information gain and Fisher's Score. Both have a filter-based approach, which means they evaluate the relevance of features by studying their statistical properties or correlation with other features, independently of the learning algorithm itself. They are usually used for categorical data.
+
+\subsection{Information gain} \label{information_gain}
+Information gain~\cite{feature_selection} is a method that is commonly used in decision tree algorithms like ID3 and C4.5. It is also used in this project to select the best possible features for the construction of decision trees. It measures the relevance of a feature by evaluating how much information it provides about the class labels. It does so by calculating the reduction in entropy. With that, the higher the information gain of a feature, the more important and useful it is considered for decision-making.
+
+It can be calculated~\cite{information_gain_wiki} using the following formula:
+\[IG(S, A) = {E(S)} - {E(S\mid A)}\]
+Where: $S$ is the dataset, $A$ is the feature/attribute for which the Information gain is calculated, $E(S)$ is the entropy (\ref{entropy}) of the dataset $S$, and $E(S\mid A)$ is the conditional entropy (\ref{conditional_entropy}) of the dataset, given feature $A$.
+
+The following image shows the calculation of Information gain based on an example dataset:
+\imagen{information_gain_example}{Information gain example}{.6}
+The correlation between a feature's entropy and Information gain values can be observed. The lower the conditional entropy of a feature, the higher the Information gain and its usefulness in the process of decision-making. Here, the feature "Outlook" would be chosen as the best one out of the four.
+
+
+
+\subsection{Fisher's Score}
+Fisher's Score~\cite{feature_selection}, also known as Fisher's Discriminant Ratio, is a technique that ranks features by measuring their ability to differentiate classes in a dataset.
+
+It calculates~\cite{feature_selection_fishers_score} that ability by determining the ratio of between-class variance and within-class variance. The between-class variance measures the spread of a feature's values across different classes. A higher value indicates that the means of different classes are further apart, making the feature more discriminative. On the denominator side of the division, the within-class variance determines the spread of the feature values within each class. A lower value means that the data points within each class are closer to the class mean, also making the feature more discriminative.
+
+In conclusion~\cite{feature_selection}, the higher a feature's Fisher's Score, the more discriminative and more fitting for classification it is. Therefore, the features with higher scores are considered more useful.
 
 
 \section{Referencias}
