@@ -79,9 +79,7 @@ function drawPoint(data, tableEntropy) {
     }
     var points = [[closestPoint[0], closestPoint[1]], [closestPoint[0], 0]];
 
-    drawNewPoint(points);
-    drawNewLine(points);
-
+    return points;
 
 }
 
@@ -115,8 +113,6 @@ function calcEntropy() {
     // Calculate the probabilities
     var pValues = calcProbs(inputElements, sum);
 
-    remove();
-
     var e = entropy(pValues);
 
     var output = document.getElementById('sum-entropy');
@@ -127,7 +123,9 @@ function calcEntropy() {
     var numberClasses = tableClasses.getElementsByTagName('tbody')[0].rows.length;
     if (numberClasses === 2) {
         var data = graphFunction();
-        drawPoint(data, tableEntropy);
+        return drawPoint(data, tableEntropy);
+    } else{
+        return null;
     }
 }
 
