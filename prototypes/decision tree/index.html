@@ -6,6 +6,7 @@
     <script type="module" src="../../lib/entropy-calculator.js"></script>
     <script type="module" src="js/stepbystep.js"></script>
     <script type="module" src="js/tree.js"></script>
+    <script type="module" src="js/table.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -195,134 +196,8 @@
         </div>
         <div class="row p-2 justify-content-center">
             <!-- Data table -->
-            <div class="col-lg-8 col-sm-12 col-auto">
-                <table class="table caption-top ">
-                    <caption>Example data</caption>
-                    <thead class="sticky-top">
-                        <tr>
-                            <th style="border-right: 1px solid black;">#</th>
-                            <th>Outlook</th>
-                            <th>Temperature</th>
-                            <th>Humidity</th>
-                            <th>Windy</th>
-                            <th style="border-left: 1px solid black;">Play Golf</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider">
-                        <tr>
-                            <td style="border-right: 1px solid black;">1</td>
-                            <td>Sunny</td>
-                            <td>Hot</td>
-                            <td>High</td>
-                            <td>False</td>
-                            <th style="border-left: 1px solid black;">No</th>
-                        </tr>
-                        <tr>
-                            <td style="border-right: 1px solid black;">2</td>
-                            <td>Sunny</td>
-                            <td>Hot</td>
-                            <td>High</td>
-                            <td>True</td>
-                            <th style="border-left: 1px solid black;">No</th>
-                        </tr>
-                        <tr>
-                            <td style="border-right: 1px solid black;">3</td>
-                            <td>Overcast</td>
-                            <td>Hot</td>
-                            <td>High</td>
-                            <td>False</td>
-                            <th style="border-left: 1px solid black;">Yes</th>
-                        </tr>
-                        <tr>
-                            <td style="border-right: 1px solid black;">4</td>
-                            <td>Rainy</td>
-                            <td>Mild</td>
-                            <td>High</td>
-                            <td>False</td>
-                            <th style="border-left: 1px solid black;">Yes</th>
-                        </tr>
-                        <tr>
-                            <td style="border-right: 1px solid black;">5</td>
-                            <td>Rainy</td>
-                            <td>Cool</td>
-                            <td>Normal</td>
-                            <td>False</td>
-                            <th style="border-left: 1px solid black;">Yes</th>
-                        </tr>
-                        <tr>
-                            <td style="border-right: 1px solid black;">6</td>
-                            <td>Rainy</td>
-                            <td>Cool</td>
-                            <td>Normal</td>
-                            <td>True</td>
-                            <th style="border-left: 1px solid black;">No</th>
-                        </tr>
-                        <tr>
-                            <td style="border-right: 1px solid black;">7</td>
-                            <td>Overcast</td>
-                            <td>Cool</td>
-                            <td>Normal</td>
-                            <td>True</td>
-                            <th style="border-left: 1px solid black;">Yes</th>
-                        </tr>
-                        <tr>
-                            <td style="border-right: 1px solid black;">8</td>
-                            <td>Sunny</td>
-                            <td>Mild</td>
-                            <td>High</td>
-                            <td>False</td>
-                            <th style="border-left: 1px solid black;">No</th>
-                        </tr>
-                        <tr>
-                            <td style="border-right: 1px solid black;">9</td>
-                            <td>Sunny</td>
-                            <td>Cool</td>
-                            <td>Normal</td>
-                            <td>False</td>
-                            <th style="border-left: 1px solid black;">Yes</th>
-                        </tr>
-                        <tr>
-                            <td style="border-right: 1px solid black;">10</td>
-                            <td>Rainy</td>
-                            <td>Mild</td>
-                            <td>Normal</td>
-                            <td>False</td>
-                            <th style="border-left: 1px solid black;">Yes</th>
-                        </tr>
-                        <tr>
-                            <td style="border-right: 1px solid black;">11</td>
-                            <td>Sunny</td>
-                            <td>Mild</td>
-                            <td>Normal</td>
-                            <td>True</td>
-                            <th style="border-left: 1px solid black;">Yes</th>
-                        </tr>
-                        <tr>
-                            <td style="border-right: 1px solid black;">12</td>
-                            <td>Overcast</td>
-                            <td>Mild</td>
-                            <td>High</td>
-                            <td>True</td>
-                            <th style="border-left: 1px solid black;">Yes</th>
-                        </tr>
-                        <tr>
-                            <td style="border-right: 1px solid black;">13</td>
-                            <td>Overcast</td>
-                            <td>Hot</td>
-                            <td>Normal</td>
-                            <td>False</td>
-                            <th style="border-left: 1px solid black;">Yes</th>
-                        </tr>
-                        <tr style="border-bottom: hidden;">
-                            <td style="border-right: 1px solid black;">14</td>
-                            <td>Rainy</td>
-                            <td>Mild</td>
-                            <td>High</td>
-                            <td>True</td>
-                            <th style="border-left: 1px solid black;">No</th>
-                        </tr>
-                    </tbody>
-                </table>
+            <div id="dataTable" class="col-lg-8 col-sm-12 col-auto">
+                
             </div>
         </div>
         <div class="row pb-2 justify-content-center">

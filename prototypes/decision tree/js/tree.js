@@ -178,11 +178,11 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
     var e = entropyLabels(datasetLabels).toFixed(2);
 
     for (const row of data) {
-        if (row.label == 'no') {
+        if (row.label == 'No') {
             class2++;
             allPositive = false;
         }
-        if (row.label == 'yes') {
+        if (row.label == 'Yes') {
             class1++;
             allNegative = false;
         }
@@ -191,11 +191,11 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
     // Check if we have reached a leaf node
     if (allPositive) {
         var nextLeafId = leafId[0] + (+leafId[1] + 1);
-        return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, 'yes', prevBranchVal), nodeId, nextLeafId];
+        return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, 'Yes', prevBranchVal), nodeId, nextLeafId];
     }
     if (allNegative) {
         var nextLeafId = leafId[0] + (+leafId[1] + 1);
-        return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, 'no', prevBranchVal), nodeId, nextLeafId];
+        return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, 'No', prevBranchVal), nodeId, nextLeafId];
     }
     if (attributes.length === 0) {
         var nextLeafId = leafId[0] + (+leafId[1] + 1);
@@ -527,9 +527,9 @@ function buildTree() {
 
     calcNodePositions(decisionTree, treeBorders, nodeWidth, nodeHeight, leafWidth, leafHeight, group, "g1", svgEl);
 
-    var branchToHide = document.getElementById("useBranchn2");
-    branchToHide.style.display = "none";
-    branchToHide.style.display = "block";
+    // var branchToHide = document.getElementById("useBranchn2");
+    // branchToHide.style.display = "none";
+    // branchToHide.style.display = "block";
 }
 
 function destroyTree(svgEl) {
