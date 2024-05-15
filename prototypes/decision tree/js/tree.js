@@ -65,7 +65,6 @@ function mostCommonLabel(data) {
     });
 
     var counts = {};
-    console.log(labels);
     for (var i = 0; i < labels.length; i++) {
         counts[labels[i]] = counts[labels[i]] ? counts[labels[i]] + 1 : 1;
     }
@@ -128,7 +127,6 @@ function infoGain(data, attribute) {
     var counts = {};
     attributeValuesCounts.forEach(function (row) {
         counts[row] = counts[row] ? counts[row] + 1 : 1;
-        console.log(counts);
     });
 
     // Calculate the entropy for each value
@@ -234,6 +232,19 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
     return [tree, nodeId, leafId];
 }
 
+function createNewUse(id, href, x, y, width, height){
+    // Create a new 'use' element and set the node's position attributes
+    var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    newUse.setAttribute('id', id);
+    newUse.setAttribute('href', href);
+    newUse.setAttribute('x', x);
+    newUse.setAttribute('y', y);
+    newUse.setAttribute('width', width);
+    newUse.setAttribute('height', height);
+
+    return newUse
+}
+
 function createNode(nodeId, n, e, attribute, x, y, width, height) {
     var svgEl = document.getElementById('svgDT');
     var nodeTemplate = document.getElementById('node');
@@ -249,18 +260,9 @@ function createNode(nodeId, n, e, attribute, x, y, width, height) {
     clonedTemplate.querySelector('#nodeE').textContent += e;
     clonedTemplate.querySelector('#nodeAttribute').textContent = attribute;
 
-    // Create a new 'use' element and set the node's position attributes
-    var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-    newUse.setAttribute('id', 'useNode' + nodeNumber);
-    newUse.setAttribute('href', '#node' + nodeNumber);
-    newUse.setAttribute('x', x);
-    newUse.setAttribute('y', y);
-    newUse.setAttribute('width', width);
-    newUse.setAttribute('height', height);
-
-    // Append cloned template and use element to the svg
+    // Append cloned template to the svg and return the use element
     svgEl.appendChild(clonedTemplate);
-    return newUse;
+    return createNewUse('useNode' + nodeNumber, '#node' + nodeNumber, x, y, width, height);
 }
 
 
@@ -281,18 +283,9 @@ function createLeaf(leafId, n, yes, no, e, label, x, y, width, height) {
     clonedTemplate.querySelector('#leafE').textContent += e;
     clonedTemplate.querySelector('#leafLabel').textContent += label;
 
-    // Create a new 'use' element and set the leaf's position attributes
-    var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-    newUse.setAttribute('id', 'useLeaf' + leafNumber);
-    newUse.setAttribute('href', '#leaf' + leafNumber);
-    newUse.setAttribute('x', x);
-    newUse.setAttribute('y', y);
-    newUse.setAttribute('width', width);
-    newUse.setAttribute('height', height);
-
-    // Append cloned template and use element to the svg
+    // Append cloned template to the svg and return the use element
     svgEl.appendChild(clonedTemplate);
-    return newUse;
+    return createNewUse('useLeaf' + leafNumber, '#leaf' + leafNumber, x, y, width, height);
 }
 
 
