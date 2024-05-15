@@ -54,45 +54,45 @@ test('entropyLabels: gets entropy = 0.94 for example data', () => {
 
 test('infoGain: gets information gain = 0.25 for attribute outlook of example data', () => {
     var data = [
-        { attributes: { outlook: 'sunny', temperature: 'hot', humidity: 'high', windy: false }, label: 'no' },
-        { attributes: { outlook: 'sunny', temperature: 'hot', humidity: 'high', windy: true }, label: 'no' },
-        { attributes: { outlook: 'overcast', temperature: 'hot', humidity: 'high', windy: false }, label: 'yes' },
-        { attributes: { outlook: 'rainy', temperature: 'mild', humidity: 'high', windy: false }, label: 'yes' },
-        { attributes: { outlook: 'rainy', temperature: 'cool', humidity: 'normal', windy: false }, label: 'yes' },
-        { attributes: { outlook: 'rainy', temperature: 'cool', humidity: 'normal', windy: true }, label: 'no' },
-        { attributes: { outlook: 'overcast', temperature: 'cool', humidity: 'normal', windy: true }, label: 'yes' },
-        { attributes: { outlook: 'sunny', temperature: 'mild', humidity: 'high', windy: false }, label: 'no' },
-        { attributes: { outlook: 'sunny', temperature: 'cool', humidity: 'normal', windy: false }, label: 'yes' },
-        { attributes: { outlook: 'rainy', temperature: 'mild', humidity: 'normal', windy: false }, label: 'yes' },
-        { attributes: { outlook: 'sunny', temperature: 'mild', humidity: 'normal', windy: true }, label: 'yes' },
-        { attributes: { outlook: 'overcast', temperature: 'mild', humidity: 'high', windy: true }, label: 'yes' },
-        { attributes: { outlook: 'overcast', temperature: 'hot', humidity: 'normal', windy: false }, label: 'yes' },
-        { attributes: { outlook: 'rainy', temperature: 'mild', humidity: 'high', windy: true }, label: 'no' }
+        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
+        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
+        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
+        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
+        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
+        { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
+        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
+        { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
+        { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
+        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
     ];
 
-    expect(parseFloat(infoGain(data, "outlook").toFixed(2))).toBe(0.25);
+    expect(parseFloat(infoGain(data, "Outlook").toFixed(2))).toBe(0.25);
 })
 
 test('findBestAttribute: find "outlook" as best attribute of example data', () => {
     var data = [
-        { attributes: { outlook: 'sunny', temperature: 'hot', humidity: 'high', windy: false }, label: 'no' },
-        { attributes: { outlook: 'sunny', temperature: 'hot', humidity: 'high', windy: true }, label: 'no' },
-        { attributes: { outlook: 'overcast', temperature: 'hot', humidity: 'high', windy: false }, label: 'yes' },
-        { attributes: { outlook: 'rainy', temperature: 'mild', humidity: 'high', windy: false }, label: 'yes' },
-        { attributes: { outlook: 'rainy', temperature: 'cool', humidity: 'normal', windy: false }, label: 'yes' },
-        { attributes: { outlook: 'rainy', temperature: 'cool', humidity: 'normal', windy: true }, label: 'no' },
-        { attributes: { outlook: 'overcast', temperature: 'cool', humidity: 'normal', windy: true }, label: 'yes' },
-        { attributes: { outlook: 'sunny', temperature: 'mild', humidity: 'high', windy: false }, label: 'no' },
-        { attributes: { outlook: 'sunny', temperature: 'cool', humidity: 'normal', windy: false }, label: 'yes' },
-        { attributes: { outlook: 'rainy', temperature: 'mild', humidity: 'normal', windy: false }, label: 'yes' },
-        { attributes: { outlook: 'sunny', temperature: 'mild', humidity: 'normal', windy: true }, label: 'yes' },
-        { attributes: { outlook: 'overcast', temperature: 'mild', humidity: 'high', windy: true }, label: 'yes' },
-        { attributes: { outlook: 'overcast', temperature: 'hot', humidity: 'normal', windy: false }, label: 'yes' },
-        { attributes: { outlook: 'rainy', temperature: 'mild', humidity: 'high', windy: true }, label: 'no' }
+        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
+        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
+        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
+        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
+        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
+        { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
+        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
+        { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
+        { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
+        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
     ];
     var attributes = Object.keys(data[0].attributes);
 
-    expect(findBestAttribute(data, attributes)).toBe("outlook");
+    expect(findBestAttribute(data, attributes)).toBe("Outlook");
 })
 
 test('id3: builds tree with right amount of decision nodes', () => {
