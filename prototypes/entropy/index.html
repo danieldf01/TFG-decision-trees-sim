@@ -4,7 +4,8 @@
 <head>
     <script src="lib/d3.v7.min.js"></script>
     <script src="lib/jquery-3.7.1.min.js"></script>
-    <script type="text/javascript" src="js/calculator.js"></script>
+    <script type="module" src="../../lib/input-check.js"></script>
+    <script type="module" src="js/calculator.js"></script>
     <script type="text/javascript" src="js/classNumHandler.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -34,10 +35,12 @@
                     <a href="../entropy/" class="nav-link link-dark px-2 opacity-50 ">Entropy</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../conditional entropy/" class="nav-link link-dark px-2 link-opacity-50-hover ">Conditional Entropy</a>
+                    <a href="../conditional entropy/" class="nav-link link-dark px-2 link-opacity-50-hover ">Conditional
+                        Entropy</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../decision tree/" class="nav-link link-dark px-2 link-opacity-50-hover ">Decision Tree ID3</a>
+                    <a href="../decision tree/" class="nav-link link-dark px-2 link-opacity-50-hover ">Decision Tree
+                        ID3</a>
                 </li>
             </ul>
         </div>
@@ -196,8 +199,13 @@
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="btn btn-primary  " onclick="calcEntropy()">Calculate Entropy
+                        <div id="btnCalculateEntropy" class="btn btn-primary ">Calculate Entropy
                         </div>
+                        <script type="module">
+                            import { calcEntropy } from './js/calculator.js';
+
+                            document.querySelector('#btnCalculateEntropy').addEventListener('click', calcEntropy);
+                        </script>
                     </div>
 
                     <!-- Entropy table -->
@@ -251,8 +259,10 @@
             </div>
         </div>
     </footer>
-    <!-- Function graph creation with D3.js -->
-    <script>
+    <script type="module">
+        import {graphFunction} from './js/calculator.js';
+
+        // Function graph creation with D3.js
         const margin = { top: 10, right: 50, bottom: 50, left: 50 },
             width = 450 - margin.left - margin.right,
             height = 400 - margin.top - margin.bottom;
@@ -316,6 +326,39 @@
             .attr("stroke", "teal")
             .attr("stroke-width", 2)
             .attr("d", line);
+
+        function drawNewPoint(points) {
+            // Draw point on x-axis
+            svg.append("circle")
+                .attr("r", 3)
+                .attr("fill", "red")
+                .style("stroke", "red")
+                .attr("opacity", .70)
+                .attr("cx", xScale(points[0][0]))
+                .attr("cy", yScale(0));
+        }
+        
+        function drawNewLine(points) {
+            // Draw line between point and entropy graph
+            svg.append("path")
+                .datum(points)
+                .attr("fill", "red")
+                .attr("stroke", "red")
+                .attr("stroke-width", 1)
+                .attr("opacity", .70)
+                .attr("d", line)
+                .attr("id", "pointLine");
+        }
+
+        function remove() {
+            // Remove the previous point and line
+            svg.select("#pointLine").remove();
+            svg.selectAll("circle").remove();
+        }
+
+        window.drawNewPoint = drawNewPoint;
+        window.drawNewLine = drawNewLine;
+        window.remove = remove;
     </script>
 </body>
 

@@ -8,7 +8,7 @@
     "doc": "doc"
   },
   "scripts": {
-    "test": "jest --coverage --env=jsdom"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --env=jsdom "
   },
   "keywords": [],
   "author": "",
@@ -22,7 +22,8 @@
   "jest": {
     "setupFiles": [
       "./setup-jest.js"
-    ]
+    ],
+    "transform": {}
   },
   "dependencies": {
     "@types/node-fetch": "^2.6.11",
