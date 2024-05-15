@@ -1,13 +1,17 @@
 // disabled because this is the recommended way to import modules for Jest testing
 /* eslint-disable */
-const { mostCommonLabel, entropy, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch } = require('./tree')
-const fs = require('fs');
-const path = require('path');
+import { mostCommonLabel, entropy, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch } from './tree';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 /* eslint-enable */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const html = fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf8');
 
-jest
-    .dontMock('fs');
+// jest
+//     .dontMock('fs');
 
 test('mostCommonLabel: gets the right most common label in example dataset', () => {
     var data = [
@@ -31,19 +35,19 @@ test('mostCommonLabel: gets the right most common label in example dataset', () 
 })
 
 test('entropy: gets entropy = 0', () => {
-    labels = ['yes', 'yes', 'yes'];
+    var labels = ['yes', 'yes', 'yes'];
 
     expect(entropy(labels)).toBe(0);
 })
 
 test('entropy: gets entropy = 1', () => {
-    labels = ['yes', 'no'];
+    var labels = ['yes', 'no'];
 
     expect(entropy(labels)).toBe(1);
 })
 
 test('entropy: gets entropy = 0.94 for example data', () => {
-    labels = ['no', 'no', 'yes', 'yes', 'yes', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'no'];
+    var labels = ['no', 'no', 'yes', 'yes', 'yes', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'no'];
 
     expect(parseFloat(entropy(labels).toFixed(2))).toBe(0.94);
 })
@@ -154,7 +158,7 @@ test('calcTreeDepth: calculates the right tree depth based on example data', () 
     ];
     var attributes = Object.keys(data[0].attributes);
 
-    decisionTree = id3(data, attributes, null, "n1", "l1")[0];
+    var decisionTree = id3(data, attributes, null, "n1", "l1")[0];
 
     expect(calcTreeDepth(decisionTree)).toBe(3);
 })
@@ -178,7 +182,7 @@ test('calcTreeWidth: calculates the right tree width based on example data', () 
     ];
     var attributes = Object.keys(data[0].attributes);
 
-    decisionTree = id3(data, attributes, null, "n1", "l1")[0];
+    var decisionTree = id3(data, attributes, null, "n1", "l1")[0];
 
     expect(calcTreeWidth(decisionTree)).toBe(4);
 })

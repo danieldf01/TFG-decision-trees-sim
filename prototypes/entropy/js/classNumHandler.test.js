@@ -1,13 +1,17 @@
 // disabled because this is the recommended way to import modules for Jest testing
 /* eslint-disable */
-const { addClass, removeClass } = require('./classNumHandler')
-const fs = require('fs');
-const path = require('path');
+import { addClass, removeClass } from './classNumHandler';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 /* eslint-enable */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const html = fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf8');
 
-jest
-    .dontMock('fs');
+// jest
+//     .dontMock('fs');
 
 test('addClass: properly add one class', () => {
     document.body.innerHTML = html;

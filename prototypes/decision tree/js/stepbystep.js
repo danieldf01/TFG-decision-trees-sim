@@ -1,8 +1,6 @@
-var currentStep = 1;
+import { nodeCount, leafCount } from './tree.js';
 
-function getCurrentStep() {
-    return currentStep;
-}
+var currentStep = 1;
 
 function initialStep() {
     currentStep = 1;
@@ -49,3 +47,5 @@ function goToStep() {
         groupToShow.style.display = "block";
     }
 }
+
+export { initialStep, stepForward, stepBack, lastStep, goToStep };

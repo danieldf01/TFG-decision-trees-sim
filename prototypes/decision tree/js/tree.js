@@ -1,3 +1,5 @@
+import { goToStep } from './stepbystep.js';
+
 const STD_LEAFHEIGHT = 133;
 const STD_NODEHEIGHT = 92;
 const STD_LEAFWIDTH = 82;
@@ -618,9 +620,7 @@ function handleResize() {
 // document.addEventListener("DOMContentLoaded", function() {
 //     buildTree();
 // });
+document.addEventListener('DOMContentLoaded', buildTree);
 window.onresize = handleResize;
 
-
-if (typeof module === 'object') {
-    module.exports = { mostCommonLabel, entropy, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch };
-}
+export { mostCommonLabel, entropy, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch, buildTree, nodeCount, leafCount }

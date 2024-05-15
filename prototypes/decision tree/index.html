@@ -3,8 +3,8 @@
 
 <head>
     <link rel="stylesheet" href="css/styles.css" />
-    <script type="text/javascript" src="js/stepbystep.js"></script>
-    <script type="text/javascript" src="js/tree.js"></script>
+    <script type="module" src="js/stepbystep.js"></script>
+    <script type="module" src="js/tree.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -20,7 +20,7 @@
     <title>Decision Tree</title>
 </head>
 
-<body onload="buildTree()">
+<body>
     <!-- Header -->
     <header class="py-3 mb-4 border-bottom bg-body-secondary bg-opacity-75 ">
         <div class="container d-flex flex-wrap align-items-center justify-content-center ">
@@ -333,16 +333,36 @@
             <div class="col-auto">
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group me-2" role="group" aria-label="First group">
-                        <button type="button" class="btn btn-outline-secondary " onclick="initialStep()">
+                        <button id="btnInitStep" type="button" class="btn btn-outline-secondary ">
+                            <script type="module">
+                                import { initialStep } from './js/stepbystep.js';
+
+                                document.querySelector('#btnInitStep').addEventListener('click', initialStep);
+                            </script>
                             <div class="bi-chevron-bar-left">
                         </button>
-                        <button type="button" class="btn btn-outline-secondary" onclick="stepBack()">
+                        <button id="btnStepback" type="button" class="btn btn-outline-secondary">
+                            <script type="module">
+                                import { stepBack } from './js/stepbystep.js';
+
+                                document.querySelector('#btnStepback').addEventListener('click', stepBack);
+                            </script>
                             <div class="bi-chevron-compact-left"></div>
                         </button>
-                        <button type="button" class="btn btn-outline-secondary" onclick="stepForward()">
+                        <button id="btnStepForward" type="button" class="btn btn-outline-secondary">
+                            <script type="module">
+                                import { stepForward } from './js/stepbystep.js';
+
+                                document.querySelector('#btnStepForward').addEventListener('click', stepForward);
+                            </script>
                             <div class="bi-chevron-compact-right"></div>
                         </button>
-                        <button type="button" class="btn btn-outline-secondary" onclick="lastStep()">
+                        <button id="btnLastStep" type="button" class="btn btn-outline-secondary">
+                            <script type="module">
+                                import { lastStep } from './js/stepbystep.js';
+
+                                document.querySelector('#btnLastStep').addEventListener('click', lastStep);
+                            </script>
                             <div class="bi-chevron-bar-right">
                         </button>
 
@@ -430,8 +450,7 @@
             </div>
         </div>
     </footer>
-    <!-- <script type="module">
+    <script type="module">
         import { buildTree } from './js/tree.js';
-        import { stepForward } from './js/stepbystep.js';
-    </script> -->
+    </script>
 </body>
