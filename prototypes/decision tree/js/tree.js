@@ -65,16 +65,17 @@ function mostCommonLabel(data) {
     });
 
     var counts = {};
-    for (const label of labels) {
-        counts[label] = counts[label] ? counts[label] + 1 : 1;
+    console.log(labels);
+    for (var i = 0; i < labels.length; i++) {
+        counts[labels[i]] = counts[labels[i]] ? counts[labels[i]] + 1 : 1;
     }
 
     var max = 0;
     var maxLabel = null;
-    for (const label in counts) {
-        if (counts[label] > max) {
-            max = counts[label];
-            maxLabel = label;
+    for (var i = 0; i < labels.length; i++) {
+        if (counts[labels[i]] > max) {
+            max = counts[labels[i]];
+            maxLabel = labels[i];
         }
     }
 
@@ -102,9 +103,10 @@ function entropyLabels(labels) {
 
 function infoGain(data, attribute) {
     // Save the labels for each of the attribute's instances in an array
+    var attributeIndex = attributes.indexOf(attribute);
     var attributeLabels = [];
     data.forEach(function (row) {
-        attributeLabels.push([row.attributes[attribute], row.label]);
+        attributeLabels.push([Object.values(row.attributes)[attributeIndex], row.label]);
     });
 
     // Save only the labels to calculate this attribute's entropy
@@ -117,13 +119,16 @@ function infoGain(data, attribute) {
     var e = entropyLabels(labels);
 
     // Save the attribute values in a set
-    var attributeValues = new Set(data.map(instance => instance.attributes[attribute]));
+    var attributeValues = new Set(data.map(instance => Object.values(instance.attributes)[attributeIndex]));
+    
 
     // Count the number of instances for each value
-    var attributeValuesCounts = (data.map(instance => instance.attributes[attribute]));
+    var attributeValuesCounts = (data.map(instance => Object.values(instance.attributes)[attributeIndex]));
+
     var counts = {};
     attributeValuesCounts.forEach(function (row) {
         counts[row] = counts[row] ? counts[row] + 1 : 1;
+        console.log(counts);
     });
 
     // Calculate the entropy for each value
@@ -357,7 +362,7 @@ function calcTreeWidth(rootNode) {
 
     rootNode.children.forEach(child => {
         maxWidth++;
-        child.children.forEach(child2 => {
+        child.children.forEach(() => {
             maxWidth2++;
         });
     });
@@ -421,7 +426,7 @@ function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, 
         }
     } else {
         // Calculate right borders for each subtree
-        var subtreesRightBorders = calcSubtreesRightBorder(treeBorders[0], childrenNr, treeSplitByChildren);
+        subtreesRightBorders = calcSubtreesRightBorder(treeBorders[0], childrenNr, treeSplitByChildren);
     }
     // console.log(subtreesRightBorders);
 

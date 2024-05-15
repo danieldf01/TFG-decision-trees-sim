@@ -12,7 +12,7 @@ const html = fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf8');
 
 // jest
 //     .dontMock('fs');
-    
+
 test('E: properly calculates the Binary Entropy of a p value 0.5', () => {
     expect(E(0.5)).toBe(1);
 })
@@ -100,7 +100,7 @@ test('calcProbs: 2 inputs with value 4 and 6 should return probabilities [0.4, 0
 
 test('checkInput: 2 inputs with values 1 and 3 should not produce an error (return 0)', () => {
     document.body.innerHTML = html;
-     var inputElements = []
+    var inputElements = []
     var input1 = document.createElement('input');
     input1.setAttribute("value", "1");
     var input2 = document.createElement('input');

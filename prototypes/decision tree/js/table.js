@@ -79,8 +79,6 @@ function createTable(){
 
     tableEl.appendChild(body);
     tableDiv.appendChild(tableEl);
-
-    console.log(tableEl);
 }
 
 document.addEventListener('DOMContentLoaded', createTable);
