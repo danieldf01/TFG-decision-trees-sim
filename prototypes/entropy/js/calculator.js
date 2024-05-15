@@ -129,8 +129,4 @@ function calcEntropy() {
     }
 }
 
-// if (typeof module === 'object') {
-//     module.exports = { E, graphFunction, calcSum, calcProbs, entropy };
-// }
-
 export { E, graphFunction, calcSum, calcProbs, entropy, calcEntropy, checkInput };

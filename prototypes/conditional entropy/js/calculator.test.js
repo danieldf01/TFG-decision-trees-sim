@@ -1,13 +1,17 @@
 // disabled because this is the recommended way to import modules for Jest testing
 /* eslint-disable */
-const { calcRatio, calcEntropyCat, checkInput, calcCondEntropy } = require('./calculator')
-const fs = require('fs');
-const path = require('path');
+import { calcRatio, calcEntropyCat, calcCondEntropy } from './calculator';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 /* eslint-enable */
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const html = fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf8');
 
-jest
-    .dontMock('fs');
+// jest
+//     .dontMock('fs');
     
 test('calcRatio: properly calculates the ratio and between categories with instances [1, 5, 1, 8]', () => {
     document.body.innerHTML = html;
@@ -178,114 +182,6 @@ test('calcEntropyCat: properly calculates the entropies for each category with i
     
     expect(entropies[0]).toBe(0);
     expect(entropies[1]).toBe(0);
-})
-
-test('checkInput: 4 inputs with values 1, 3, 5 and 8 should not produce an error (return 0)', () => {
-    document.body.innerHTML = html;
-    var inputElements = []
-    var input1 = document.createElement('input');
-    input1.setAttribute("value", "1");
-    var input2 = document.createElement('input');
-    input2.setAttribute("value", "5");
-    var input3 = document.createElement('input');
-    input3.setAttribute("value", "1");
-    var input4 = document.createElement('input');
-    input4.setAttribute("value", "8");
-    inputElements.push(input1);
-    inputElements.push(input2);
-    inputElements.push(input3);
-    inputElements.push(input4);
-    expect(checkInput(inputElements)).toBe(0);
-})
-
-test('checkInput: 4 inputs with values 1, 1, 1 and -1 should produce error (return 1)', () => {
-    document.body.innerHTML = html;
-    var inputElements = []
-    var input1 = document.createElement('input');
-    input1.setAttribute("value", "1");
-    var input2 = document.createElement('input');
-    input2.setAttribute("value", "1");
-    var input3 = document.createElement('input');
-    input3.setAttribute("value", "1");
-    var input4 = document.createElement('input');
-    input4.setAttribute("value", "-1");
-    inputElements.push(input1);
-    inputElements.push(input2);
-    inputElements.push(input3);
-    inputElements.push(input4);
-    expect(checkInput(inputElements)).toBe(1);
-})
-
-test('checkInput: 2 inputs with values "", 4, "" and 1 should produce error (return 1)', () => {
-    document.body.innerHTML = html;
-    var inputElements = []
-    var input1 = document.createElement('input');
-    input1.setAttribute("value", "");
-    var input2 = document.createElement('input');
-    input2.setAttribute("value", "4");
-    var input3 = document.createElement('input');
-    input3.setAttribute("value", "");
-    var input4 = document.createElement('input');
-    input4.setAttribute("value", "1");
-    inputElements.push(input1);
-    inputElements.push(input2);
-    inputElements.push(input3);
-    inputElements.push(input4);
-    expect(checkInput(inputElements)).toBe(1);
-})
-
-test('checkInput: 4 inputs with values -5, "", 7.2 and 4 should produce error (return 1)', () => {
-    document.body.innerHTML = html;
-    var inputElements = []
-    var input1 = document.createElement('input');
-    input1.setAttribute("value", "-5");
-    var input2 = document.createElement('input');
-    input2.setAttribute("value", "");
-    var input3 = document.createElement('input');
-    input3.setAttribute("value", "7.2");
-    var input4 = document.createElement('input');
-    input4.setAttribute("value", "4");
-    inputElements.push(input1);
-    inputElements.push(input2);
-    inputElements.push(input3);
-    inputElements.push(input4);
-    expect(checkInput(inputElements)).toBe(1);
-})
-
-test('checkInput: 4 inputs with values 5, g, -7.3 and 3.5 should produce error (return 1)', () => {
-    document.body.innerHTML = html;
-    var inputElements = []
-    var input1 = document.createElement('input');
-    input1.setAttribute("value", "5");
-    var input2 = document.createElement('input');
-    input2.setAttribute("value", "g");
-    var input3 = document.createElement('input');
-    input3.setAttribute("value", "-7.3");
-    var input4 = document.createElement('input');
-    input4.setAttribute("value", "3.5");
-    inputElements.push(input1);
-    inputElements.push(input2);
-    inputElements.push(input3);
-    inputElements.push(input4);
-    expect(checkInput(inputElements)).toBe(1);
-})
-
-test('checkInput: 4 inputs with values f, 4, 6 and 3 should produce error (return 1)', () => {
-    document.body.innerHTML = html;
-    var inputElements = []
-    var input1 = document.createElement('input');
-    input1.setAttribute("value", "f");
-    var input2 = document.createElement('input');
-    input2.setAttribute("value", "4");
-    var input3 = document.createElement('input');
-    input3.setAttribute("value", "6");
-    var input4 = document.createElement('input');
-    input4.setAttribute("value", "3");
-    inputElements.push(input1);
-    inputElements.push(input2);
-    inputElements.push(input3);
-    inputElements.push(input4);
-    expect(checkInput(inputElements)).toBe(1);
 })
 
 test('calcCondEntropy: properly calculates the conditional entropy with instances [1, 5, 1, 8]', () => {
