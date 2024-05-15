@@ -1,6 +1,6 @@
 // disabled because this is the recommended way to import modules for Jest testing
 /* eslint-disable */
-import { mostCommonLabel, entropy, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch } from './tree';
+import { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch } from './tree';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -34,22 +34,22 @@ test('mostCommonLabel: gets the right most common label in example dataset', () 
     expect(mostCommonLabel(data)).toBe('yes');
 })
 
-test('entropy: gets entropy = 0', () => {
+test('entropyLabels: gets entropy = 0', () => {
     var labels = ['yes', 'yes', 'yes'];
 
-    expect(entropy(labels)).toBe(0);
+    expect(entropyLabels(labels)).toBe(0);
 })
 
-test('entropy: gets entropy = 1', () => {
+test('entropyLabels: gets entropy = 1', () => {
     var labels = ['yes', 'no'];
 
-    expect(entropy(labels)).toBe(1);
+    expect(entropyLabels(labels)).toBe(1);
 })
 
-test('entropy: gets entropy = 0.94 for example data', () => {
+test('entropyLabels: gets entropy = 0.94 for example data', () => {
     var labels = ['no', 'no', 'yes', 'yes', 'yes', 'no', 'yes', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'no'];
 
-    expect(parseFloat(entropy(labels).toFixed(2))).toBe(0.94);
+    expect(parseFloat(entropyLabels(labels).toFixed(2))).toBe(0.94);
 })
 
 test('infoGain: gets information gain = 0.25 for attribute outlook of example data', () => {

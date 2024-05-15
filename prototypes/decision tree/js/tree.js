@@ -1,4 +1,5 @@
 import { goToStep } from './stepbystep.js';
+import { entropy } from '../../../lib/entropy-calculator.js';
 
 const STD_LEAFHEIGHT = 133;
 const STD_NODEHEIGHT = 92;
@@ -95,7 +96,7 @@ function mostCommonLabel(data) {
     return maxLabel;
 }
 
-function entropy(labels) {
+function entropyLabels(labels) {
     // Count the occurrence of each label value
     var counts = {};
     for (const label of labels) {
@@ -110,14 +111,8 @@ function entropy(labels) {
     }
 
     // Calculate the entropy
-    var entropy = 0;
-    for (const pValue of pValues) {
-        entropy -= pValue * Math.log2(pValue);
-    }
-    if (isNaN(entropy)) {
-        entropy = 0;
-    }
-    return entropy;
+    var e = entropy(pValues);
+    return e;
 }
 
 function infoGain(data, attribute) {
@@ -134,7 +129,7 @@ function infoGain(data, attribute) {
     });
 
     // Caclulate entropy for the whole attribute
-    var e = entropy(labels);
+    var e = entropyLabels(labels);
 
     // Save the attribute values in a set
     var attributeValues = new Set(data.map(instance => instance.attributes[attribute]));
@@ -155,7 +150,7 @@ function infoGain(data, attribute) {
         subset.forEach(function (row) {
             subsetLabels.push(row[1]);
         });
-        entropies.push([entropy(subsetLabels), counts[value], value]);
+        entropies.push([entropyLabels(subsetLabels), counts[value], value]);
     }
 
     // Calculate the information gain
@@ -195,7 +190,7 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
     });
 
     // Caclulate entropy for the dataset
-    var e = entropy(datasetLabels).toFixed(2);
+    var e = entropyLabels(datasetLabels).toFixed(2);
 
     for (const row of data) {
         if (row.label == 'no') {
@@ -623,4 +618,4 @@ function handleResize() {
 document.addEventListener('DOMContentLoaded', buildTree);
 window.onresize = handleResize;
 
-export { mostCommonLabel, entropy, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch, buildTree, nodeCount, leafCount }
+export { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch, buildTree, nodeCount, leafCount }

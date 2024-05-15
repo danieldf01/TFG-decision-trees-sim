@@ -1,4 +1,5 @@
 import { checkInput } from '../../../lib/input-check.js';
+import { entropy } from '../../../lib/entropy-calculator.js';
 
 function E(x) {
     if (x < 0 || x > 1.00001) throw new Error("The Binary Entropy function was tried to be calculated with an invalid x value input");
@@ -81,17 +82,6 @@ function drawPoint(data, tableEntropy) {
 
     return points;
 
-}
-
-function entropy(pValues) {
-    var entropy = 0;
-    for (const pValue of pValues) {
-        entropy -= pValue * Math.log2(pValue);
-    }
-    if (isNaN(entropy)) {
-        entropy = 0;
-    }
-    return entropy;
 }
 
 function calcEntropy() {

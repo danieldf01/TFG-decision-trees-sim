@@ -1,4 +1,5 @@
 import { checkInput } from '../../../lib/input-check.js';
+import { entropy } from '../../../lib/entropy-calculator.js';
 
 function calcRatio(tBodyRef, instanceVals) {
     var sum = 0;
@@ -48,18 +49,17 @@ function calcEntropyCat(rowSums, tBodyRef, instanceVals) {
     // Calculate the Entropy for each category
     var entropies = [];
     for (i = 0; i < rowSums.length; i++) {
-        var entropy = 0;
+        var e = 0;
         // Entropy is 0 if there are no instances belonging to one of the classes
         if (rowValues[i][0] !== 0 && rowValues[i][1] !== 0) {
-            for (var j = 0; j < 2; j++) {
-                entropy -= (rowValues[i][j] / rowSums[i]) * Math.log2(rowValues[i][j] / rowSums[i]);
-            }
+            var pValues = [rowValues[i][0] / rowSums[i], rowValues[i][1] / rowSums[i]];
+            e = entropy(pValues);
         }
 
         var entropyCell = tBodyRef.getElementsByTagName('tr')[i].getElementsByTagName('td')[4];
         var entropyLabel = entropyCell.getElementsByTagName('label')[0];
-        entropyLabel.textContent = entropy;
-        entropies.push(entropy);
+        entropyLabel.textContent = e;
+        entropies.push(e);
     }
     return entropies;
 
