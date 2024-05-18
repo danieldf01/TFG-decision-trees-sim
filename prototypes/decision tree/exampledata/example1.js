@@ -1,18 +1,26 @@
-export const data = [
-    { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
-    { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
-    { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-    { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-    { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-    { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
-    { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-    { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
-    { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-    { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-    { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-    { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
-    { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-    { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
-];
+
+export var attributes = ['Outlook', 'Temperature', 'Humidity', 'Windy']
+export var attributeValues = [['Sunny', 'Overcast', 'Rainy'], ['Hot', 'Mild', 'Cool'], ['High', 'Normal'], ['False', 'True']]
 
 export const label = 'Play Golf';
+export var labelValues = ['Yes', 'No']
+
+export const data = [
+    { attributes: { [attributes[0]]: attributeValues[0][0], [attributes[1]]: attributeValues[1][0], [attributes[2]]: attributeValues[2][0], [attributes[3]]: attributeValues[3][0] }, label: labelValues[1] },
+    { attributes: { [attributes[0]]: attributeValues[0][0], [attributes[1]]: attributeValues[1][0], [attributes[2]]: attributeValues[2][0], [attributes[3]]: attributeValues[3][1] }, label: labelValues[1] },
+    { attributes: { [attributes[0]]: attributeValues[0][1], [attributes[1]]: attributeValues[1][0], [attributes[2]]: attributeValues[2][0], [attributes[3]]: attributeValues[3][0] }, label: labelValues[0] },
+    { attributes: { [attributes[0]]: attributeValues[0][2], [attributes[1]]: attributeValues[1][1], [attributes[2]]: attributeValues[2][0], [attributes[3]]: attributeValues[3][0] }, label: labelValues[0] },
+    { attributes: { [attributes[0]]: attributeValues[0][2], [attributes[1]]: attributeValues[1][2], [attributes[2]]: attributeValues[2][1], [attributes[3]]: attributeValues[3][0] }, label: labelValues[0] },
+    { attributes: { [attributes[0]]: attributeValues[0][2], [attributes[1]]: attributeValues[1][2], [attributes[2]]: attributeValues[2][1], [attributes[3]]: attributeValues[3][1] }, label: labelValues[1] },
+    { attributes: { [attributes[0]]: attributeValues[0][1], [attributes[1]]: attributeValues[1][2], [attributes[2]]: attributeValues[2][1], [attributes[3]]: attributeValues[3][1] }, label: labelValues[0] },
+    { attributes: { [attributes[0]]: attributeValues[0][0], [attributes[1]]: attributeValues[1][1], [attributes[2]]: attributeValues[2][0], [attributes[3]]: attributeValues[3][0] }, label: labelValues[1] },
+    { attributes: { [attributes[0]]: attributeValues[0][0], [attributes[1]]: attributeValues[1][2], [attributes[2]]: attributeValues[2][1], [attributes[3]]: attributeValues[3][0] }, label: labelValues[0] },
+    { attributes: { [attributes[0]]: attributeValues[0][2], [attributes[1]]: attributeValues[1][1], [attributes[2]]: attributeValues[2][1], [attributes[3]]: attributeValues[3][0] }, label: labelValues[0] },
+    { attributes: { [attributes[0]]: attributeValues[0][0], [attributes[1]]: attributeValues[1][1], [attributes[2]]: attributeValues[2][1], [attributes[3]]: attributeValues[3][1] }, label: labelValues[0] },
+    { attributes: { [attributes[0]]: attributeValues[0][1], [attributes[1]]: attributeValues[1][1], [attributes[2]]: attributeValues[2][0], [attributes[3]]: attributeValues[3][1] }, label: labelValues[0] },
+    { attributes: { [attributes[0]]: attributeValues[0][1], [attributes[1]]: attributeValues[1][0], [attributes[2]]: attributeValues[2][1], [attributes[3]]: attributeValues[3][0] }, label: labelValues[0] },
+    { attributes: { [attributes[0]]: attributeValues[0][2], [attributes[1]]: attributeValues[1][1], [attributes[2]]: attributeValues[2][0], [attributes[3]]: attributeValues[3][1] }, label: labelValues[1] }
+];
+
+
+

@@ -1,7 +1,5 @@
 // Get example data
-import { data } from '../exampledata/example1.js';
-import { label } from '../exampledata/example1.js';
-const attributes = Object.keys(data[0].attributes);
+import { data, attributes, label } from '../exampledata/example1.js';
 
 function createCountCell(){
     var countCell = document.createElement('td');

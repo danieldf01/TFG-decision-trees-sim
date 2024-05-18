@@ -8,6 +8,7 @@ const STD_NODEWIDTH = 82;
 
 const STD_BRANCH_FONTSIZE = 12;
 
+const svgId = 'svgDT';
 var svgWidth = 0;
 var svgHeight = 0;
 
@@ -16,8 +17,8 @@ var leafCount = 0;
 
 
 // Get example data
-import { data } from '../exampledata/example1.js';
-const attributes = Object.keys(data[0].attributes);
+import { data, attributes, attributeValues, labelValues } from '../exampledata/example1.js';
+// const attributes = Object.keys(data[0].attributes);
 
 // import data from '../exampledata/example1.mjs';
 // const attributes = Object.keys(data[0].attributes);
@@ -118,8 +119,7 @@ function infoGain(data, attribute) {
     var e = entropyLabels(labels);
 
     // Save the attribute values in a set
-    var attributeValues = new Set(data.map(instance => Object.values(instance.attributes)[attributeIndex]));
-    
+    var currentAttributeValues = new Set(data.map(instance => Object.values(instance.attributes)[attributeIndex]));
 
     // Count the number of instances for each value
     var attributeValuesCounts = (data.map(instance => Object.values(instance.attributes)[attributeIndex]));
@@ -131,7 +131,7 @@ function infoGain(data, attribute) {
 
     // Calculate the entropy for each value
     var entropies = [];
-    for (const value of attributeValues) {
+    for (const value of currentAttributeValues) {
         var subset = attributeLabels.filter(instance => instance[0] === value);
         // Save only the labels to calculate this attribute's entropy
         var subsetLabels = [];
@@ -181,11 +181,11 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
     var e = entropyLabels(datasetLabels).toFixed(2);
 
     for (const row of data) {
-        if (row.label == 'No') {
+        if (row.label == labelValues[1]) {
             class2++;
             allPositive = false;
         }
-        if (row.label == 'Yes') {
+        if (row.label == labelValues[0]) {
             class1++;
             allNegative = false;
         }
@@ -194,11 +194,11 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
     // Check if we have reached a leaf node
     if (allPositive) {
         var nextLeafId = leafId[0] + (+leafId[1] + 1);
-        return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, 'Yes', prevBranchVal), nodeId, nextLeafId];
+        return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, labelValues[0], prevBranchVal), nodeId, nextLeafId];
     }
     if (allNegative) {
         var nextLeafId = leafId[0] + (+leafId[1] + 1);
-        return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, 'No', prevBranchVal), nodeId, nextLeafId];
+        return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, labelValues[1], prevBranchVal), nodeId, nextLeafId];
     }
     if (attributes.length === 0) {
         var nextLeafId = leafId[0] + (+leafId[1] + 1);
@@ -210,12 +210,12 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
     var tree = new TreeNode(nodeId, bestAttribute, new NodeValues(class1, class2, n, e), false, null, null);
 
     // Split the data on the best attribute
-    var attributeValues = new Set(data.map(instance => instance.attributes[bestAttribute]));
+    var bestAttributeValues = new Set(data.map(instance => instance.attributes[bestAttribute]));
 
     nodeId = nodeId[0] + (+nodeId[1] + 1);
 
     // Do a recursive call for each value of the selected attribute or add a leaf node if the value's subset is empty
-    for (const value of attributeValues) {
+    for (const value of bestAttributeValues) {
         var subset = data.filter(instance => instance.attributes[bestAttribute] === value);
         var remainingAttributes = attributes.filter(attribute => attribute !== bestAttribute);
 
@@ -246,7 +246,7 @@ function createNewUse(id, href, x, y, width, height){
 }
 
 function createNode(nodeId, n, e, attribute, x, y, width, height) {
-    var svgEl = document.getElementById('svgDT');
+    var svgEl = document.getElementById(svgId);
     var nodeTemplate = document.getElementById('node');
     var nodeNumber = nodeId.substring(1);
 
@@ -267,7 +267,7 @@ function createNode(nodeId, n, e, attribute, x, y, width, height) {
 
 
 function createLeaf(leafId, n, yes, no, e, label, x, y, width, height) {
-    var svgEl = document.getElementById('svgDT');
+    var svgEl = document.getElementById(svgId);
     var leafTemplate = document.getElementById('leaf');
     var leafNumber = leafId.substring(1);
 
@@ -290,35 +290,38 @@ function createLeaf(leafId, n, yes, no, e, label, x, y, width, height) {
 
 
 function createBranch(nodeId, x1, y1, x2, y2, value) {
-    var svgEl = document.getElementById('svgDT');
+    var svgEl = document.getElementById(svgId);
     var branchTemplate = document.getElementById('branch');
 
     // Clone the template
     var clonedTemplate = branchTemplate.cloneNode(true);
     clonedTemplate.setAttribute('id', 'branch' + nodeId);
 
+    var templateBranchPathId = 'branchPath';
+    var templateBranchTPid = 'branchTP';
+
     // Update position attributes and ids
     if (x2 < x1) {
         var positionAttribute = 'M' + x2 + ' ' + y2 + ' ' + x1 + ' ' + y1;
-        clonedTemplate.querySelector('#branchPath').setAttribute('marker-end', '');
-        clonedTemplate.querySelector('#branchPath').setAttribute('marker-start', 'url(#arrowMarkerReverse)');
+        clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('marker-end', '');
+        clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('marker-start', 'url(#arrowMarkerReverse)');
     } else {
         var positionAttribute = 'M' + x1 + ' ' + y1 + ' ' + x2 + ' ' + y2;
-        clonedTemplate.querySelector('#branchPath').setAttribute('marker-end', 'url(#arrowMarker)');
+        clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('marker-end', 'url(#arrowMarker)');
     }
-    clonedTemplate.querySelector('#branchPath').setAttribute('d', positionAttribute);
+    clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('d', positionAttribute);
     clonedTemplate.querySelector('#branchValue').textContent = value;
 
     var textSizeRatio = (y2 - y1) / 100;
     clonedTemplate.querySelector('#branchValue').setAttribute('font-size', textSizeRatio * STD_BRANCH_FONTSIZE);
     if (x1 === x2) {
-        clonedTemplate.querySelector('#branchTP').setAttribute('startOffset', (y2 - y1) * 0.1);
+        clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('startOffset', (y2 - y1) * 0.1);
     } else {
-        clonedTemplate.querySelector('#branchTP').setAttribute('startOffset', (y2 - y1) * 0.2);
+        clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('startOffset', (y2 - y1) * 0.2);
     }
-    clonedTemplate.querySelector('#branchPath').setAttribute('id', 'branchPath' + nodeId);
-    clonedTemplate.querySelector('#branchTP').setAttribute('href', '#branchPath' + nodeId);
-    clonedTemplate.querySelector('#branchTP').setAttribute('id', 'branchTP' + nodeId);
+    clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('id', templateBranchPathId + nodeId);
+    clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('href', '#' + templateBranchPathId + nodeId);
+    clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('id', templateBranchTPid + nodeId);
 
     // Create a new 'use' element
     var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
@@ -521,7 +524,7 @@ function buildTree() {
 
     var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     group.setAttribute("id", "g1");
-    var svgEl = document.getElementById('svgDT');
+    var svgEl = document.getElementById(svgId);
 
     calcNodePositions(decisionTree, treeBorders, nodeWidth, nodeHeight, leafWidth, leafHeight, group, "g1", svgEl);
 
@@ -564,7 +567,7 @@ function destroyTree(svgEl) {
 }
 
 function calcSvgSize() {
-    var svgEl = document.getElementById('svgDT');
+    var svgEl = document.getElementById(svgId);
     const rect = svgEl.getBoundingClientRect();
 
     const width = rect.width;
@@ -577,7 +580,7 @@ function calcSvgSize() {
 }
 
 function resizeViewBox() {
-    var svgEl = document.getElementById('svgDT');
+    var svgEl = document.getElementById(svgId);
     svgEl.setAttribute('viewBox', '0 0 ' + svgWidth + ' ' + svgHeight);
 }
 
@@ -588,7 +591,7 @@ function handleResize() {
         svgHeight = newSizes[1];
 
         // Rebuild the tree with the new sizes
-        var svgEl = document.getElementById('svgDT');
+        var svgEl = document.getElementById(svgId);
         destroyTree(svgEl);
         buildTree();
         goToStep();
