@@ -48,6 +48,7 @@ function addCategory() {
 
     var removeButton = createRemoveButton();
     catCell.appendChild(removeButton);
+    catCell.classList.add("text-center");
 
     // Class 1 cell
     var class1Input = document.createElement("input");
