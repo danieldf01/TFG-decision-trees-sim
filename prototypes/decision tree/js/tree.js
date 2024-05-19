@@ -53,7 +53,13 @@ class TreeNode {
         this.label = label;
 
         this.prevBranchVal = prevBranchVal;
+        this.parent = null;
         this.children = [];
+
+        this.depth = 0;
+        this.x = 0;
+        this.y = 0;
+        this.mod = 0;
     }
 }
 
@@ -232,7 +238,19 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
     return [tree, nodeId, leafId];
 }
 
-function createNewUse(id, href, x, y, width, height){
+function assignParents(node, parent = null) {
+    if (!node) return;
+
+    // Assign parent reference
+    node.parent = parent;
+
+    // Recursively assign parents for children
+    for (let child of node.children) {
+        assignParents(child, node);
+    }
+}
+
+function createNewUse(id, href, x, y, width, height) {
     // Create a new 'use' element and set the node's position attributes
     var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
     newUse.setAttribute('id', id);
@@ -348,7 +366,7 @@ function calcTreeDepth(rootNode) {
     return maxDepth + 1;
 }
 
-// Calculate the tree's width by getting the maximum amount of nodes a level has
+// Calculate the tree's width by getting the maximum amount of nodes a row has
 function calcTreeWidth(rootNode) {
     if (!rootNode) return 0;
     if (rootNode.children.length === 0) return 0;
@@ -371,6 +389,29 @@ function calcTreeWidth(rootNode) {
     return maxWidth;
 }
 
+function countNodesAtEachLevel(root) {
+    if (!root) {
+        return [];
+    }
+
+    let levels = [];
+    let queue = [root];
+
+    while (queue.length > 0) {
+        let levelSize = queue.length;
+        levels.push(levelSize);
+
+        for (let i = 0; i < levelSize; i++) {
+            let currentNode = queue.shift();
+            for (let child of currentNode.children) {
+                queue.push(child);
+            }
+        }
+    }
+
+    return levels;
+}
+
 function calcSubtreesRightBorder(treeLeftBorder, childrenNr, treeSplitByChildren) {
     var subtreesRightBorders = [];
     for (var i = 0; i < childrenNr; i++) {
@@ -379,7 +420,7 @@ function calcSubtreesRightBorder(treeLeftBorder, childrenNr, treeSplitByChildren
     return subtreesRightBorders;
 }
 
-function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, leafHeight, group, groupId, svgEl) {
+function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, leafHeight, group, groupId, svgEl, levels, maxColumns, currentLevel = 0, level2Value = {}) {
     // console.log(treeBorders);
     var nodeXvalue = ((treeBorders[0] + treeBorders[1]) / 2) - (nodeWidth / 2);
 
@@ -396,6 +437,11 @@ function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, 
     // Return if it's a leaf node
     var childrenNr = node.children.length;
     if (childrenNr === 0) return groupId;
+
+    if ((currentLevel + 1) === levels.indexOf(maxColumns)) {
+        console.log(treeBorders);
+        level2Value[treeBorders[0]] = treeBorders[1];
+    }
 
     var treeSplitByChildren = (treeBorders[1] - treeBorders[0]) / childrenNr;
 
@@ -460,29 +506,88 @@ function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, 
         nextGroup.appendChild(createBranch(node.children[i].id, branchX1values[i], branchY1value, branchX2values[i], branchY2value, node.children[i].prevBranchVal));
 
         //Recursive call
-        groupId = calcNodePositions(node.children[i], subtreesBorders[i], nodeWidth, nodeHeight, leafWidth, leafHeight, nextGroup, nextGroup.id, svgEl);
+        groupId = calcNodePositions(node.children[i], subtreesBorders[i], nodeWidth, nodeHeight, leafWidth, leafHeight, nextGroup, nextGroup.id, svgEl, levels, maxColumns, currentLevel + 1, level2Value);
     }
     return groupId;
+}
+
+
+var siblingDistance = 0;
+
+function calcInitialX(node, nodeIndex, nodeWidth) {
+    for (var i = 0; i < node.children.length; i++) {
+        calcInitialX(node.children[i], i, nodeWidth);
+    }
+
+    if (node.children.length === 0) {
+        if(nodeIndex !== 0){
+            node.x = node.parent.children[nodeIndex - 1].x + nodeWidth + siblingDistance;
+        } else{
+            node.x = 0;
+        }
+    } else if(node.children.length === 1){
+        if(nodeIndex === 0){
+            node.x = node.children[0].x;
+        } else{
+            node.x = node.parent.children[nodeIndex - 1].x + nodeWidth + siblingDistance;
+            node.mod = node.x - node.children[0].x;
+        }
+    } else{
+        var middle = (node.children[0].x + node.children[node.children.length - 1].x) / 2;
+        if (nodeIndex === 0){
+            node.x = middle;
+        } else{
+            node.x = node.parent.children[nodeIndex - 1].x + nodeWidth + siblingDistance;
+            node.mod = node.x - middle;
+        }
+    }
+
+    if(node.children.length > 0 && nodeIndex !== 0){
+
+    }
+}
+
+
+function layoutTree(root, nodeWidth, nodeHeight, leafWidth, leafHeight) {
+    let queue = [root];
+
+    // Assign depth to each node
+    while (queue.length > 0) {
+        const node = queue.shift();
+        node.children.forEach(child => {
+            child.depth = node.depth + 1;
+            queue.push(child);
+        });
+    }
+
+    calcInitialX(root, 0, nodeWidth);
+    console.log(root);
 }
 
 function buildTree() {
     var treeValues = id3(data, attributes, null, "n1", "l1");
     var decisionTree = treeValues[0];
+    
     nodeCount = +((treeValues[1])[1]) - 1;
     leafCount = +((treeValues[2])[1]) - 1;
     console.log(decisionTree);
 
-    // var newNode = new TreeNode("n4", "testAttr", new NodeValues(3, 3, 6, 0.5), isLeaf = false, null, 'test1');
-    // var newNode2 = new TreeNode("n5", "testAttr", new NodeValues(3, 3, 6, 0.5), isLeaf = false, null, 'test2');
-    // var newNode3 = new TreeNode("n6", "testAttr", new NodeValues(3, 3, 6, 0.5), isLeaf = false, null, 'test3');
-    // var newLeaf = new TreeNode("l6", null, new NodeValues(3, 0, 3, 0), isLeaf = true, 'yes', 'testl1');
-    // var newLeaf2 = new TreeNode("l7", null, new NodeValues(0, 3, 3, 0), isLeaf = true, 'no', 'testl2');
+    var newNode = new TreeNode("n4", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test1');
+    var newNode2 = new TreeNode("n5", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test2');
+    var newNode3 = new TreeNode("n6", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test3');
+    var newNode4 = new TreeNode("n7", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test4');
+    var newLeaf = new TreeNode("l6", null, new NodeValues(3, 0, 3, 0), true, 'Yes', 'testl1');
+    var newLeaf2 = new TreeNode("l7", null, new NodeValues(0, 3, 3, 0), true, 'No', 'testl2');
     // var newLeaf3 = new TreeNode("l8", null, new NodeValues(0, 3, 3, 0), isLeaf = true, 'no', 'testl3');
     // var newLeaf4 = new TreeNode("l9", null, new NodeValues(0, 3, 3, 0), isLeaf = true, 'no', 'testl4');
     // decisionTree.children.push(newNode);
     // decisionTree.children.push(newNode2);
     // decisionTree.children[3].children.push(newLeaf);
     // decisionTree.children[3].children.push(newLeaf2);
+    decisionTree.children[2].children.push(newNode);
+    decisionTree.children[2].children.push(newNode2);
+    decisionTree.children[2].children.push(newNode3);
+    decisionTree.children[2].children.push(newNode4);
     // decisionTree.children[2].children[2].children.push(newLeaf);
     // decisionTree.children[2].children[2].children.push(newLeaf2);
     // decisionTree.children.push(newLeaf3);
@@ -497,26 +602,44 @@ function buildTree() {
     // decisionTree.children[1].children[0].children[0].children.push(newLeaf);
     // decisionTree.children[1].children[0].children[0].children.push(newLeaf2);
 
+    assignParents(decisionTree);
+
     var svgSizes = calcSvgSize(decisionTree);
     svgWidth = svgSizes[0];
     svgHeight = svgSizes[1];
     resizeViewBox();
 
-    var treeDepth = calcTreeDepth(decisionTree);
+    // var treeDepth = calcTreeDepth(decisionTree);
 
-    var treeWidth = calcTreeWidth(decisionTree);
+    // var columns = calcTreeWidth(decisionTree);
+    var levels = countNodesAtEachLevel(decisionTree);
+    // console.log(columns);
 
-    // A level is a level of (leaf) nodes or branches 
-    var levels = treeDepth + (treeDepth - 1);
-    var levelHeight = svgHeight / levels;
+    // A row is a row of (leaf) nodes or branches 
+    // var rows = treeDepth + (treeDepth - 1);
+    var rows = levels.length + (levels.length - 1);
+    var rowHeight = svgHeight / rows;
+    var heightRatio = rowHeight / STD_LEAFHEIGHT
 
-    // The height of one level is based on a leaf's height because it's the element with the highest height
-    var sizeRatio = levelHeight / STD_LEAFHEIGHT
+    var maxColumns = levels.reduce((a, b) => Math.max(a, b), -Infinity);
+    var columnWidth = (svgWidth / maxColumns);
+    var widthRatio = columnWidth / STD_LEAFWIDTH;
+
+    console.log(heightRatio);
+    console.log(widthRatio);
+
+    var sizeRatio = Math.min(widthRatio, heightRatio);
+    console.log(sizeRatio);
+
+    // The height of one row is based on a leaf's height because it's the element with the highest height
+
 
     var leafHeight = STD_LEAFHEIGHT * sizeRatio;
     var nodeHeight = STD_NODEHEIGHT * sizeRatio;
 
     // Size of the nodes/leaves has to be increased/decreased by the same ratio
+
+
     var leafWidth = STD_LEAFWIDTH * sizeRatio;
     var nodeWidth = STD_NODEWIDTH * sizeRatio;
 
@@ -526,7 +649,16 @@ function buildTree() {
     group.setAttribute("id", "g1");
     var svgEl = document.getElementById(svgId);
 
-    calcNodePositions(decisionTree, treeBorders, nodeWidth, nodeHeight, leafWidth, leafHeight, group, "g1", svgEl);
+    calcNodePositions(decisionTree, treeBorders, nodeWidth, nodeHeight, leafWidth, leafHeight, group, "g1", svgEl, levels, maxColumns);
+
+    layoutTree(decisionTree, nodeWidth, nodeHeight, leafWidth, leafHeight);
+    console.log(decisionTree);
+
+    var svg = document.getElementById(svgId);
+    var groups = svg.getElementsByTagName('g');
+    for (const group of groups) {
+        group.style.display = "block";
+    }
 
     // var branchToHide = document.getElementById("useBranchn2");
     // branchToHide.style.display = "none";
