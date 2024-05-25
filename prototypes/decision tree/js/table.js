@@ -38,6 +38,7 @@ function createTable(){
     var tableEl = document.createElement('table');
     tableEl.classList.add('table');
     tableEl.classList.add('caption-top');
+    tableEl.setAttribute("id", "dataTableEl");
     
     // Caption
     var caption = document.createElement('caption');
