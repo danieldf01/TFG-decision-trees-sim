@@ -3,7 +3,6 @@ import { entropy } from '../../../lib/entropy-calculator.js';
 
 const STD_LEAFHEIGHT = 133;
 const STD_NODEHEIGHT = 92;
-const STD_LEAFWIDTH = 82;
 const STD_NODEWIDTH = 82;
 
 const STD_BRANCH_FONTSIZE = 12;
@@ -412,144 +411,240 @@ function countNodesAtEachLevel(root) {
     return levels;
 }
 
-function calcSubtreesRightBorder(treeLeftBorder, childrenNr, treeSplitByChildren) {
-    var subtreesRightBorders = [];
-    for (var i = 0; i < childrenNr; i++) {
-        subtreesRightBorders.push(treeLeftBorder + (i + 1) * treeSplitByChildren);
-    }
-    return subtreesRightBorders;
-}
-
-function calcNodePositions(node, treeBorders, nodeWidth, nodeHeight, leafWidth, leafHeight, group, groupId, svgEl, levels, maxColumns, currentLevel = 0, level2Value = {}) {
-    // console.log(treeBorders);
-    var nodeXvalue = ((treeBorders[0] + treeBorders[1]) / 2) - (nodeWidth / 2);
-
-    var useNode = null;
-    if (node.isLeaf) {
-        useNode = createLeaf(node.id, node.nodeValues.n, node.nodeValues.class1, node.nodeValues.class2, node.nodeValues.entropy, node.label,
-            nodeXvalue, treeBorders[2], leafWidth, leafHeight);
-    } else {
-        useNode = createNode(node.id, node.nodeValues.n, node.nodeValues.entropy, node.attribute, nodeXvalue, treeBorders[2], nodeWidth, nodeHeight);
-    }
-    svgEl.appendChild(group);
-    group.appendChild(useNode);
-
-    // Return if it's a leaf node
-    var childrenNr = node.children.length;
-    if (childrenNr === 0) return groupId;
-
-    if ((currentLevel + 1) === levels.indexOf(maxColumns)) {
-        console.log(treeBorders);
-        level2Value[treeBorders[0]] = treeBorders[1];
-    }
-
-    var treeSplitByChildren = (treeBorders[1] - treeBorders[0]) / childrenNr;
-
-    var subtreesRightBorders = [];
-
-    // If there is not enough space for a single node, make the subtree bigger than usual
-    if (treeSplitByChildren < nodeWidth) {
-        treeSplitByChildren = nodeWidth + 5;
-        var subtreeLeftBorder = treeBorders[0] - (treeSplitByChildren / childrenNr);
-
-        // Shift the following subtrees to the right if it would go too far left
-        if (subtreeLeftBorder < 0) {
-            subtreeLeftBorder = 0;
-            subtreesRightBorders = calcSubtreesRightBorder(subtreeLeftBorder, childrenNr, treeSplitByChildren);
-        }
-        subtreesRightBorders = calcSubtreesRightBorder(subtreeLeftBorder, childrenNr, treeSplitByChildren);
-
-        // Shift the following subtrees to the left if it would go too far right
-        if (subtreesRightBorders[childrenNr - 1] > svgWidth) {
-            var spaceNeeded = subtreesRightBorders[childrenNr - 1] - svgWidth;
-            // console.log(spaceNeeded);
-            subtreeLeftBorder -= spaceNeeded;
-            subtreesRightBorders = calcSubtreesRightBorder(subtreeLeftBorder, childrenNr, treeSplitByChildren);
-        }
-    } else {
-        // Calculate right borders for each subtree
-        subtreesRightBorders = calcSubtreesRightBorder(treeBorders[0], childrenNr, treeSplitByChildren);
-    }
-    // console.log(subtreesRightBorders);
-
-
-
-    let subtreesBorders = [];
-    for (var i = 0; i < childrenNr; i++) {
-
-        let leftBorder = subtreesRightBorders[i] - treeSplitByChildren;
-        let rightBorder = subtreesRightBorders[i];
-        let topBorder = treeBorders[2] + (2 * leafHeight);
-        let bottomBorder = svgHeight;
-        subtreesBorders.push([leftBorder, rightBorder, topBorder, bottomBorder]);
-    }
-    // console.log(subtreesBorders);
-
-    var nodeSplitByChildren = nodeWidth / childrenNr;
-    var branchX1values = [];
-    for (var i = 0; i < childrenNr; i++) {
-        branchX1values.push(nodeXvalue + (nodeSplitByChildren - (nodeSplitByChildren / 2) + (i * nodeSplitByChildren)));
-    }
-
-    var branchX2values = [];
-    for (var i = 0; i < childrenNr; i++) {
-        branchX2values.push(subtreesBorders[i][1] - (treeSplitByChildren / 2));
-    }
-
-    var branchY1value = treeBorders[2] + nodeHeight - 1;
-    var branchY2value = subtreesBorders[0][2] - 3;
-    for (var i = 0; i < childrenNr; i++) {
-        var nextGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        nextGroup.setAttribute('id', 'g' + (+groupId.substring(1) + 1));
-        nextGroup.style.display = 'none';
-
-        nextGroup.appendChild(createBranch(node.children[i].id, branchX1values[i], branchY1value, branchX2values[i], branchY2value, node.children[i].prevBranchVal));
-
-        //Recursive call
-        groupId = calcNodePositions(node.children[i], subtreesBorders[i], nodeWidth, nodeHeight, leafWidth, leafHeight, nextGroup, nextGroup.id, svgEl, levels, maxColumns, currentLevel + 1, level2Value);
-    }
-    return groupId;
-}
-
-
-var siblingDistance = 0;
-
-function calcInitialX(node, nodeIndex, nodeWidth) {
+// Calculates the initial x values for all nodes
+function calcInitialX(node, nodeIndex, columnWidth, currentLevel = 0) {
     for (var i = 0; i < node.children.length; i++) {
-        calcInitialX(node.children[i], i, nodeWidth);
+        calcInitialX(node.children[i], i, columnWidth, currentLevel + 1);
     }
 
+    // Position leaf nodes next to each other, each at a distance of columnWidth
     if (node.children.length === 0) {
-        if(nodeIndex !== 0){
-            node.x = node.parent.children[nodeIndex - 1].x + nodeWidth + siblingDistance;
-        } else{
+        if (nodeIndex !== 0) {
+            node.x = node.parent.children[nodeIndex - 1].x + columnWidth;
+        } else {
             node.x = 0;
         }
-    } else if(node.children.length === 1){
-        if(nodeIndex === 0){
+
+    // Position nodes that have one child above their child, except if they have siblings
+    } else if (node.children.length === 1) {
+        if (nodeIndex === 0) {
             node.x = node.children[0].x;
-        } else{
-            node.x = node.parent.children[nodeIndex - 1].x + nodeWidth + siblingDistance;
+        } else {
+            node.x = node.parent.children[nodeIndex - 1].x + columnWidth;
             node.mod = node.x - node.children[0].x;
         }
-    } else{
+
+    // Position nodes that have more than one child in the middle between their children, except if they have siblings
+    } else {
         var middle = (node.children[0].x + node.children[node.children.length - 1].x) / 2;
-        if (nodeIndex === 0){
+        if (nodeIndex === 0) {
             node.x = middle;
-        } else{
-            node.x = node.parent.children[nodeIndex - 1].x + nodeWidth + siblingDistance;
+        } else {
+            node.x = node.parent.children[nodeIndex - 1].x + columnWidth;
             node.mod = node.x - middle;
         }
     }
 
-    if(node.children.length > 0 && nodeIndex !== 0){
-
+    // Check nodes that have at least one child and are not the leftmost sibling if there are conflicts in the subtrees in the levels below them
+    if (node.children.length > 0 && nodeIndex !== 0) {
+        checkForConflicts(node, columnWidth, currentLevel, nodeIndex);
     }
 }
 
+// Checks if subtrees of a node are overlapping
+function checkForConflicts(node, columnWidth, currentLevel, nodeIndex) {
+    // Nodes should at least be one column width apart from each other
+    var minDistance = columnWidth;
+    var shift = 0;
 
-function layoutTree(root, nodeWidth, nodeHeight, leafWidth, leafHeight) {
-    let queue = [root];
+    var leftEdges = calcLeftEdges(node, 0, currentLevel);
+
+    var siblingIndex = 0;
+    var currentSibling = node.parent.children[siblingIndex];
+    // Go through all siblings that are left of the node
+    while (currentSibling != null && currentSibling != node) {
+        var rightEdges = calcRightEdges(currentSibling, 0, currentLevel);
+
+        var leftEdgesKeys = Object.keys(leftEdges).map(Number);
+        var maxLeftEdgesKey = leftEdgesKeys.reduce((a, b) => Math.max(a, b), -Infinity);
+
+        var rightEdgesKeys = Object.keys(rightEdges).map(Number);
+        var maxRightEdgesKey = rightEdgesKeys.reduce((a, b) => Math.max(a, b), -Infinity);
+
+        // Go through all subtrees that are left and right of the node
+        for (var level = currentLevel + 1; level <= Math.min(maxRightEdgesKey, maxLeftEdgesKey); level++) {
+            var dist = leftEdges[level] - rightEdges[level];
+            // If the distance is less than the minimum distance, increase the necessary shift
+            if (dist + shift < minDistance) {
+                shift = minDistance - dist;
+            }
+        }
+
+        // Shift the node and update its mod so that its children will get shifted later, too
+        if (shift > 0) {
+            node.x += shift;
+            node.mod += shift;
+
+            // Center nodes in between after the shift
+            centerNodesBetween(node, currentSibling, siblingIndex, nodeIndex);
+
+            shift = 0;
+        }
+
+        siblingIndex++;
+        currentSibling = currentSibling.parent.children[siblingIndex];
+    }
+}
+
+// Centers the nodes that are in between two nodes on the edge
+function centerNodesBetween(leftNode, rightNode, leftIndex, rightIndex) {
+    var numNodesBetween = (rightIndex - leftIndex) - 1;
+
+    if (numNodesBetween > 0) {
+        var distanceBetweenNodes = (leftNode.x - rightNode.x) / (numNodesBetween + 1);
+
+        var count = 1;
+        for (var i = leftIndex + 1; i < rightIndex; i++) {
+            var middleNode = leftNode.parent.children[i];
+
+            var desiredX = rightNode.x + (distanceBetweenNodes * count);
+            var offset = desiredX - middleNode.x;
+            middleNode.x += offset;
+            middleNode.mod += offset;
+
+            count++;
+        }
+
+        // Double check for conflicts
+        checkForConflicts(leftNode);
+    }
+
+}
+
+// Calculates the left edges of a node and its children
+function calcLeftEdges(node, modSum, currentLevel, edges = {}) {
+    if (edges[currentLevel] == null) {
+        edges[currentLevel] = node.x + modSum;
+    } else {
+        edges[currentLevel] = Math.min(edges[currentLevel], node.x + modSum);
+    }
+
+    modSum += node.mod;
+
+    for (const child of node.children) {
+        calcLeftEdges(child, modSum, currentLevel + 1, edges);
+    }
+
+    return edges;
+}
+
+// Calculates the right edges of a node and its children
+function calcRightEdges(node, modSum, currentLevel, edges = {}) {
+    if (edges[currentLevel] == null) {
+        edges[currentLevel] = node.x + modSum;
+    } else{
+        edges[currentLevel] = Math.max(edges[currentLevel], node.x + modSum);
+    }
+
+    modSum += node.mod;
+
+    for (const child of node.children) {
+        calcRightEdges(child, modSum, currentLevel + 1, edges);
+    }
+
+    return edges;
+}
+
+// Checks if any nodes have gone out of bounds on the left side of the SVG
+function checkInBounds(node) {
+    var leftEdges = calcLeftEdges(node, 0, 0);
+
+    var rightShift = 0;
+    for (var level in Object.keys(leftEdges)) {
+        // Check if any node has gone out of bounds on the left side
+        if (leftEdges[level] + rightShift < 0) {
+            rightShift = (leftEdges[level] * -1);
+        }
+    }
+
+    if (rightShift > 0) {
+        node.x += rightShift;
+        node.mod += rightShift;
+    }
+}
+
+// Traverses the tree one last time to perform shifts based on a child's parent's mod value
+function calcFinalPositions(node, modSum, leafHeight) {
+    node.x += modSum;
+    modSum += node.mod;
+
+    if (node.depth === 0) {
+        node.y = node.depth;
+    } else {
+        node.y = (node.depth * 2) * leafHeight;
+    }
+
+    for (const child of node.children) {
+        calcFinalPositions(child, modSum, leafHeight);
+    }
+}
+
+// Creates/draws the nodes and adds them to groups
+function createNodes(node, nodeIndex, svgEl, groupId, nodeWidth, nodeHeight, leafHeight) {
+    var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    group.setAttribute("id", groupId);
+
+    var useNode = null;
+    // No branch going into the root node
+    if (node.depth === 0) {
+        useNode = createNode(node.id, node.nodeValues.n, node.nodeValues.entropy, node.attribute, node.x, node.y, nodeWidth, nodeHeight);
+        group.appendChild(useNode);
+        svgEl.appendChild(group);
+
+    } else {
+        var nodeSplitByChildren = nodeWidth / node.parent.children.length;
+        var x1Value = node.parent.x + (nodeSplitByChildren - (nodeSplitByChildren / 2) + (nodeIndex * nodeSplitByChildren));
+        var useBranch = createBranch(node.id, x1Value, (node.parent.y + nodeHeight) - 1, node.x + (nodeWidth / 2), node.y - 1, node.prevBranchVal)
+
+        if (node.children.length === 0) {
+            useNode = createLeaf(node.id, node.nodeValues.n, node.nodeValues.class1, node.nodeValues.class2, node.nodeValues.entropy, node.label,
+                node.x, node.y, nodeWidth, leafHeight);
+        } else {
+            useNode = createNode(node.id, node.nodeValues.n, node.nodeValues.entropy, node.attribute, node.x, node.y, nodeWidth, nodeHeight);
+        }
+        group.appendChild(useBranch);
+        group.appendChild(useNode);
+        svgEl.appendChild(group);
+        group.style.display = 'none';
+
+        if (node.children.length === 0){
+            return groupId;
+        }
+    }
+
+    for (var i = 0; i < node.children.length; i++) {
+        groupId = createNodes(node.children[i], i, svgEl, 'g' + (+groupId.substring(1) + 1), nodeWidth, nodeHeight, leafHeight);
+    }
+
+    return groupId;
+}
+
+// Centers the tree in the SVG if there are still space left on the right side
+function centerTree(node, nodeWidth) {
+    var rightEdges = calcRightEdges(node, 0, 0);
+    var rightEdgesVals = Object.values(rightEdges).map(Number);
+    var maxRightEdgesVal = rightEdgesVals.reduce((a, b) => Math.max(a, b), -Infinity);
+
+    var freeSpace = (svgWidth - maxRightEdgesVal) - nodeWidth;
+
+    if (freeSpace > 0){
+        node.x += freeSpace / 2;
+        node.mod += freeSpace / 2;
+    }
+}
+
+function calcPositions(root, nodeWidth, leafHeight, columnWidth) {
+    var queue = [root];
 
     // Assign depth to each node
     while (queue.length > 0) {
@@ -560,36 +655,52 @@ function layoutTree(root, nodeWidth, nodeHeight, leafWidth, leafHeight) {
         });
     }
 
-    calcInitialX(root, 0, nodeWidth);
+    // Calculate initial positions
+    // Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
+    calcInitialX(root, 0, columnWidth);
+
+    // Check if we need to shift the tree to the right if it went out of bounds on the left side
+    // Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
+    checkInBounds(root);
+
+    // Center the tree if there is still space on the right side
+    centerTree(root, nodeWidth);
+
+    // Calculate final positions
+    // Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
+    calcFinalPositions(root, 0, leafHeight);
+    
     console.log(root);
 }
 
 function buildTree() {
     var treeValues = id3(data, attributes, null, "n1", "l1");
     var decisionTree = treeValues[0];
-    
+
     nodeCount = +((treeValues[1])[1]) - 1;
     leafCount = +((treeValues[2])[1]) - 1;
     console.log(decisionTree);
 
-    var newNode = new TreeNode("n4", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test1');
-    var newNode2 = new TreeNode("n5", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test2');
-    var newNode3 = new TreeNode("n6", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test3');
-    var newNode4 = new TreeNode("n7", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test4');
-    var newLeaf = new TreeNode("l6", null, new NodeValues(3, 0, 3, 0), true, 'Yes', 'testl1');
-    var newLeaf2 = new TreeNode("l7", null, new NodeValues(0, 3, 3, 0), true, 'No', 'testl2');
-    // var newLeaf3 = new TreeNode("l8", null, new NodeValues(0, 3, 3, 0), isLeaf = true, 'no', 'testl3');
-    // var newLeaf4 = new TreeNode("l9", null, new NodeValues(0, 3, 3, 0), isLeaf = true, 'no', 'testl4');
+    // var newNode = new TreeNode("n4", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test1');
+    // var newNode2 = new TreeNode("n5", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test2');
+    // var newNode3 = new TreeNode("n6", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test3');
+    // var newNode4 = new TreeNode("n7", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test4');
+    // var newLeaf = new TreeNode("l6", null, new NodeValues(3, 0, 3, 0), true, 'Yes', 'testl1');
+    // var newLeaf2 = new TreeNode("l7", null, new NodeValues(0, 3, 3, 0), true, 'No', 'testl2');
+    // var newLeaf3 = new TreeNode("l8", null, new NodeValues(0, 3, 3, 0), true, 'no', 'testl3');
+    // var newLeaf4 = new TreeNode("l9", null, new NodeValues(0, 3, 3, 0), true, 'no', 'testl4');
     // decisionTree.children.push(newNode);
     // decisionTree.children.push(newNode2);
     // decisionTree.children[3].children.push(newLeaf);
     // decisionTree.children[3].children.push(newLeaf2);
-    decisionTree.children[2].children.push(newNode);
-    decisionTree.children[2].children.push(newNode2);
-    decisionTree.children[2].children.push(newNode3);
-    decisionTree.children[2].children.push(newNode4);
-    // decisionTree.children[2].children[2].children.push(newLeaf);
-    // decisionTree.children[2].children[2].children.push(newLeaf2);
+    // decisionTree.children[2].children.push(newNode);
+    // decisionTree.children[2].children.push(newNode2);
+    // decisionTree.children[2].children.push(newNode3);
+    // decisionTree.children[2].children.push(newNode4);
+    // decisionTree.children[2].children.push(newLeaf);
+    // decisionTree.children[2].children.push(newLeaf2);
+    // decisionTree.children[2].children[2].children.push(newLeaf3);
+    // decisionTree.children[2].children[2].children.push(newLeaf4);
     // decisionTree.children.push(newLeaf3);
     // decisionTree.children.push(newLeaf4);
     // decisionTree.children.splice(2, 1);
@@ -609,60 +720,40 @@ function buildTree() {
     svgHeight = svgSizes[1];
     resizeViewBox();
 
-    // var treeDepth = calcTreeDepth(decisionTree);
-
-    // var columns = calcTreeWidth(decisionTree);
+    // Get array that holds the amount of nodes in each level/row
     var levels = countNodesAtEachLevel(decisionTree);
-    // console.log(columns);
 
     // A row is a row of (leaf) nodes or branches 
-    // var rows = treeDepth + (treeDepth - 1);
     var rows = levels.length + (levels.length - 1);
     var rowHeight = svgHeight / rows;
-    var heightRatio = rowHeight / STD_LEAFHEIGHT
+    var heightRatio = rowHeight / STD_LEAFHEIGHT;
 
     var maxColumns = levels.reduce((a, b) => Math.max(a, b), -Infinity);
-    var columnWidth = (svgWidth / maxColumns);
-    var widthRatio = columnWidth / STD_LEAFWIDTH;
+    var columnWidth = (svgWidth / (maxColumns));
+    // Nodes need to be a bit smaller than a column so there is space between them
+    var nodeWidth = (svgWidth / (maxColumns + maxColumns * 0.1));
+    var widthRatio = nodeWidth / STD_NODEWIDTH;
 
-    console.log(heightRatio);
-    console.log(widthRatio);
-
+    // Choose the smaller ratio so the nodes don't go out ouf bounds
     var sizeRatio = Math.min(widthRatio, heightRatio);
-    console.log(sizeRatio);
 
-    // The height of one row is based on a leaf's height because it's the element with the highest height
-
-
+    // Calculate leaf and node height with the size ratio
     var leafHeight = STD_LEAFHEIGHT * sizeRatio;
     var nodeHeight = STD_NODEHEIGHT * sizeRatio;
 
-    // Size of the nodes/leaves has to be increased/decreased by the same ratio
+    // Both leaf and decision nodes have the same width
+    var realNodeWidth = STD_NODEWIDTH * sizeRatio;
 
+    calcPositions(decisionTree, realNodeWidth, leafHeight, columnWidth);
 
-    var leafWidth = STD_LEAFWIDTH * sizeRatio;
-    var nodeWidth = STD_NODEWIDTH * sizeRatio;
-
-    var treeBorders = [0, svgWidth, 0, svgHeight];
-
-    var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    group.setAttribute("id", "g1");
     var svgEl = document.getElementById(svgId);
+    createNodes(decisionTree, 0, svgEl, "g1", realNodeWidth, nodeHeight, leafHeight);
 
-    calcNodePositions(decisionTree, treeBorders, nodeWidth, nodeHeight, leafWidth, leafHeight, group, "g1", svgEl, levels, maxColumns);
-
-    layoutTree(decisionTree, nodeWidth, nodeHeight, leafWidth, leafHeight);
-    console.log(decisionTree);
-
-    var svg = document.getElementById(svgId);
-    var groups = svg.getElementsByTagName('g');
-    for (const group of groups) {
-        group.style.display = "block";
-    }
-
-    // var branchToHide = document.getElementById("useBranchn2");
-    // branchToHide.style.display = "none";
-    // branchToHide.style.display = "block";
+    // var svg = document.getElementById(svgId);
+    // var groups = svg.getElementsByTagName('g');
+    // for (const group of groups) {
+    //     group.style.display = "block";
+    // }
 }
 
 function destroyTree(svgEl) {
