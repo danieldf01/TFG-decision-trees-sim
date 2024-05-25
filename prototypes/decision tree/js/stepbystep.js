@@ -4,7 +4,7 @@ var currentStep = 1;
 
 var changedCells = [];
 
-function grayOutRows(){
+function highlightAttributes(){
     var rowsToMark = dataTableGroups[currentStep - 2][0];
     var colsToMark = dataTableGroups[currentStep - 2][1];
 
@@ -39,7 +39,19 @@ function grayOutRows(){
     }
 }
 
+function unhighlightAttributes(){
+    for (var i = 0; i < changedCells.length; i++){
+        if(changedCells[i].tagName == 'TD' || changedCells[i].tagName == 'TH'){
+            changedCells[i].classList.remove('table-warning');
+        } else if (changedCells[i].tagName == 'TR'){
+            changedCells[i].classList.remove('table-secondary');
+        }
+    }
+}
+
 function initialStep() {
+    unhighlightAttributes();
+
     currentStep = 1;
     document.getElementById('stepCount').textContent = "Step: 1";
     for (var i = 2; i <= nodeCount + leafCount; i++) {
@@ -52,13 +64,7 @@ function initialStep() {
 function stepForward() {
     if (currentStep === nodeCount + leafCount) return;
 
-    for (var i = 0; i < changedCells.length; i++){
-        if(changedCells[i].tagName == 'TD' || changedCells[i].tagName == 'TH'){
-            changedCells[i].classList.remove('table-warning');
-        } else if (changedCells[i].tagName == 'TR'){
-            changedCells[i].classList.remove('table-secondary');
-        }
-    }
+    unhighlightAttributes();
 
     currentStep++;
     document.getElementById('stepCount').textContent = "Step: " + currentStep;
@@ -66,19 +72,26 @@ function stepForward() {
     var groupToShow = document.getElementById(groupId);
     groupToShow.style.display = "block";
 
-    grayOutRows();
+    highlightAttributes();
 }
 
 function stepBack() {
     if (currentStep === 1) return;
+
+    unhighlightAttributes();
+
     currentStep--;
     document.getElementById('stepCount').textContent = "Step: " + currentStep;
     var groupId = 'g' + (currentStep + 1);
     var groupToHide = document.getElementById(groupId);
     groupToHide.style.display = "none";
+
+    highlightAttributes();
 }
 
 function lastStep() {
+    unhighlightAttributes();
+
     currentStep = nodeCount + leafCount;
     document.getElementById('stepCount').textContent = "Step: " + (nodeCount + leafCount);
     for (var i = 2; i <= nodeCount + leafCount; i++) {
@@ -86,6 +99,8 @@ function lastStep() {
         var groupToShow = document.getElementById(groupId);
         groupToShow.style.display = "block";
     }
+
+    highlightAttributes();
 }
 
 function goToStep() {

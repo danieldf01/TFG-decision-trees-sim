@@ -218,15 +218,13 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
 
     // Split the data on the best attribute
     var bestAttributeValues = new Set(data.map(instance => instance.attributes[bestAttribute]));
-    // console.log(bestAttributeValues);
 
     nodeId = nodeId[0] + (+nodeId[1] + 1);
 
     // Do a recursive call for each value of the selected attribute or add a leaf node if the value's subset is empty
     for (const value of bestAttributeValues) {
         var subset = data.filter(instance => instance.attributes[bestAttribute] === value);
-        // console.log(subset);
-        // console.log(bestAttribute);
+
         dataTableGroups.push([subset]);
 
         var remainingAttributes = attributes.filter(attribute => attribute !== bestAttribute);
@@ -703,13 +701,11 @@ function calcPositions(root, nodeWidth, leafHeight, columnWidth) {
  */
 function dataTableGroupsAddColumns(node, i = 0){
     if (node.parent != null){
-        console.log(dataTableGroups[i-1]);
         var reachedRoot = false;
         var attributesToMark = [];
         var currentNode = node.parent;
 
         while (!reachedRoot) {
-            console.log(currentNode.attribute);
             attributesToMark.push(currentNode.attribute);
             if (currentNode.parent == null) {
                 reachedRoot = true;
@@ -731,7 +727,7 @@ function dataTableGroupsAddColumns(node, i = 0){
 /**
  * Transform the data table groups array elements into indeces so that stepbystep.js can work with it
  */
-function createDataTableGroups(){
+function transformDataTableGroups(){
     for (var i = 1; i < nodeCount + leafCount; i++) {
         var markedRows = [];
         dataTableGroups[i-1][0].forEach(function (selectedRow) {
@@ -744,7 +740,7 @@ function createDataTableGroups(){
         dataTableGroups[i-1][0] = markedRows;
 
         var markedCols = [];
-        dataTableGroups[i-1][1].forEach(function (attribute, j){
+        dataTableGroups[i-1][1].forEach(function (attribute){
             markedCols.push(attributes.indexOf(attribute));
         });
         dataTableGroups[i-1][1] = markedCols;
@@ -753,6 +749,7 @@ function createDataTableGroups(){
 }
 
 function buildTree() {
+    dataTableGroups = [];
     var treeValues = id3(data, attributes, null, "n1", "l1");
     var decisionTree = treeValues[0];
 
@@ -796,7 +793,7 @@ function buildTree() {
 
     // Prepare data table groups for the step-by-step visualization
     dataTableGroupsAddColumns(decisionTree);
-    createDataTableGroups(decisionTree);
+    transformDataTableGroups(decisionTree);
 
     var svgSizes = calcSvgSize(decisionTree);
     svgWidth = svgSizes[0];
