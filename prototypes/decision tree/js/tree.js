@@ -411,7 +411,10 @@ function countNodesAtEachLevel(root) {
     return levels;
 }
 
-// Calculates the initial x values for all nodes
+/**
+ * Calculates the initial x values for all nodes
+ * Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
+ */
 function calcInitialX(node, nodeIndex, columnWidth, currentLevel = 0) {
     for (var i = 0; i < node.children.length; i++) {
         calcInitialX(node.children[i], i, columnWidth, currentLevel + 1);
@@ -451,7 +454,10 @@ function calcInitialX(node, nodeIndex, columnWidth, currentLevel = 0) {
     }
 }
 
-// Checks if subtrees of a node are overlapping
+/**
+ * Checks if subtrees of a node are overlapping
+ * Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
+ */
 function checkForConflicts(node, columnWidth, currentLevel, nodeIndex) {
     // Nodes should at least be one column width apart from each other
     var minDistance = columnWidth;
@@ -496,7 +502,10 @@ function checkForConflicts(node, columnWidth, currentLevel, nodeIndex) {
     }
 }
 
-// Centers the nodes that are in between two nodes on the edge
+/**
+ * Centers the nodes that are in between two nodes on the edge
+ * Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
+ */
 function centerNodesBetween(leftNode, rightNode, leftIndex, rightIndex) {
     var numNodesBetween = (rightIndex - leftIndex) - 1;
 
@@ -521,7 +530,10 @@ function centerNodesBetween(leftNode, rightNode, leftIndex, rightIndex) {
 
 }
 
-// Calculates the left edges of a node and its children
+/**
+ * Calculates the left edges of a node and its children
+ * Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
+ */
 function calcLeftEdges(node, modSum, currentLevel, edges = {}) {
     if (edges[currentLevel] == null) {
         edges[currentLevel] = node.x + modSum;
@@ -538,7 +550,10 @@ function calcLeftEdges(node, modSum, currentLevel, edges = {}) {
     return edges;
 }
 
-// Calculates the right edges of a node and its children
+/**
+ * Calculates the right edges of a node and its children
+ * Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
+ */
 function calcRightEdges(node, modSum, currentLevel, edges = {}) {
     if (edges[currentLevel] == null) {
         edges[currentLevel] = node.x + modSum;
@@ -555,7 +570,10 @@ function calcRightEdges(node, modSum, currentLevel, edges = {}) {
     return edges;
 }
 
-// Checks if any nodes have gone out of bounds on the left side of the SVG
+/**
+ * Checks if any nodes have gone out of bounds on the left side of the SVG
+ * Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
+ */
 function checkInBounds(node) {
     var leftEdges = calcLeftEdges(node, 0, 0);
 
@@ -573,7 +591,10 @@ function checkInBounds(node) {
     }
 }
 
-// Traverses the tree one last time to perform shifts based on a child's parent's mod value
+/**
+ * Traverses the tree one last time to perform shifts based on a child's parent's mod value
+ * Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
+ */
 function calcFinalPositions(node, modSum, leafHeight) {
     node.x += modSum;
     modSum += node.mod;
@@ -656,18 +677,15 @@ function calcPositions(root, nodeWidth, leafHeight, columnWidth) {
     }
 
     // Calculate initial positions
-    // Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
     calcInitialX(root, 0, columnWidth);
 
     // Check if we need to shift the tree to the right if it went out of bounds on the left side
-    // Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
     checkInBounds(root);
 
     // Center the tree if there is still space on the right side
     centerTree(root, nodeWidth);
 
     // Calculate final positions
-    // Based on the code provided by Rachel Lim at {@link https://rachel53461.wordpress.com/2014/04/20/algorithm-for-drawing-trees/}
     calcFinalPositions(root, 0, leafHeight);
     
     console.log(root);
