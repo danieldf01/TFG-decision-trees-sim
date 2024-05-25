@@ -15,22 +15,24 @@ function highlightAttributes(){
     var tBody = table.getElementsByTagName('tbody')[0];
     var tRows = tBody.getElementsByTagName('tr');
     for (var i = 0; i < tRows.length; i++) {
+        // Mark the currently important columns
         if(rowsToMark.includes(i)){
             var rowCols = tRows[i].getElementsByTagName('td');
-            console.log(rowCols);
             for (var j  = 0; j < rowCols.length; j++){
                 if(colsToMark.includes(j)){
-                    console.log(rowCols[j]);
                     rowCols[j+1].classList.add('table-warning');
                     changedCells.push(rowCols[j+1]);
                 }
             }
+
+        // Gray out the currently unimportant rows
         } else{
             tRows[i].classList.add('table-secondary');
             changedCells.push(tRows[i]);
         }
     }
 
+    // Mark the currently important header columns/attributes
     for (var i = 0; i < tHeadCols.length; i++){
         if (colsToMark.includes(i)){
             tHeadCols[i+1].classList.add('table-warning');

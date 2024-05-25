@@ -15,6 +15,7 @@ var nodeCount = 0;
 var leafCount = 0;
 
 var dataTableGroups = [];
+var valueTableGroups = [];
 
 
 // Get example data
@@ -89,12 +90,20 @@ function mostCommonLabel(data) {
     return maxLabel;
 }
 
-function entropyLabels(labels) {
-    // Count the occurrence of each label value
+/**
+ * Counts the occurrence of each label value
+ */
+function countLabels(labels) {
     var counts = {};
     for (const label of labels) {
         counts[label] = counts[label] ? counts[label] + 1 : 1;
     }
+    return counts;
+}
+
+function entropyLabels(labels) {
+    // Count the occurrence of each label value
+    var counts = countLabels(labels);
 
     // Calculate probabilities
     var sum = labels.length;
@@ -108,7 +117,13 @@ function entropyLabels(labels) {
     return e;
 }
 
-function infoGain(data, attribute) {
+function infoGain(data, attribute, valTableGroup) {
+    // Save the calculated values for each attribute for the value table
+    var valTabAttribute = {};
+    var valTabAttributeVals = [];
+    // Save subset label counts for the value table
+    var valTabSubsetCounts = [];
+
     // Save the labels for each of the attribute's instances in an array
     var attributeIndex = attributes.indexOf(attribute);
     var attributeLabels = [];
@@ -145,23 +160,47 @@ function infoGain(data, attribute) {
         subset.forEach(function (row) {
             subsetLabels.push(row[1]);
         });
-        entropies.push([entropyLabels(subsetLabels), counts[value], value]);
+        valTabSubsetCounts.push(countLabels(subsetLabels));
+
+        entropies.push([entropyLabels(subsetLabels), counts[value] / data.length, value]);
+    }
+    
+    // Calculate the conditional entropy
+    var condEntropy = 0;
+    for (const entropy of entropies) {
+        condEntropy += entropy[0] * entropy[1];
     }
 
     // Calculate the information gain
-    var infoGain = e;
-    for (const entropy of entropies) {
-        infoGain -= entropy[0] * (entropy[1] / data.length);
+    var infoGain = e - condEntropy;
+
+    // Save the values for each subset
+    for (var i = 0; i < currentAttributeValues.size; i++) {
+        var subsetValues = [];
+        subsetValues.push(entropies[i][2]);
+        subsetValues.push(valTabSubsetCounts[i]);
+        subsetValues.push(entropies[i][1]);
+        subsetValues.push(entropies[i][0]);
+        if (i === 0){
+            subsetValues.push(condEntropy);
+            subsetValues.push(infoGain);
+        }
+        valTabAttributeVals.push(subsetValues);
     }
+
+    // Save the values for this attribute
+    valTabAttribute[attribute] = valTabAttributeVals;
+    valTableGroup.push(valTabAttribute);
+
     return infoGain;
 }
 
 
-function findBestAttribute(data, attributes) {
+function findBestAttribute(data, attributes, valTableGroup) {
     var bestAttribute = null;
     var maxGain = 0;
     attributes.forEach(function (attribute) {
-        var gain = infoGain(data, attribute);
+        var gain = infoGain(data, attribute, valTableGroup);
         if (gain > maxGain) {
             maxGain = gain;
             bestAttribute = attribute;
@@ -198,23 +237,36 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
         }
     }
 
+    // Save values for the value table to be able to create it later
+    var valTableGroup = [];
+
     // Check if we have reached a leaf node
     if (allPositive) {
+        valTableGroup = [class1, class2];
+        valueTableGroups.push(valTableGroup);
+
         var nextLeafId = leafId[0] + (+leafId[1] + 1);
         return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, labelValues[0], prevBranchVal), nodeId, nextLeafId];
     }
     if (allNegative) {
+        valTableGroup = [class1, class2];
+        valueTableGroups.push(valTableGroup);
+
         var nextLeafId = leafId[0] + (+leafId[1] + 1);
         return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, labelValues[1], prevBranchVal), nodeId, nextLeafId];
     }
     if (attributes.length === 0) {
+        valTableGroup = [class1, class2];
+        valueTableGroups.push(valTableGroup);
+
         var nextLeafId = leafId[0] + (+leafId[1] + 1);
         return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, mostCommonLabel(data), prevBranchVal), nodeId, nextLeafId];
     }
 
     // Find the current best attribute to split the data on
-    var bestAttribute = findBestAttribute(data, attributes);
+    var bestAttribute = findBestAttribute(data, attributes, valTableGroup);
     var tree = new TreeNode(nodeId, bestAttribute, new NodeValues(class1, class2, n, e), false, null, null);
+    valueTableGroups.push(valTableGroup);
 
     // Split the data on the best attribute
     var bestAttributeValues = new Set(data.map(instance => instance.attributes[bestAttribute]));
@@ -230,6 +282,9 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
         var remainingAttributes = attributes.filter(attribute => attribute !== bestAttribute);
 
         if (subset.length === 0) {
+            valTableGroup = [class1, class2];
+            valueTableGroups.push(valTableGroup);
+
             tree.children.push(new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, mostCommonLabel(subset), prevBranchVal));
         } else {
             tree.prevBranchVal = prevBranchVal;
@@ -750,12 +805,15 @@ function transformDataTableGroups(){
 
 function buildTree() {
     dataTableGroups = [];
+    valueTableGroups = [];
     var treeValues = id3(data, attributes, null, "n1", "l1");
     var decisionTree = treeValues[0];
 
     nodeCount = +((treeValues[1])[1]) - 1;
     leafCount = +((treeValues[2])[1]) - 1;
     console.log(decisionTree);
+
+    console.log(valueTableGroups);
 
     // var newNode = new TreeNode("n4", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test1');
     // var newNode2 = new TreeNode("n5", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test2');
@@ -907,4 +965,4 @@ function handleResize() {
 document.addEventListener('DOMContentLoaded', buildTree);
 window.onresize = handleResize;
 
-export { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch, buildTree, nodeCount, leafCount, dataTableGroups }
+export { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch, buildTree, nodeCount, leafCount, dataTableGroups, valueTableGroups }

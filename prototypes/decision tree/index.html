@@ -5,8 +5,9 @@
     <link rel="stylesheet" href="css/styles.css" />
     <script type="module" src="../../lib/entropy-calculator.js"></script>
     <script type="module" src="js/table.js" defer></script>
-    <script type="module" src="js/stepbystep.js" defer></script>
     <script type="module" src="js/tree.js" defer></script>
+    <script type="module" src="js/valueTable.js" defer></script>
+    <script type="module" src="js/stepbystep.js" defer></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -196,15 +197,94 @@
         </div>
         <div class="row p-2 justify-content-center">
             <!-- Data table -->
-            <div id="dataTable" class="col-lg-8 col-sm-12 col-auto">
+            <div id="dataTable" class="col-lg-6 col-sm-12 col-auto">
                 
             </div>
+            <!-- Value table -->
+            <div id="valueTable" class="col-lg-6 col-auto">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="border-bottom: none;"></th>
+                            <th style="border-bottom: none;"></th>
+                            <th colspan="2">Play Golf</th>
+                            <th style="border-bottom: none;"></th>
+                            <th style="border-bottom: none;"></th>
+                            <th style="border-bottom: none;"></th>
+                            <th style="border-bottom: none;"></th>
+                        </tr>
+                        <tr>
+                            <th>Feature</th>
+                            <th></th>
+                            <th>Yes</th>
+                            <th>No</th>
+                            <th>Ratio</th>
+                            <th>E</th>
+                            <th>CE</th>
+                            <th>Info Gain</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="3" style="vertical-align: middle;">Outlook</td>
+                            <td>Sunny</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>0.36</td>
+                            <td>0.97</td>
+                            <td rowspan="3" style="vertical-align: middle;">0.69</td>
+                            <td rowspan="3" style="vertical-align: middle;">0.25</td>
+                        </tr>
+                        <tr>
+                            <td>Overcast</td>
+                            <td>4</td>
+                            <td>0</td>
+                            <td>0.29</td>
+                            <td>0.00</td>
+                        </tr>
+                        <tr>
+                            <td>Rain</td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>0.36</td>
+                            <td>0.97</td>
+                        </tr>
+                        
+                        <tr>
+                            <td rowspan="3" style="vertical-align: middle;">Temp</td>
+                            <td>Hot</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>0.29</td>
+                            <td>1.00</td>
+                            <td rowspan="3" style="vertical-align: middle;">0.91</td>
+                            <td rowspan="3" style="vertical-align: middle;">0.03</td>
+                        </tr>
+                        <tr>
+                            <td>Mild</td>
+                            <td>4</td>
+                            <td>2</td>
+                            <td>0.43</td>
+                            <td>0.92</td>
+                        </tr>
+                        <tr>
+                            <td>Cool</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>0.29</td>
+                            <td>0.81</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <!-- Step counter -->
         <div class="row pb-2 justify-content-center">
             <div class="col-auto">
                 <span id="stepCount">Step: 1</span>
             </div>
         </div>
+        <!-- Step-by-step control bar -->
         <div class="row justify-content-center">
             <div class="col-auto">
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
