@@ -160,7 +160,24 @@ function infoGain(data, attribute, valTableGroup) {
         subset.forEach(function (row) {
             subsetLabels.push(row[1]);
         });
-        valTabSubsetCounts.push(countLabels(subsetLabels));
+
+        // Transform counts object into array of label counts for the value table
+        var subsetLabelsCount = countLabels(subsetLabels);
+        var subLabCountKeys = Object.keys(subsetLabelsCount);
+        var subLabCountVals = Object.values(subsetLabelsCount);
+        console.log(subLabCountKeys);
+        console.log(subLabCountVals);
+        var valTabCounts = [];
+        for (var i = 0; i < labelValues.length; i++){
+            if (subLabCountKeys.includes(labelValues[i])){
+                var index = subLabCountKeys.indexOf(labelValues[i]);
+                console.log(index);
+                valTabCounts.push(subLabCountVals[index]);
+            } else{
+                valTabCounts.push(0);
+            }
+        }
+        valTabSubsetCounts.push(valTabCounts);
 
         entropies.push([entropyLabels(subsetLabels), counts[value] / data.length, value]);
     }
@@ -179,11 +196,11 @@ function infoGain(data, attribute, valTableGroup) {
         var subsetValues = [];
         subsetValues.push(entropies[i][2]);
         subsetValues.push(valTabSubsetCounts[i]);
-        subsetValues.push(entropies[i][1]);
-        subsetValues.push(entropies[i][0]);
+        subsetValues.push(entropies[i][1].toFixed(2));
+        subsetValues.push(entropies[i][0].toFixed(2));
         if (i === 0){
-            subsetValues.push(condEntropy);
-            subsetValues.push(infoGain);
+            subsetValues.push(condEntropy.toFixed(2));
+            subsetValues.push(infoGain.toFixed(2));
         }
         valTabAttributeVals.push(subsetValues);
     }
