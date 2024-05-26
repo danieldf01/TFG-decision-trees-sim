@@ -1,6 +1,6 @@
 // Get example data
-import { data, attributes, label, labelValues } from '../exampledata/example1.js';
-import { nodeCount, leafCount, valueTableGroups } from './tree.js';
+import { label, labelValues } from '../exampledata/example1.js';
+import { valueTableGroups } from './tree.js';
 
 const firstHeaderRowCols = 7;
 const indexHeaderLabelCol = 2;
@@ -180,6 +180,8 @@ function createValueTable(step) {
     tableEl.classList.add('table');
     tableEl.setAttribute("id", "valueTableEl");
 
+    console.log(valueTableGroups);
+
     if (valueTableGroups[step - 1].length === valueLabelsLength) {
         createValueTableForLeaf(tableEl, step);
     } else {
@@ -190,5 +192,7 @@ function createValueTable(step) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    createValueTable(3);
+    createValueTable(1);
 });
+
+export { createValueTable };

@@ -1,4 +1,5 @@
 import { nodeCount, leafCount, dataTableGroups } from './tree.js';
+import { createValueTable } from './valueTable.js';
 
 var currentStep = 1;
 
@@ -61,6 +62,8 @@ function initialStep() {
         var groupToHide = document.getElementById(groupId);
         groupToHide.style.display = "none";
     }
+
+    createValueTable(currentStep);
 }
 
 function stepForward() {
@@ -75,6 +78,7 @@ function stepForward() {
     groupToShow.style.display = "block";
 
     highlightAttributes();
+    createValueTable(currentStep);
 }
 
 function stepBack() {
@@ -88,7 +92,10 @@ function stepBack() {
     var groupToHide = document.getElementById(groupId);
     groupToHide.style.display = "none";
 
-    highlightAttributes();
+    if(currentStep >= 2){
+        highlightAttributes();
+    }
+    createValueTable(currentStep);
 }
 
 function lastStep() {
@@ -103,6 +110,7 @@ function lastStep() {
     }
 
     highlightAttributes();
+    createValueTable(currentStep);
 }
 
 function goToStep() {
