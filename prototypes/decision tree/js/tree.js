@@ -11,6 +11,8 @@ const svgId = 'svgDT';
 var svgWidth = 0;
 var svgHeight = 0;
 
+var decisionTree = null;
+
 var nodeCount = 0;
 var leafCount = 0;
 
@@ -165,13 +167,10 @@ function infoGain(data, attribute, valTableGroup) {
         var subsetLabelsCount = countLabels(subsetLabels);
         var subLabCountKeys = Object.keys(subsetLabelsCount);
         var subLabCountVals = Object.values(subsetLabelsCount);
-        console.log(subLabCountKeys);
-        console.log(subLabCountVals);
         var valTabCounts = [];
         for (var i = 0; i < labelValues.length; i++){
             if (subLabCountKeys.includes(labelValues[i])){
                 var index = subLabCountKeys.indexOf(labelValues[i]);
-                console.log(index);
                 valTabCounts.push(subLabCountVals[index]);
             } else{
                 valTabCounts.push(0);
@@ -744,7 +743,7 @@ function centerTree(node, nodeWidth) {
 function calcPositions(root, nodeWidth, leafHeight, columnWidth) {
     var queue = [root];
 
-    // Assign depth to each node
+    // Assign depth to each node and reset their positional values (in case the SVG tree is being rebuilt)
     while (queue.length > 0) {
         const node = queue.shift();
         node.children.forEach(child => {
@@ -752,6 +751,8 @@ function calcPositions(root, nodeWidth, leafHeight, columnWidth) {
             queue.push(child);
         });
     }
+
+    console.log(decisionTree);
 
     // Calculate initial positions
     calcInitialX(root, 0, columnWidth);
@@ -764,8 +765,6 @@ function calcPositions(root, nodeWidth, leafHeight, columnWidth) {
 
     // Calculate final positions
     calcFinalPositions(root, 0, leafHeight);
-    
-    console.log(root);
 }
 
 /**
@@ -817,20 +816,47 @@ function transformDataTableGroups(){
         });
         dataTableGroups[i-1][1] = markedCols;
     }
-    console.log(dataTableGroups);
+}
+
+function buildSvgTree(){
+    // Get array that holds the amount of nodes in each level/row
+    var levels = countNodesAtEachLevel(decisionTree);
+
+    // A row is a row of (leaf) nodes or branches 
+    var rows = levels.length + (levels.length - 1);
+    var rowHeight = svgHeight / rows;
+    var heightRatio = rowHeight / STD_LEAFHEIGHT;
+
+    var maxColumns = levels.reduce((a, b) => Math.max(a, b), -Infinity);
+    var columnWidth = (svgWidth / (maxColumns));
+    // Nodes need to be a bit smaller than a column so there is space between them
+    var nodeWidth = (svgWidth / (maxColumns + maxColumns * 0.1));
+    var widthRatio = nodeWidth / STD_NODEWIDTH;
+
+    // Choose the smaller ratio so the nodes don't go out ouf bounds
+    var sizeRatio = Math.min(widthRatio, heightRatio);
+
+    // Calculate leaf and node height with the size ratio
+    var leafHeight = STD_LEAFHEIGHT * sizeRatio;
+    var nodeHeight = STD_NODEHEIGHT * sizeRatio;
+
+    // Both leaf and decision nodes have the same width
+    var realNodeWidth = STD_NODEWIDTH * sizeRatio;
+
+    calcPositions(decisionTree, realNodeWidth, leafHeight, columnWidth);
+
+    var svgEl = document.getElementById(svgId);
+    createNodes(decisionTree, 0, svgEl, "g1", realNodeWidth, nodeHeight, leafHeight);
 }
 
 function buildTree() {
     dataTableGroups = [];
     valueTableGroups = [];
-    var treeValues = id3(data, attributes, null, "n1", "l1");
-    var decisionTree = treeValues[0];
 
+    var treeValues = id3(data, attributes, null, "n1", "l1");
+    decisionTree = treeValues[0];
     nodeCount = +((treeValues[1])[1]) - 1;
     leafCount = +((treeValues[2])[1]) - 1;
-    console.log(decisionTree);
-
-    console.log(valueTableGroups);
 
     // var newNode = new TreeNode("n4", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test1');
     // var newNode2 = new TreeNode("n5", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test2');
@@ -864,45 +890,23 @@ function buildTree() {
     // decisionTree.children[1].children[0].children[0].children.push(newLeaf);
     // decisionTree.children[1].children[0].children[0].children.push(newLeaf2);
 
+    // Assign parent to each child node
     assignParents(decisionTree);
 
     // Prepare data table groups for the step-by-step visualization
     dataTableGroupsAddColumns(decisionTree);
-    transformDataTableGroups(decisionTree);
+    transformDataTableGroups();
 
-    var svgSizes = calcSvgSize(decisionTree);
+    console.log(decisionTree);
+
+    // Get SVG sizes
+    var svgSizes = calcSvgSize();
     svgWidth = svgSizes[0];
     svgHeight = svgSizes[1];
     resizeViewBox();
 
-    // Get array that holds the amount of nodes in each level/row
-    var levels = countNodesAtEachLevel(decisionTree);
-
-    // A row is a row of (leaf) nodes or branches 
-    var rows = levels.length + (levels.length - 1);
-    var rowHeight = svgHeight / rows;
-    var heightRatio = rowHeight / STD_LEAFHEIGHT;
-
-    var maxColumns = levels.reduce((a, b) => Math.max(a, b), -Infinity);
-    var columnWidth = (svgWidth / (maxColumns));
-    // Nodes need to be a bit smaller than a column so there is space between them
-    var nodeWidth = (svgWidth / (maxColumns + maxColumns * 0.1));
-    var widthRatio = nodeWidth / STD_NODEWIDTH;
-
-    // Choose the smaller ratio so the nodes don't go out ouf bounds
-    var sizeRatio = Math.min(widthRatio, heightRatio);
-
-    // Calculate leaf and node height with the size ratio
-    var leafHeight = STD_LEAFHEIGHT * sizeRatio;
-    var nodeHeight = STD_NODEHEIGHT * sizeRatio;
-
-    // Both leaf and decision nodes have the same width
-    var realNodeWidth = STD_NODEWIDTH * sizeRatio;
-
-    calcPositions(decisionTree, realNodeWidth, leafHeight, columnWidth);
-
-    var svgEl = document.getElementById(svgId);
-    createNodes(decisionTree, 0, svgEl, "g1", realNodeWidth, nodeHeight, leafHeight);
+    // Build the SVG tree
+    buildSvgTree();
 
     // var svg = document.getElementById(svgId);
     // var groups = svg.getElementsByTagName('g');
@@ -944,6 +948,16 @@ function destroyTree(svgEl) {
     }
 }
 
+function resetPosVals(node){
+    node.x = 0;
+    node.y = 0;
+    node.mod = 0;
+
+    node.children.forEach((child) => {
+        resetPosVals(child);
+    });
+}
+
 function calcSvgSize() {
     var svgEl = document.getElementById(svgId);
     const rect = svgEl.getBoundingClientRect();
@@ -967,18 +981,17 @@ function handleResize() {
     if (newSizes[0] != svgWidth || newSizes[1] != svgHeight) {
         svgWidth = newSizes[0];
         svgHeight = newSizes[1];
+        resizeViewBox();
 
         // Rebuild the tree with the new sizes
         var svgEl = document.getElementById(svgId);
         destroyTree(svgEl);
-        buildTree();
+        resetPosVals(decisionTree);
+        buildSvgTree();
         goToStep();
     }
 }
 
-// document.addEventListener("DOMContentLoaded", function() {
-//     buildTree();
-// });
 document.addEventListener('DOMContentLoaded', buildTree);
 window.onresize = handleResize;
 
