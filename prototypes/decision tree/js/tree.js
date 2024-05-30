@@ -7,6 +7,13 @@ const STD_NODEWIDTH = 82;
 
 const STD_BRANCH_FONTSIZE = 12;
 
+// To retrieve locally stored user data
+const userA = 'userAttributes';
+const userAV = 'userAttributeValues';
+const userL = 'userLabel';
+const userLV = 'userLabelValues';
+const userD = 'userData';
+
 const svgId = 'svgDT';
 var svgWidth = 0;
 var svgHeight = 0;
@@ -19,9 +26,14 @@ var leafCount = 0;
 var dataTableGroups = [];
 var valueTableGroups = [];
 
+var data;
+var attributes;
+var attributeValues;
+var label;
+var labelValues;
 
 // Get example data
-import { data, attributes, attributeValues, labelValues } from '../exampledata/example1.js';
+import { data1, attributes1, attributeValues1, label1, labelValues1 } from '../exampledata/example1.js';
 // const attributes = Object.keys(data[0].attributes);
 
 // import data from '../exampledata/example1.mjs';
@@ -168,11 +180,11 @@ function infoGain(data, attribute, valTableGroup) {
         var subLabCountKeys = Object.keys(subsetLabelsCount);
         var subLabCountVals = Object.values(subsetLabelsCount);
         var valTabCounts = [];
-        for (var i = 0; i < labelValues.length; i++){
-            if (subLabCountKeys.includes(labelValues[i])){
+        for (var i = 0; i < labelValues.length; i++) {
+            if (subLabCountKeys.includes(labelValues[i])) {
                 var index = subLabCountKeys.indexOf(labelValues[i]);
                 valTabCounts.push(subLabCountVals[index]);
-            } else{
+            } else {
                 valTabCounts.push(0);
             }
         }
@@ -180,7 +192,7 @@ function infoGain(data, attribute, valTableGroup) {
 
         entropies.push([entropyLabels(subsetLabels), counts[value] / data.length, value]);
     }
-    
+
     // Calculate the conditional entropy
     var condEntropy = 0;
     for (const entropy of entropies) {
@@ -197,7 +209,7 @@ function infoGain(data, attribute, valTableGroup) {
         subsetValues.push(valTabSubsetCounts[i]);
         subsetValues.push(entropies[i][1].toFixed(2));
         subsetValues.push(entropies[i][0].toFixed(2));
-        if (i === 0){
+        if (i === 0) {
             subsetValues.push(condEntropy.toFixed(2));
             subsetValues.push(infoGain.toFixed(2));
         }
@@ -261,21 +273,21 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
         valTableGroup = [class1, class2];
         valueTableGroups.push(valTableGroup);
 
-        var nextLeafId = leafId[0] + (+leafId[1] + 1);
+        var nextLeafId = leafId[0] + (+leafId.substring(1) + 1);
         return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, labelValues[0], prevBranchVal), nodeId, nextLeafId];
     }
     if (allNegative) {
         valTableGroup = [class1, class2];
         valueTableGroups.push(valTableGroup);
 
-        var nextLeafId = leafId[0] + (+leafId[1] + 1);
+        var nextLeafId = leafId[0] + (+leafId.substring(1) + 1);
         return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, labelValues[1], prevBranchVal), nodeId, nextLeafId];
     }
     if (attributes.length === 0) {
         valTableGroup = [class1, class2];
         valueTableGroups.push(valTableGroup);
 
-        var nextLeafId = leafId[0] + (+leafId[1] + 1);
+        var nextLeafId = leafId[0] + (+leafId.substring(1) + 1);
         return [new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, mostCommonLabel(data), prevBranchVal), nodeId, nextLeafId];
     }
 
@@ -287,7 +299,7 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
     // Split the data on the best attribute
     var bestAttributeValues = new Set(data.map(instance => instance.attributes[bestAttribute]));
 
-    nodeId = nodeId[0] + (+nodeId[1] + 1);
+    nodeId = nodeId[0] + (+nodeId.substring(1) + 1);
 
     // Do a recursive call for each value of the selected attribute or add a leaf node if the value's subset is empty
     for (const value of bestAttributeValues) {
@@ -359,7 +371,7 @@ function createNode(nodeId, n, e, attribute, x, y, width, height) {
 }
 
 
-function createLeaf(leafId, n, yes, no, e, label, x, y, width, height) {
+function createLeaf(leafId, n, class1, class2, e, label, x, y, width, height) {
     var svgEl = document.getElementById(svgId);
     var leafTemplate = document.getElementById('leaf');
     var leafNumber = leafId.substring(1);
@@ -371,8 +383,8 @@ function createLeaf(leafId, n, yes, no, e, label, x, y, width, height) {
     // Update text contents
     clonedTemplate.querySelector('#leafNr').textContent += leafNumber;
     clonedTemplate.querySelector('#leafN').textContent += n;
-    clonedTemplate.querySelector('#leafYes').textContent += yes;
-    clonedTemplate.querySelector('#leafNo').textContent += no;
+    clonedTemplate.querySelector('#leafYes').textContent = labelValues[0] + ' = ' + class1;
+    clonedTemplate.querySelector('#leafNo').textContent = labelValues[1] + ' = ' + class2;
     clonedTemplate.querySelector('#leafE').textContent += e;
     clonedTemplate.querySelector('#leafLabel').textContent += label;
 
@@ -504,7 +516,7 @@ function calcInitialX(node, nodeIndex, columnWidth, currentLevel = 0) {
             node.x = 0;
         }
 
-    // Position nodes that have one child above their child, except if they have siblings
+        // Position nodes that have one child above their child, except if they have siblings
     } else if (node.children.length === 1) {
         if (nodeIndex === 0) {
             node.x = node.children[0].x;
@@ -513,7 +525,7 @@ function calcInitialX(node, nodeIndex, columnWidth, currentLevel = 0) {
             node.mod = node.x - node.children[0].x;
         }
 
-    // Position nodes that have more than one child in the middle between their children, except if they have siblings
+        // Position nodes that have more than one child in the middle between their children, except if they have siblings
     } else {
         var middle = (node.children[0].x + node.children[node.children.length - 1].x) / 2;
         if (nodeIndex === 0) {
@@ -633,7 +645,7 @@ function calcLeftEdges(node, modSum, currentLevel, edges = {}) {
 function calcRightEdges(node, modSum, currentLevel, edges = {}) {
     if (edges[currentLevel] == null) {
         edges[currentLevel] = node.x + modSum;
-    } else{
+    } else {
         edges[currentLevel] = Math.max(edges[currentLevel], node.x + modSum);
     }
 
@@ -714,7 +726,7 @@ function createNodes(node, nodeIndex, svgEl, groupId, nodeWidth, nodeHeight, lea
         svgEl.appendChild(group);
         group.style.display = 'none';
 
-        if (node.children.length === 0){
+        if (node.children.length === 0) {
             return groupId;
         }
     }
@@ -734,7 +746,7 @@ function centerTree(node, nodeWidth) {
 
     var freeSpace = (svgWidth - maxRightEdgesVal) - nodeWidth;
 
-    if (freeSpace > 0){
+    if (freeSpace > 0) {
         node.x += freeSpace / 2;
         node.mod += freeSpace / 2;
     }
@@ -770,8 +782,8 @@ function calcPositions(root, nodeWidth, leafHeight, columnWidth) {
 /**
  * Add the selected attributes/columns for each step to the data table groups
  */
-function dataTableGroupsAddColumns(node, i = 0){
-    if (node.parent != null){
+function dataTableGroupsAddColumns(node, i = 0) {
+    if (node.parent != null) {
         var reachedRoot = false;
         var attributesToMark = [];
         var currentNode = node.parent;
@@ -780,16 +792,16 @@ function dataTableGroupsAddColumns(node, i = 0){
             attributesToMark.push(currentNode.attribute);
             if (currentNode.parent == null) {
                 reachedRoot = true;
-            } else{
+            } else {
                 currentNode = currentNode.parent;
             }
         }
 
-        dataTableGroups[i-1].push(attributesToMark);
+        dataTableGroups[i - 1].push(attributesToMark);
     }
 
-    for (const child of node.children){
-        i = dataTableGroupsAddColumns(child, i+1);
+    for (const child of node.children) {
+        i = dataTableGroupsAddColumns(child, i + 1);
     }
 
     return i;
@@ -798,27 +810,27 @@ function dataTableGroupsAddColumns(node, i = 0){
 /**
  * Transform the data table groups array elements into indeces so that stepbystep.js can work with it
  */
-function transformDataTableGroups(){
+function transformDataTableGroups() {
     for (var i = 1; i < nodeCount + leafCount; i++) {
         var markedRows = [];
-        dataTableGroups[i-1][0].forEach(function (selectedRow) {
+        dataTableGroups[i - 1][0].forEach(function (selectedRow) {
             data.forEach(function (row, j) {
-                if (selectedRow == row){
+                if (selectedRow == row) {
                     markedRows.push(j);
                 }
             });
         });
-        dataTableGroups[i-1][0] = markedRows;
+        dataTableGroups[i - 1][0] = markedRows;
 
         var markedCols = [];
-        dataTableGroups[i-1][1].forEach(function (attribute){
+        dataTableGroups[i - 1][1].forEach(function (attribute) {
             markedCols.push(attributes.indexOf(attribute));
         });
-        dataTableGroups[i-1][1] = markedCols;
+        dataTableGroups[i - 1][1] = markedCols;
     }
 }
 
-function buildSvgTree(){
+function buildSvgTree() {
     // Get array that holds the amount of nodes in each level/row
     var levels = countNodesAtEachLevel(decisionTree);
 
@@ -849,14 +861,29 @@ function buildSvgTree(){
     createNodes(decisionTree, 0, svgEl, "g1", realNodeWidth, nodeHeight, leafHeight);
 }
 
-function buildTree() {
+function buildTree(userData = false) {
+    if (userData) {
+        let userCsvData = JSON.parse(localStorage.getItem('csvData'));
+        data = userCsvData[userD];
+        attributes = userCsvData[userA];
+        attributeValues = userCsvData[userAV];
+        label = userCsvData[userL];
+        labelValues = userCsvData[userLV];
+    } else {
+        data = data1
+        attributes = attributes1;
+        attributeValues = attributeValues1;
+        label = label1;
+        labelValues = labelValues1;
+    }
+
     dataTableGroups = [];
     valueTableGroups = [];
 
     var treeValues = id3(data, attributes, null, "n1", "l1");
     decisionTree = treeValues[0];
-    nodeCount = +((treeValues[1])[1]) - 1;
-    leafCount = +((treeValues[2])[1]) - 1;
+    nodeCount = +treeValues[1].substring(1) - 1;
+    leafCount = +treeValues[2].substring(1) - 1;
 
     // var newNode = new TreeNode("n4", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test1');
     // var newNode2 = new TreeNode("n5", "testAttr", new NodeValues(3, 3, 6, 0.5), false, null, 'test2');
@@ -948,7 +975,7 @@ function destroyTree(svgEl) {
     }
 }
 
-function resetPosVals(node){
+function resetPosVals(node) {
     node.x = 0;
     node.y = 0;
     node.mod = 0;
@@ -992,7 +1019,9 @@ function handleResize() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', buildTree);
+document.addEventListener('DOMContentLoaded', function () {
+    buildTree(false);
+});
 window.onresize = handleResize;
 
-export { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch, buildTree, nodeCount, leafCount, dataTableGroups, valueTableGroups }
+export { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch, buildTree, destroyTree, nodeCount, leafCount, dataTableGroups, valueTableGroups }

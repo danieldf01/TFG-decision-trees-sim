@@ -1,11 +1,18 @@
 // Get example data
-import { label, labelValues } from '../exampledata/example1.js';
+import { label1, labelValues1 } from '../exampledata/example1.js';
 import { valueTableGroups } from './tree.js';
+
+var label;
+var labelValues;
+
+// To retrieve locally stored user data
+const userL = 'userLabel';
+const userLV = 'userLabelValues';
 
 const firstHeaderRowCols = 7;
 const indexHeaderLabelCol = 2;
 const secondHeaderRowCols = 8;
-const secondHeaderRowColLabels = ['Feature', 'Value', labelValues[0], labelValues[1], 'Ratio', 'E', 'CE', 'Info Gain'];
+var secondHeaderRowColLabels;
 
 const bodyRowValCount = 4;
 const indexBodyCondEntropy = 4;
@@ -45,7 +52,7 @@ function createBodyForNode(tableEl, step) {
     var body = document.createElement('tbody');
     body.classList.add('table-group-divider');
     var tableContents = valueTableGroups[step - 1];
-    var maxInfoGain = 0;
+    var maxInfoGain = -Infinity;
     var maxInfoGainCell = null;
 
     // Loop through each feature
@@ -167,7 +174,20 @@ function createValueTableForLeaf(tableEl, step) {
     tableEl.appendChild(foot);
 }
 
+function loadData(userData = false){
+    if (userData) {
+        let userCsvData = JSON.parse(localStorage.getItem('csvData'));
+        label = userCsvData[userL];
+        labelValues = userCsvData[userLV];
+    } else{
+        label = label1;
+        labelValues = labelValues1;
+    }
+}
+
 function createValueTable(step) {
+    secondHeaderRowColLabels = ['Feature', 'Value', labelValues[0], labelValues[1], 'Ratio', 'E', 'CE', 'Info Gain']
+
     var tableDiv = document.getElementById('valueTable');
 
     // Remove table of a previous step
@@ -180,9 +200,7 @@ function createValueTable(step) {
     tableEl.classList.add('table');
     tableEl.setAttribute("id", "valueTableEl");
 
-    console.log(valueTableGroups);
-
-    if (valueTableGroups[step - 1].length === valueLabelsLength) {
+    if (valueTableGroups[step - 1].length === valueLabelsLength && Number.isInteger(valueTableGroups[step - 1][0])) {
         createValueTableForLeaf(tableEl, step);
     } else {
         createValueTableForNode(tableEl, step);
@@ -192,7 +210,8 @@ function createValueTable(step) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    loadData(false);
     createValueTable(1);
 });
 
-export { createValueTable };
+export { createValueTable, loadData };
