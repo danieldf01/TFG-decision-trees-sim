@@ -72,10 +72,10 @@
                             <p class="card-text fw-light">
                                 A decision tree consists of a tree-like structure where:
                             <ul class="card-text fw-light">
-                                <li>each internal node, also called decision node, represents a decision based on a
-                                    feature,</li>
-                                <li>each branch represents the outcome of the decision,</li>
-                                <li>and each leaf node represents the predicted class label.</li>
+                                <li>internal nodes, also called decision nodes, represent a decision based on a
+                                    feature</li>
+                                <li>branches represent the outcome of the decision</li>
+                                <li>leaf nodes represent the predicted class label</li>
                             </ul>
                             </p>
                             <p class="card-text fw-light">
@@ -141,24 +141,24 @@
                                     Make this current root node into a decision node for \( A_{\text{best}} \):
                                     <ul>
                                         <li>Split the dataset \( S \) into subsets based on the values of attribute
-                                            \( A_{\text{best}} \).</li>
+                                            \( A_{\text{best}} \)</li>
                                     </ul>
                                 </li>
                                 <li class="card-text fw-light">
                                     <span class="fw-bold">Recursively</span> apply the ID3 algorithm to each subset:
                                     <ul>
-                                        <li>For each subset \( S_i \), create a child node.</li>
+                                        <li>For each subset \( S_i \), create a child node</li>
                                         <li><span class="fw-bold">Input:</span> Subset \( S_i \) with attributes \(
                                             A \setminus
-                                            \{A_{\text{best}}\} \), target attribute \( Y \).</li>
-                                        <li><span class="fw-bold">Output:</span> Subtree \( T_i \).</li>
+                                            \{A_{\text{best}}\} \), target attribute \( Y \)</li>
+                                        <li><span class="fw-bold">Output:</span> Subtree \( T_i \)</li>
                                     </ul>
                                 </li>
                                 <li class="card-text fw-light">
                                     Return the decision tree \( T \):
                                     <ul>
                                         <li>Decision tree \( T \) with root node \( A_{\text{best}} \) and subtree
-                                            \( T_i \) as children.</li>
+                                            \( T_i \) as children</li>
                                     </ul>
                                 </li>
                             </ol>
@@ -175,7 +175,7 @@
                     </div>
                     <div class="collapse" id="calcInfoDT" aria-labelledby="calculation" data-parent="#accordionInfo">
                         <div class="card-body ">
-                            <p class="card-text fw-light"></p>
+                            <p class="card-text fw-light">
                             To calculate the Information Gain, the following formula is used:
                             </p>
                             <p class="card-text fw-light">
@@ -190,10 +190,9 @@
                                 Where:
                             </p>
                             <ul class="card-text fw-light">
-                                <li>\(S\) is the dataset.</li>
-                                <li>\(A\) is the attribute/set of values of that attribute.</li>
-                                <li>\(E(S)\) is the conditional entropy of the dataset given the attribute \(A\).
-                                </li>
+                                <li>\(S\) is the dataset</li>
+                                <li>\(A\) is the attribute/set of values of that attribute</li>
+                                <li>\(E(S)\) is the conditional entropy of the dataset given the attribute \(A\)</li>
                             </ul>
                         </div>
                     </div>

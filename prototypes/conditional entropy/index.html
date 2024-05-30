@@ -96,10 +96,10 @@
                                 Where:
                             </p>
                             <ul class="card-text fw-light">
-                                <li>\( X \) is the set of values/categories for the first attribute/feature.</li>
-                                <li>\( Y \) is the set of values for the class labels.</li>
+                                <li>\( X \) is the set of values/categories for the first attribute/feature</li>
+                                <li>\( Y \) is the set of values for the class labels</li>
                                 <li>\( p(x) \) is the proportion between the number of instances with the value \( x \)
-                                    and the size of the dataset.</li>
+                                    and the size of the dataset</li>
                             </ul>
                             <p class="card-text fw-light">
                                 Calculating the conditional entropies for the individual values \( x \) of attribute \(
@@ -114,7 +114,7 @@
                             </p>
                             <ul class="card-text fw-light">
                                 <li>\( p(y|x) \) is the proportion of instances in the dataset with attribute
-                                    value \( x \) that also have the class value \( y \).</li>
+                                    value \( x \) that also have the class value \( y \)</li>
                             </ul>
                             <p class="card-text fw-light">
                                 It sums over all the possible values of the target variable \( Y \).
@@ -175,7 +175,8 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td id="c1" class="text-center "><label class="form-control-plaintext ">Category 1:</label></td>
+                                    <td id="c1" class="text-center "><label class="form-control-plaintext ">Category
+                                            1:</label></td>
                                     <td><input value=1 type=text class="form-control" /></td>
                                     <td><input value=5 type=text class="form-control" /></td>
                                     <td><label class="form-control-plaintext ">0.4</label></td>
@@ -184,7 +185,8 @@
                                             class="form-control-plaintext text-center fw-semibold  ">0.56</label></td>
                                 </tr>
                                 <tr>
-                                    <td id="c2" class="text-center "><label class="form-control-plaintext ">Category 2:</label></td>
+                                    <td id="c2" class="text-center "><label class="form-control-plaintext ">Category
+                                            2:</label></td>
                                     <td><input value=1 type=text class="form-control" /></td>
                                     <td><input value=8 type=text class="form-control" /></td>
                                     <td><label class="form-control-plaintext ">0.6</label></td>
@@ -221,7 +223,7 @@
                     </div>
                     <script type="module">
                         import { calcCondEntropy } from './js/calculator.js';
-    
+
                         document.querySelector('#btnCalculateCondEntropy').addEventListener('click', calcCondEntropy);
                     </script>
                 </div>
