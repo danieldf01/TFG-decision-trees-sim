@@ -388,7 +388,7 @@ function createLeaf(leafId, n, class1, class2, e, label, x, y, width, height) {
     clonedTemplate.querySelector('#leafYes').textContent = labelValues[0] + ' = ' + class1;
     clonedTemplate.querySelector('#leafNo').textContent = labelValues[1] + ' = ' + class2;
     clonedTemplate.querySelector('#leafE').textContent += e;
-    clonedTemplate.querySelector('#leafLabel').textContent += label;
+    clonedTemplate.querySelector('#leafLabel').textContent = label;
 
     // Append cloned template to the svg and return the use element
     svgEl.appendChild(clonedTemplate);

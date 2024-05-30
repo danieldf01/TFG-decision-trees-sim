@@ -75,3 +75,9 @@ footer {
     margin-right: 5px;
     border: 1px solid #ccc;
 }
+
+.table-wrapper {
+    max-height: 700px;
+    overflow: auto;
+    display: inline-block;
+  }
