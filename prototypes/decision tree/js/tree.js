@@ -6,6 +6,7 @@ const STD_NODEHEIGHT = 92;
 const STD_NODEWIDTH = 82;
 
 const STD_BRANCH_FONTSIZE = 12;
+const STD_BRANCH_STROKE_WIDTH = 1;
 
 // To retrieve locally stored user data
 const userA = 'userAttributes';
@@ -394,7 +395,7 @@ function createLeaf(leafId, n, class1, class2, e, label, x, y, width, height) {
 }
 
 
-function createBranch(nodeId, x1, y1, x2, y2, value) {
+function createBranch(nodeId, x1, y1, x2, y2, value, sizeRatio) {
     var svgEl = document.getElementById(svgId);
     var branchTemplate = document.getElementById('branch');
 
@@ -415,6 +416,7 @@ function createBranch(nodeId, x1, y1, x2, y2, value) {
         clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('marker-end', 'url(#arrowMarker)');
     }
     clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('d', positionAttribute);
+    clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('stroke-width', sizeRatio * STD_BRANCH_STROKE_WIDTH);
     clonedTemplate.querySelector('#branchValue').textContent = value;
 
     var textSizeRatio = (y2 - y1) / 100;
@@ -699,7 +701,7 @@ function calcFinalPositions(node, modSum, leafHeight) {
 }
 
 // Creates/draws the nodes and adds them to groups
-function createNodes(node, nodeIndex, svgEl, groupId, nodeWidth, nodeHeight, leafHeight) {
+function createNodes(node, nodeIndex, svgEl, groupId, nodeWidth, nodeHeight, leafHeight, sizeRatio) {
     var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     group.setAttribute("id", groupId);
 
@@ -713,7 +715,7 @@ function createNodes(node, nodeIndex, svgEl, groupId, nodeWidth, nodeHeight, lea
     } else {
         var nodeSplitByChildren = nodeWidth / node.parent.children.length;
         var x1Value = node.parent.x + (nodeSplitByChildren - (nodeSplitByChildren / 2) + (nodeIndex * nodeSplitByChildren));
-        var useBranch = createBranch(node.id, x1Value, (node.parent.y + nodeHeight) - 1, node.x + (nodeWidth / 2), node.y - 1, node.prevBranchVal)
+        var useBranch = createBranch(node.id, x1Value, (node.parent.y + nodeHeight) - 1, node.x + (nodeWidth / 2), node.y - 1, node.prevBranchVal, sizeRatio)
 
         if (node.children.length === 0) {
             useNode = createLeaf(node.id, node.nodeValues.n, node.nodeValues.class1, node.nodeValues.class2, node.nodeValues.entropy, node.label,
@@ -732,7 +734,7 @@ function createNodes(node, nodeIndex, svgEl, groupId, nodeWidth, nodeHeight, lea
     }
 
     for (var i = 0; i < node.children.length; i++) {
-        groupId = createNodes(node.children[i], i, svgEl, 'g' + (+groupId.substring(1) + 1), nodeWidth, nodeHeight, leafHeight);
+        groupId = createNodes(node.children[i], i, svgEl, 'g' + (+groupId.substring(1) + 1), nodeWidth, nodeHeight, leafHeight, sizeRatio);
     }
 
     return groupId;
@@ -858,7 +860,7 @@ function buildSvgTree() {
     calcPositions(decisionTree, realNodeWidth, leafHeight, columnWidth);
 
     var svgEl = document.getElementById(svgId);
-    createNodes(decisionTree, 0, svgEl, "g1", realNodeWidth, nodeHeight, leafHeight);
+    createNodes(decisionTree, 0, svgEl, "g1", realNodeWidth, nodeHeight, leafHeight, sizeRatio);
 }
 
 function buildTree(userData = false) {
