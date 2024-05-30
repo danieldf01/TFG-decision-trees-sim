@@ -849,6 +849,8 @@ function buildSvgTree() {
 
     // Choose the smaller ratio so the nodes don't go out ouf bounds
     var sizeRatio = Math.min(widthRatio, heightRatio);
+    // Make sure the nodes won't be too big if it's just a small tree
+    sizeRatio = Math.min(sizeRatio, 1);
 
     // Calculate leaf and node height with the size ratio
     var leafHeight = STD_LEAFHEIGHT * sizeRatio;
