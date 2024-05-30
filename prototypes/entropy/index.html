@@ -108,8 +108,8 @@
         <div class="row">
 
             <!-- Entropy function graph -->
-            <div class="col-xl-5 col-lg-6">
-                <p class="fs-2 text-center">Binary entropy function</p>
+            <div class="col-xl-5 col-lg-6 text-center">
+                <p class="fs-2">Binary entropy function</p>
                 <!-- Info alert if more than 2 classes -->
                 <div class="row-auto">
                     <div class="col-auto">
@@ -267,7 +267,7 @@
 
         // Function graph creation with D3.js
         const margin = { top: 10, right: 50, bottom: 50, left: 50 },
-            width = 450 - margin.left - margin.right,
+            width = 400 - margin.left - margin.right,
             height = 400 - margin.top - margin.bottom;
 
         const svg = d3.select("#root").attr("width", width + margin.left + margin.right)
