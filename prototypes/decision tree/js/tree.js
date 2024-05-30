@@ -7,6 +7,7 @@ const STD_NODEWIDTH = 82;
 
 const STD_BRANCH_FONTSIZE = 12;
 const STD_BRANCH_STROKE_WIDTH = 1;
+const STD_BRANCH_DY = -0.7;
 
 // To retrieve locally stored user data
 const userA = 'userAttributes';
@@ -405,6 +406,7 @@ function createBranch(nodeId, x1, y1, x2, y2, value, sizeRatio) {
 
     var templateBranchPathId = 'branchPath';
     var templateBranchTPid = 'branchTP';
+    var templateBranchValueId = 'branchValue';
 
     // Update position attributes and ids
     if (x2 < x1) {
@@ -417,18 +419,20 @@ function createBranch(nodeId, x1, y1, x2, y2, value, sizeRatio) {
     }
     clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('d', positionAttribute);
     clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('stroke-width', sizeRatio * STD_BRANCH_STROKE_WIDTH);
-    clonedTemplate.querySelector('#branchValue').textContent = value;
-
+    
+    clonedTemplate.querySelector('#' + templateBranchValueId).textContent = value;
     var textSizeRatio = (y2 - y1) / 100;
-    clonedTemplate.querySelector('#branchValue').setAttribute('font-size', textSizeRatio * STD_BRANCH_FONTSIZE);
+    clonedTemplate.querySelector('#' + templateBranchValueId).setAttribute('font-size', textSizeRatio * STD_BRANCH_FONTSIZE);
+    clonedTemplate.querySelector('#' + templateBranchValueId).setAttribute('dy', sizeRatio * STD_BRANCH_DY + '%');
     if (x1 === x2) {
-        clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('startOffset', (y2 - y1) * 0.1);
+        clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('startOffset', '50%');
     } else {
-        clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('startOffset', (y2 - y1) * 0.2);
+        clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('startOffset', '50%');
     }
     clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('id', templateBranchPathId + nodeId);
     clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('href', '#' + templateBranchPathId + nodeId);
     clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('id', templateBranchTPid + nodeId);
+    clonedTemplate.querySelector('#' + templateBranchValueId).setAttribute('id', templateBranchValueId + nodeId);
 
     // Create a new 'use' element
     var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
