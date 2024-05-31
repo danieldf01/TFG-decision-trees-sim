@@ -36,17 +36,37 @@ Una muestra de cómo podría ser una tabla de casos de uso:
 \section{Requirements catalog}
 \subsection{Functional Requirements}
 \begin{itemize}
-  \item \textbf{FR-1} It must be possible to run the Entropy calculator from the web
-  \begin{itemize}
-      \item \textbf{FR-1.1} The user must be able to enter values into the presented input fields which are positioned in the column that is given the name "Nr. of instances" by the respective column header
-      \item \textbf{FR-1.2} The user must be warned through appearing alerts if any of the user-made inputs is invalid
-      \item \textbf{FR-1.3} The user must be able to add classes by clicking on the button labeled "+"
-      \item \textbf{FR-1.4} The user must be able to remove the row that represents the class that was last added by clicking on the button labeled "-"
-      \item \textbf{FR-1.5} The user must be informed through an appearing alert about the fact that, if they added a class, the calculated results will not be displayed on the Binary Entropy graph if more than 2 classes are used
-      \item \textbf{FR-1.6} The user must be able to, given the values presented in the input fields, calculate the Entropy by clicking on the button labeled "Calculate Entropy"
-      \item \textbf{FR-1.7} The application must, given valid input values, correctly calculate each class's p-value and the feature's entropy and display those on the right table
-      \item \textbf{FR-1.8} The application must, if only 2 classes were used, show the results of the Entropy calculation through a red dot on the x-axis of the presented coordinate system and a red line pointing to the corresponding point on the presented Binary Entropy graph 
+    \item \textbf{FR-1} From the web, it must be possible to run the Entropy calculator for calculating the entropy of given input values
+    \begin{itemize}
+        \item \textbf{FR-1.1} The user must be able to enter values into the presented input fields which are positioned in the column that is given the name ``Nr. of instances'' by the respective column header.
+        \item \textbf{FR-1.2} The user must be able to add classes by clicking on the button labeled ``+''.
+        \item \textbf{FR-1.3} The user must be able to remove the row that represents the class that was last added by clicking on the button labeled ``-''.
+        \item \textbf{FR-1.4} The user must be able to initialize the calculation of the entropy by clicking on the button labeled ``Calculate Entropy''.
+        \item \textbf{FR-1.5} The application must, given valid input values, correctly calculate each class's p-value and the feature's entropy and display those values on the right table.
+        \item \textbf{FR-1.6} The application must, if only 2 classes were used, show the results of the entropy calculation through a red dot on the x-axis of the presented coordinate system and a red line pointing to the corresponding point on the presented Binary Entropy graph.
     \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{FR-2} From the web, it must be possible to run the Conditional Entropy calculator for calculating the conditional entropy of given input values.
+    \begin{itemize}
+        \item \textbf{FR-2.1} The user must be able to enter values into the presented input fields which are positioned in the columns that are given the name ``Class 1" and ``Class 2" by the respective column headers.
+        \item \textbf{FR-2.2} The user must be able to add categories by clicking on the button labeled ``+''.
+        \item \textbf{FR-2.3} The user must be able to remove the row that represents the category that was last added by clicking on the button labeled ``-''.
+        \item \textbf{FR-2.4} The user must be able to initialize the calculation of the conditional entropy by clicking on the button labeled ``Calculate Conditional Entropy''.
+        \item \textbf{FR-2.5} The application must, given valid input values, correctly calculate each category's ratio, entropy, and the feature's conditional entropy and display those values on the table.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Non-functional requirements}
+\begin{itemize}
+    \item \textbf{NFR-1} The user interface must be simple and intuitive.
+    \item \textbf{NFR-2} The application must be responsive to different screen sizes.
+    \item \textbf{NFR-3} For the Entropy calculator and Conditional Entropy calculator, the application must recognize any positive integer value as valid input.
+    \begin{itemize}
+        \item \textbf{NFR-3.1} The user must be warned through appearing alerts if any of the user-made inputs is invalid.
+    \end{itemize}
+    \item \textbf{NFR-4} For the Entropy calculator, if more than 2 classes are used, the user must be informed through an appearing alert about the fact that the calculated results will not be displayed on the Binary Entropy graph.
 \end{itemize}
 
 \section{Requirements specification}
