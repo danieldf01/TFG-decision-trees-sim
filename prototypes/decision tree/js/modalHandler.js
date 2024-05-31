@@ -8,12 +8,14 @@ const svgId = 'svgDT';
 function csvHandler() {
     const fileInput = document.getElementById('csvFile');
     const file = fileInput.files[0];
+    console.log(file);
 
     if (file && file.type === 'text/csv') {
         Papa.parse(file, {
             skipEmptyLines: true,
             complete: function (results) {
                 const data = results.data;
+                console.log(data);
 
                 const headers = data[0];
                 const attributes = headers.slice(0, -1);

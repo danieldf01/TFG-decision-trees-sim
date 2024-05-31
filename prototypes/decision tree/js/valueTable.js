@@ -209,9 +209,9 @@ function createValueTable(step) {
     tableDiv.appendChild(tableEl);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    loadData(false);
-    createValueTable(1);
-});
+// document.addEventListener('DOMContentLoaded', function () {
+//     loadData(false);
+//     createValueTable(1);
+// });
 
 export { createValueTable, loadData };

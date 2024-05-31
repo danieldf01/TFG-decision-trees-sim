@@ -105,8 +105,8 @@ function createTable(userData = false){
     tableDiv.appendChild(tableEl);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    createTable(false);
-});
+// document.addEventListener('DOMContentLoaded', function () {
+//     createTable(false);
+// });
 
 export { createTable };

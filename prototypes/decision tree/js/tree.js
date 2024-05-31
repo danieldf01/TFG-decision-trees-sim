@@ -955,6 +955,7 @@ function destroyTree(svgEl) {
     for (var i = 0; i < nodeCount + leafCount; i++) {
         var groupId = 'g' + (i + 1);
         var groupToRemove = document.getElementById(groupId);
+        console.log(svgEl);
         svgEl.removeChild(groupToRemove);
     }
 
@@ -1027,9 +1028,9 @@ function handleResize() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    buildTree(false);
-});
+// document.addEventListener('DOMContentLoaded', function () {
+//     buildTree(false);
+// });
 window.onresize = handleResize;
 
 export { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch, buildTree, destroyTree, nodeCount, leafCount, dataTableGroups, valueTableGroups }
