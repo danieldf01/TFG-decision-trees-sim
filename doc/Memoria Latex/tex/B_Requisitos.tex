@@ -4,33 +4,6 @@
 
 Una muestra de cómo podría ser una tabla de casos de uso:
 
-% Caso de Uso 1 -> Consultar Experimentos.
-\begin{table}[p]
-	\centering
-	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
-		\toprule
-		\textbf{CU-1}    & \textbf{Ejemplo de caso de uso}\\
-		\toprule
-		\textbf{Versión}              & 1.0    \\
-		\textbf{Autor}                & Alumno \\
-		\textbf{Requisitos asociados} & RF-xx, RF-xx \\
-		\textbf{Descripción}          & La descripción del CU \\
-		\textbf{Precondición}         & Precondiciones (podría haber más de una) \\
-		\textbf{Acciones}             &
-		\begin{enumerate}
-			\def\labelenumi{\arabic{enumi}.}
-			\tightlist
-			\item Pasos del CU
-			\item Pasos del CU (añadir tantos como sean necesarios)
-		\end{enumerate}\\
-		\textbf{Postcondición}        & Postcondiciones (podría haber más de una) \\
-		\textbf{Excepciones}          & Excepciones \\
-		\textbf{Importancia}          & Alta o Media o Baja... \\
-		\bottomrule
-	\end{tabularx}
-	\caption{CU-1 Nombre del caso de uso.}
-\end{table}
-
 \section{General objectives}
 
 \section{Requirements catalog}
@@ -42,7 +15,7 @@ Una muestra de cómo podría ser una tabla de casos de uso:
         \item \textbf{FR-1.2} The user must be able to add classes by clicking on the button labeled ``+''.
         \item \textbf{FR-1.3} The user must be able to remove the row that represents the class that was last added by clicking on the button labeled ``-''.
         \item \textbf{FR-1.4} The user must be able to initialize the calculation of the entropy by clicking on the button labeled ``Calculate Entropy''.
-        \item \textbf{FR-1.5} The application must, given valid input values, correctly calculate each class's p-value and the feature's entropy and display those values on the right table.
+        \item \textbf{FR-1.5} The application must, given valid input values, correctly calculate each class's p-value and the feature's entropy and display those values on the corresponding Entropy table.
         \item \textbf{FR-1.6} The application must, if only 2 classes were used, show the results of the entropy calculation through a red dot on the x-axis of the presented coordinate system and a red line pointing to the corresponding point on the presented Binary Entropy graph.
     \end{itemize}
 \end{itemize}
@@ -70,3 +43,71 @@ Una muestra de cómo podría ser una tabla de casos de uso:
 \end{itemize}
 
 \section{Requirements specification}
+\subsection{Use case diagram}
+
+\subsection{Use cases}
+% Use case 1
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{UC-1}    & \textbf{Run Entropy calculator}\\
+		\toprule
+		\textbf{Version}              & 1.0    \\
+		\textbf{Author}                & Daniel Drefs Fernandes \\
+		\textbf{Associated requirements} & FR-1, FR-1.1, FR-1.2, FR-1.3, FR-1.4, FR-1.5, FR-1.6 \\
+		\textbf{Description}          & The user runs the Entropy calculator with the desired input values and receives the results in a visual format on the website. \\
+		\textbf{Precondition}         & The input values introduced by the user are valid. \\
+		\textbf{Actions}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item The user opens the application.
+            \begin{enumerate}
+                \item The user adds one or multiple class by clicking the button with the label ``+''.
+            \end{enumerate}
+			\item The user fills the input fields with the desired values and clicks on the button with the label ``Calculate Entropy''.
+            \item The application calculates each class's p-value and the feature's entropy and displays the results on the corresponding table.
+            \begin{enumerate}
+                \item If the user has not added any classes, the application will show a visualization of the calculated results in SVG format on the Binary Entropy graph.
+            \end{enumerate}
+		\end{enumerate}\\
+		\textbf{Postcondition}        & The results are displayed on the Entropy table. \\
+		\textbf{Exceptions}          & If the user has introduced invalid values, the application will display an alert and inform the user to only use positive integer values. \\
+		\textbf{Importance}          & High \\
+		\bottomrule
+	\end{tabularx}
+	\caption{UC-1 Run Entropy calculator.}
+\end{table}
+
+\subsection{Use cases}
+% Use case 1
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{UC-2}    & \textbf{Run Conditional Entropy calculator}\\
+		\toprule
+		\textbf{Version}              & 1.0    \\
+		\textbf{Author}                & Daniel Drefs Fernandes \\
+		\textbf{Associated requirements} & FR-2, FR-2.1, FR-2.2, FR-2.3, FR-2.4, FR-2.5 \\
+		\textbf{Description}          & The user runs the Conditional Entropy calculator with the desired input values and receives the results in a visual format on the website. \\
+		\textbf{Precondition}         & The input values introduced by the user are valid. \\
+		\textbf{Actions}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item The user opens the application.
+            \begin{enumerate}
+                \item The user adds one or multiple categories by clicking the button with the label ``+''.
+            \end{enumerate}
+			\item The user fills the input fields with the desired values and clicks on the button with the label ``Calculate Conditional Entropy''.
+            \item The application calculates each category's ratio, entropy, and the feature's conditional entropy and displays the results on the table.
+		\end{enumerate}\\
+		\textbf{Postcondition}        & The results are displayed on the table. \\
+		\textbf{Exceptions}          & If the user has introduced invalid values, the application will display an alert and inform the user to only use positive integer values. \\
+		\textbf{Importance}          & High \\
+		\bottomrule
+	\end{tabularx}
+	\caption{UC-2 Run Conditional Entropy calculator.}
+\end{table}
