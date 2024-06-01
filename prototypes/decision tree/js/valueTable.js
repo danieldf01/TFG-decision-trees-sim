@@ -1,13 +1,11 @@
-// Get example data
-import { label1, labelValues1 } from '../exampledata/example1.js';
 import { valueTableGroups } from './tree.js';
 
 var label;
 var labelValues;
 
-// To retrieve locally stored user data
-const userL = 'userLabel';
-const userLV = 'userLabelValues';
+// To retrieve locally stored csv data
+const csvL = 'csvLabel';
+const csvLV = 'csvLabelValues';
 
 const firstHeaderRowCols = 7;
 const indexHeaderLabelCol = 2;
@@ -174,15 +172,10 @@ function createValueTableForLeaf(tableEl, step) {
     tableEl.appendChild(foot);
 }
 
-function loadData(userData = false){
-    if (userData) {
-        let userCsvData = JSON.parse(localStorage.getItem('csvData'));
-        label = userCsvData[userL];
-        labelValues = userCsvData[userLV];
-    } else{
-        label = label1;
-        labelValues = labelValues1;
-    }
+function loadData(){
+    let dataCsv = JSON.parse(localStorage.getItem('csvData'));
+    label = dataCsv[csvL];
+    labelValues = dataCsv[csvLV];
 }
 
 function createValueTable(step) {
@@ -200,6 +193,8 @@ function createValueTable(step) {
     tableEl.classList.add('table');
     tableEl.setAttribute("id", "valueTableEl");
 
+    console.log(valueTableGroups[step]);
+
     if (valueTableGroups[step - 1].length === valueLabelsLength && Number.isInteger(valueTableGroups[step - 1][0])) {
         createValueTableForLeaf(tableEl, step);
     } else {
@@ -208,10 +203,5 @@ function createValueTable(step) {
 
     tableDiv.appendChild(tableEl);
 }
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     loadData(false);
-//     createValueTable(1);
-// });
 
 export { createValueTable, loadData };

@@ -9,12 +9,12 @@ const STD_BRANCH_FONTSIZE = 12;
 const STD_BRANCH_STROKE_WIDTH = 1;
 const STD_BRANCH_DY = -0.7;
 
-// To retrieve locally stored user data
-const userA = 'userAttributes';
-const userAV = 'userAttributeValues';
-const userL = 'userLabel';
-const userLV = 'userLabelValues';
-const userD = 'userData';
+// To retrieve locally stored csv data
+const csvA = 'csvAttributes';
+const csvAV = 'csvAttributeValues';
+const csvL = 'csvLabel';
+const csvLV = 'csvLabelValues';
+const csvD = 'csvDataRows';
 
 const svgId = 'svgDT';
 var svgWidth = 0;
@@ -33,24 +33,6 @@ var attributes;
 var attributeValues;
 var label;
 var labelValues;
-
-// Get example data
-import { data1, attributes1, attributeValues1, label1, labelValues1 } from '../exampledata/example1.js';
-// const attributes = Object.keys(data[0].attributes);
-
-// import data from '../exampledata/example1.mjs';
-// const attributes = Object.keys(data[0].attributes);
-
-// function loadExampleData(){
-//     fetch('./exampledata/example1.json')
-//     .then(response => response.json())
-//     .then(jsonData => {
-//         data = jsonData;
-//         attributes = Object.keys(data[0].attributes);
-//     })
-//     .catch(error => console.error('Error fetching example data:', error));
-// }
-
 
 class NodeValues {
     constructor(class1, class2, n, entropy) {
@@ -869,21 +851,14 @@ function buildSvgTree() {
     createNodes(decisionTree, 0, svgEl, "g1", realNodeWidth, nodeHeight, leafHeight, sizeRatio);
 }
 
-function buildTree(userData = false) {
-    if (userData) {
-        let userCsvData = JSON.parse(localStorage.getItem('csvData'));
-        data = userCsvData[userD];
-        attributes = userCsvData[userA];
-        attributeValues = userCsvData[userAV];
-        label = userCsvData[userL];
-        labelValues = userCsvData[userLV];
-    } else {
-        data = data1
-        attributes = attributes1;
-        attributeValues = attributeValues1;
-        label = label1;
-        labelValues = labelValues1;
-    }
+function buildTree() {
+    let dataCsv = JSON.parse(localStorage.getItem('csvData'));
+    data = dataCsv[csvD];
+    attributes = dataCsv[csvA];
+    console.log(attributes);
+    attributeValues = dataCsv[csvAV];
+    label = dataCsv[csvL];
+    labelValues = dataCsv[csvLV];
 
     dataTableGroups = [];
     valueTableGroups = [];
@@ -1028,9 +1003,6 @@ function handleResize() {
     }
 }
 
-// document.addEventListener('DOMContentLoaded', function () {
-//     buildTree(false);
-// });
 window.onresize = handleResize;
 
 export { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch, buildTree, destroyTree, nodeCount, leafCount, dataTableGroups, valueTableGroups }
