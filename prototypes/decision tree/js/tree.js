@@ -930,7 +930,6 @@ function destroyTree(svgEl) {
     for (var i = 0; i < nodeCount + leafCount; i++) {
         var groupId = 'g' + (i + 1);
         var groupToRemove = document.getElementById(groupId);
-        console.log(svgEl);
         svgEl.removeChild(groupToRemove);
     }
 
