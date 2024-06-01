@@ -33,12 +33,34 @@ function highlightAttributes(){
         }
     }
 
+    // Array that will hold the current rules to later write them into the table caption 
+    var currentRules = [];
+
     // Mark the currently important header columns/attributes
     for (var i = 0; i < tHeadCols.length; i++){
         if (colsToMark.includes(i)){
             tHeadCols[i+1].classList.add('table-warning');
             changedCells.push(tHeadCols[i+1]);
+
+            // Get first appearance of the desired feature value
+            var valueName = tRows[rowsToMark[0]].getElementsByTagName('td')[i+1].textContent;
+            // First append feature name to the string
+            var rule = tHeadCols[i+1].textContent;
+            rule += "=" + valueName;
+            currentRules.push(rule);
         }
+    }
+
+    // Write the rule(s) into the caption
+    var captionEl = document.getElementById('dataTableCaption');
+    if (currentRules.length > 0){
+        if (currentRules.length === 1){
+            captionEl.textContent = 'Current rule: ' + currentRules[0];
+        } else{
+            captionEl.textContent = 'Current rules: ' + currentRules.join(' & ');
+        }
+    } else{
+        captionEl.textContent = 'Current rules: none';
     }
 }
 

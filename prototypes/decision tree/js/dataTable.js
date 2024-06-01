@@ -58,8 +58,8 @@ function createTable(){
     
     // Caption
     var caption = document.createElement('caption');
-    caption.textContent = "Example data 1";
-
+    caption.setAttribute("id", "dataTableCaption");
+    caption.textContent = 'Current rules: none';
     tableEl.appendChild(caption);
 
     // Header

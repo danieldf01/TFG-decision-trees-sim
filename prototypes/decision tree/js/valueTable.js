@@ -193,8 +193,6 @@ function createValueTable(step) {
     tableEl.classList.add('table');
     tableEl.setAttribute("id", "valueTableEl");
 
-    console.log(valueTableGroups[step]);
-
     if (valueTableGroups[step - 1].length === valueLabelsLength && Number.isInteger(valueTableGroups[step - 1][0])) {
         createValueTableForLeaf(tableEl, step);
     } else {

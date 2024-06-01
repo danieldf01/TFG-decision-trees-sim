@@ -1,5 +1,5 @@
 import { buildTree, destroyTree } from './tree.js';
-import { createTable } from './table.js';
+import { createTable } from './dataTable.js';
 import { createValueTable, loadData } from './valueTable.js';
 import { initialStep } from './stepbystep.js';
 import { getDataInfo, getDataLink } from "../exampledata/dataInfo.js";
