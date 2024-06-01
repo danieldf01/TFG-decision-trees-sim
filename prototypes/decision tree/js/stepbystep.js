@@ -236,6 +236,8 @@ function goToStep() {
         var groupToShow = document.getElementById(groupId);
         groupToShow.style.display = "block";
     }
+    
+    createRedMarker(document.getElementById('g' + currentStep).querySelectorAll('use'));
 }
 
 export { initialStep, stepForward, stepBack, lastStep, goToStep };
