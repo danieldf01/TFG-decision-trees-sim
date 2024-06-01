@@ -165,7 +165,13 @@ function createValueTableForLeaf(tableEl, step) {
     var footRow = document.createElement('tr');
     var footCell = document.createElement('td');
     footCell.colSpan = '2';
-    footCell.textContent = 'All labels have the same value';
+    footCell.classList.add('text-center');
+    footCell.classList.add('fw-light');
+    if(valueTableGroups[step - 1].includes(0)){
+        footCell.textContent = 'All labels have the same value';
+    } else{
+        footCell.textContent = 'There are no features left to split the current dataset on, so the most common label value was chosen';
+    }
     footRow.appendChild(footCell);
     foot.appendChild(footRow);
 
