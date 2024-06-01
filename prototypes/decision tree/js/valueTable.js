@@ -167,6 +167,7 @@ function createValueTableForLeaf(tableEl, step) {
     footCell.colSpan = '2';
     footCell.classList.add('text-center');
     footCell.classList.add('fw-light');
+    // Is it a "pure" leaf node?
     if(valueTableGroups[step - 1].includes(0)){
         footCell.textContent = 'All labels have the same value';
     } else{
