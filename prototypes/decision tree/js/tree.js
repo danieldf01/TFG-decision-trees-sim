@@ -401,7 +401,7 @@ function createBranch(nodeId, x1, y1, x2, y2, value, sizeRatio) {
     }
     clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('d', positionAttribute);
     clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('stroke-width', sizeRatio * STD_BRANCH_STROKE_WIDTH);
-    
+
     clonedTemplate.querySelector('#' + templateBranchValueId).textContent = value;
     var textSizeRatio = (y2 - y1) / 100;
     clonedTemplate.querySelector('#' + templateBranchValueId).setAttribute('font-size', textSizeRatio * STD_BRANCH_FONTSIZE);
@@ -426,6 +426,45 @@ function createBranch(nodeId, x1, y1, x2, y2, value, sizeRatio) {
     return newUse;
 }
 
+// Creates/draws the nodes and adds them to groups
+function createNodes(node, nodeIndex, svgEl, groupId, nodeWidth, nodeHeight, leafHeight, sizeRatio) {
+    var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    group.setAttribute("id", groupId);
+
+    var useNode = null;
+    // No branch going into the root node
+    if (node.depth === 0) {
+        useNode = createNode(node.id, node.nodeValues.n, node.nodeValues.entropy, node.attribute, node.x, node.y, nodeWidth, nodeHeight);
+        group.appendChild(useNode);
+        svgEl.appendChild(group);
+
+    } else {
+        var nodeSplitByChildren = nodeWidth / node.parent.children.length;
+        var x1Value = node.parent.x + (nodeSplitByChildren - (nodeSplitByChildren / 2) + (nodeIndex * nodeSplitByChildren));
+        var useBranch = createBranch(node.id, x1Value, (node.parent.y + nodeHeight) - 1, node.x + (nodeWidth / 2), node.y - 1, node.prevBranchVal, sizeRatio)
+
+        if (node.children.length === 0) {
+            useNode = createLeaf(node.id, node.nodeValues.n, node.nodeValues.class1, node.nodeValues.class2, node.nodeValues.entropy, node.label,
+                node.x, node.y, nodeWidth, leafHeight);
+        } else {
+            useNode = createNode(node.id, node.nodeValues.n, node.nodeValues.entropy, node.attribute, node.x, node.y, nodeWidth, nodeHeight);
+        }
+        group.appendChild(useBranch);
+        group.appendChild(useNode);
+        svgEl.appendChild(group);
+        group.style.display = 'none';
+
+        if (node.children.length === 0) {
+            return groupId;
+        }
+    }
+
+    for (var i = 0; i < node.children.length; i++) {
+        groupId = createNodes(node.children[i], i, svgEl, 'g' + (+groupId.substring(1) + 1), nodeWidth, nodeHeight, leafHeight, sizeRatio);
+    }
+
+    return groupId;
+}
 
 // Calculate the tree's depth (including the root node)
 function calcTreeDepth(rootNode) {
@@ -599,9 +638,6 @@ function centerNodesBetween(leftNode, rightNode, leftIndex, rightIndex) {
 
             count++;
         }
-
-        // Double check for conflicts
-        checkForConflicts(leftNode);
     }
 
 }
@@ -684,46 +720,6 @@ function calcFinalPositions(node, modSum, leafHeight) {
     for (const child of node.children) {
         calcFinalPositions(child, modSum, leafHeight);
     }
-}
-
-// Creates/draws the nodes and adds them to groups
-function createNodes(node, nodeIndex, svgEl, groupId, nodeWidth, nodeHeight, leafHeight, sizeRatio) {
-    var group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    group.setAttribute("id", groupId);
-
-    var useNode = null;
-    // No branch going into the root node
-    if (node.depth === 0) {
-        useNode = createNode(node.id, node.nodeValues.n, node.nodeValues.entropy, node.attribute, node.x, node.y, nodeWidth, nodeHeight);
-        group.appendChild(useNode);
-        svgEl.appendChild(group);
-
-    } else {
-        var nodeSplitByChildren = nodeWidth / node.parent.children.length;
-        var x1Value = node.parent.x + (nodeSplitByChildren - (nodeSplitByChildren / 2) + (nodeIndex * nodeSplitByChildren));
-        var useBranch = createBranch(node.id, x1Value, (node.parent.y + nodeHeight) - 1, node.x + (nodeWidth / 2), node.y - 1, node.prevBranchVal, sizeRatio)
-
-        if (node.children.length === 0) {
-            useNode = createLeaf(node.id, node.nodeValues.n, node.nodeValues.class1, node.nodeValues.class2, node.nodeValues.entropy, node.label,
-                node.x, node.y, nodeWidth, leafHeight);
-        } else {
-            useNode = createNode(node.id, node.nodeValues.n, node.nodeValues.entropy, node.attribute, node.x, node.y, nodeWidth, nodeHeight);
-        }
-        group.appendChild(useBranch);
-        group.appendChild(useNode);
-        svgEl.appendChild(group);
-        group.style.display = 'none';
-
-        if (node.children.length === 0) {
-            return groupId;
-        }
-    }
-
-    for (var i = 0; i < node.children.length; i++) {
-        groupId = createNodes(node.children[i], i, svgEl, 'g' + (+groupId.substring(1) + 1), nodeWidth, nodeHeight, leafHeight, sizeRatio);
-    }
-
-    return groupId;
 }
 
 // Centers the tree in the SVG if there are still space left on the right side
@@ -828,9 +824,11 @@ function buildSvgTree() {
     var heightRatio = rowHeight / STD_LEAFHEIGHT;
 
     var maxColumns = levels.reduce((a, b) => Math.max(a, b), -Infinity);
+
     var columnWidth = (svgWidth / (maxColumns));
     // Nodes need to be a bit smaller than a column so there is space between them
-    var nodeWidth = (svgWidth / (maxColumns + maxColumns * 0.1));
+    var nodeWidth = (svgWidth / (maxColumns + maxColumns * 0.2));
+    var columnNodeWidthRatio = columnWidth / nodeWidth;
     var widthRatio = nodeWidth / STD_NODEWIDTH;
 
     // Choose the smaller ratio so the nodes don't go out ouf bounds
@@ -843,12 +841,14 @@ function buildSvgTree() {
     var nodeHeight = STD_NODEHEIGHT * sizeRatio;
 
     // Both leaf and decision nodes have the same width
-    var realNodeWidth = STD_NODEWIDTH * sizeRatio;
+    var actualNodeWidth = STD_NODEWIDTH * sizeRatio;
+    // The column width is a little bigger so there will be space between the nodes
+    var actualColumnWidth = actualNodeWidth * columnNodeWidthRatio;
 
-    calcPositions(decisionTree, realNodeWidth, leafHeight, columnWidth);
+    calcPositions(decisionTree, actualNodeWidth, leafHeight, actualColumnWidth);
 
     var svgEl = document.getElementById(svgId);
-    createNodes(decisionTree, 0, svgEl, "g1", realNodeWidth, nodeHeight, leafHeight, sizeRatio);
+    createNodes(decisionTree, 0, svgEl, "g1", actualNodeWidth, nodeHeight, leafHeight, sizeRatio);
 }
 
 function buildTree() {
@@ -930,31 +930,41 @@ function destroyTree(svgEl) {
     for (var i = 0; i < nodeCount + leafCount; i++) {
         var groupId = 'g' + (i + 1);
         var groupToRemove = document.getElementById(groupId);
-        svgEl.removeChild(groupToRemove);
+        if (groupToRemove != null) {
+            svgEl.removeChild(groupToRemove);
+        }
     }
 
     // Remove all the specifically created symbols/templates related to nodes
     for (var i = 0; i < nodeCount; i++) {
         var nodeId = 'node' + (i + 1);
         var nodeToRemove = document.getElementById(nodeId);
-        svgEl.removeChild(nodeToRemove);
+        if (nodeToRemove != null) {
+            svgEl.removeChild(nodeToRemove);
+        }
 
         // There is no branch belonging to the root node
         if (i === 0) continue;
         var branchId = 'branchn' + (i + 1);
         var branchToRemove = document.getElementById(branchId);
-        svgEl.removeChild(branchToRemove);
+        if (branchToRemove != null) {
+            svgEl.removeChild(branchToRemove);
+        }
     }
 
     //Remove all the specifically created symbols/templates related to leaves
     for (var i = 0; i < leafCount; i++) {
         var leafId = 'leaf' + (i + 1);
         var leafToRemove = document.getElementById(leafId);
-        svgEl.removeChild(leafToRemove);
+        if (leafToRemove != null) {
+            svgEl.removeChild(leafToRemove);
+        }
 
         var branchId = 'branchl' + (i + 1);
         var branchToRemove = document.getElementById(branchId);
-        svgEl.removeChild(branchToRemove);
+        if (branchToRemove != null) {
+            svgEl.removeChild(branchToRemove);
+        }
     }
 }
 
