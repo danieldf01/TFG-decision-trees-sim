@@ -13,12 +13,7 @@ const dataset3 = "Iris";
 const dataset4 = "Mushrooms";
 const dataset5 = "Lenses";
 
-function transformData(data) {
-    const headers = data[0];
-    const attributes = headers.slice(0, -1);
-    const label = headers[headers.length - 1];
-
-    console.log(attributes);
+function getAttributes(data, attributes) {
     const attributeValues = attributes.map((key, index) => {
         const values = new Set();
         for (let i = 1; i < data.length; i++) {
@@ -27,6 +22,10 @@ function transformData(data) {
         return Array.from(values);
     });
 
+    return attributeValues;
+}
+
+function getLabelValsDataRows(data, attributes) {
     const labelValues = new Set();
     const dataRows = data.slice(1).map(row => {
         const attributeObj = {};
@@ -38,7 +37,19 @@ function transformData(data) {
         return { attributes: attributeObj, label: label };
     });
 
-    const labelValuesArray = Array.from(labelValues);
+    return [Array.from(labelValues), dataRows]; 
+}
+
+function transformData(data) {
+    const headers = data[0];
+    const attributes = headers.slice(0, -1);
+    const label = headers[headers.length - 1];
+
+    const attributeValues = getAttributes(data, attributes);
+
+    const labelValsDataRows = getLabelValsDataRows(data, attributes);
+    const labelValuesArray = labelValsDataRows[0];
+    const dataRows = labelValsDataRows[1];
 
     let dataCsv = {};
     dataCsv['csvAttributes'] = attributes;
@@ -114,5 +125,5 @@ function loadExampleData(selectedExample) {
     }
 }
 
-export { loadExampleData, transformData }
+export { loadExampleData, transformData, getAttributes, getLabelValsDataRows }
 export default loadExampleData;

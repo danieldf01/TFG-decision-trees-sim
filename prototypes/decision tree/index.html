@@ -228,14 +228,15 @@
             <div class="col-auto ">
                 <button type="button" class="btn border-success-subtle" data-bs-toggle="modal"
                     data-bs-target="#uploadModal">
-                    Load own .csv dataset
+                    Load own CSV dataset
                 </button>
                 <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <div class="modal-title fw-semibold fs-5" id="uploadModalLabel">Upload .csv Example Data</div>
+                                <div class="modal-title fw-semibold fs-5" id="uploadModalLabel">Upload CSV Example Data
+                                </div>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -266,15 +267,19 @@
                                                             categorical values</li>
                                                         <li><strong>Class Column:</strong> The class column, indicating
                                                             the target
-                                                            variable, must be the last column in your dataset</li>
-                                                        <li><strong>Maximum classes</strong> The target class can only
+                                                            feature, must be the last column in your dataset</li>
+                                                        <li><strong>Maximum classes:</strong> The target class can only
                                                             have 2
                                                             distinct values</li>
                                                         <li><strong>Maximum Rows:</strong> Your file must not contain
                                                             more than 150
                                                             rows of data (not counting feature row)</li>
+                                                        <li><strong>Completeness:</strong> The number of values in each
+                                                            row must be the same number as the amount of features as
+                                                            specified in the
+                                                            first row</li>
                                                     </ol>
-                                                    
+
                                                     <div class="div text-center mb-2">
                                                         <span class="fw-bold">Example:</span>
                                                     </div>
@@ -291,7 +296,7 @@
                                         </div>
                                         <!-- Choose csv file -->
                                         <div class="text-center">
-                                            <label for="csvFile" class="form-label ">Choose .csv file</label>
+                                            <label for="csvFile" class="form-label ">Choose CSV file</label>
                                         </div>
                                         <input class="form-control" type="file" id="csvFile" accept=".csv">
                                     </div>
