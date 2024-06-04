@@ -827,7 +827,7 @@ function buildSvgTree() {
 
     var columnWidth = (svgWidth / (maxColumns));
     // Nodes need to be a bit smaller than a column so there is space between them
-    var nodeWidth = (svgWidth / (maxColumns + maxColumns * 0.2));
+    var nodeWidth = (svgWidth / (maxColumns + maxColumns * 0.3));
     var columnNodeWidthRatio = columnWidth / nodeWidth;
     var widthRatio = nodeWidth / STD_NODEWIDTH;
 

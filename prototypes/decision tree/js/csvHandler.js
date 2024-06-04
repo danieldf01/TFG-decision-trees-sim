@@ -8,7 +8,10 @@ const svgId = 'svgDT';
 
 // Example dataset names
 const dataset1 = "Play Golf 1";
-const dataset2 = "Iris";
+const dataset2 = "Play Golf 2";
+const dataset3 = "Iris";
+const dataset4 = "Mushrooms";
+const dataset5 = "Lenses";
 
 function transformData(data) {
     const headers = data[0];
@@ -72,7 +75,16 @@ function loadExampleData(selectedExample) {
             filePath = "exampledata/playgolf_1.csv";
             break;
         case dataset2:
+            filePath = "exampledata/playgolf_2.csv";
+            break;
+        case dataset3:
             filePath = "exampledata/iris.csv";
+            break;
+        case dataset4:
+            filePath = "exampledata/mushrooms.csv";
+            break;
+        case dataset5:
+            filePath = "exampledata/lenses.csv";
             break;
     }
     if (filePath != null) {
