@@ -240,9 +240,19 @@
                             <div class="modal-body">
                                 <form id="uploadForm">
                                     <div class="mb-3">
-                                        <span>Please make sure that your .csv file has the right format:
+                                        <div class="div text-center mb-2">
+                                            <span class="modal-title fw-bold fs-4">.csv file format requirements:</span>
+                                        </div>
+                                        <ol>
+                                            <li><strong>Format:</strong> The file needs to be in .csv (Comma-Separated Values) format</li>
+                                            <li><strong>Maximum Rows:</strong> Your file must not contain more than 150 rows of data (not counting feature row)</li>
+                                            <li><strong>Class Column:</strong> The class column, indicating the target variable, must be the last column in your dataset</li>
+                                            <li><strong>Maximum classes</strong> The target class can only have 2 distinct values</li>
+                                        </ol>
+                                        <div class="div text-center mb-2">
+                                            <span>Failure to meet these requirements may result in errors or incorrect analysis.</span>
+                                        </div>
 
-                                        </span>
                                         <label for="csvFile" class="form-label">Choose .csv file</label>
                                         <input class="form-control" type="file" id="csvFile" accept=".csv">
                                     </div>
