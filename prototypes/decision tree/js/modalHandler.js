@@ -27,7 +27,7 @@ function checkUserCsv(data) {
     }
 
     const colNum = attributes.length + 1;
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 1; i < data.length; i++) {
         let rowCols = 0;
         for (let j = 0; j < data[i].length; j++) {
             if (!isNaN(data[i][j])) {
