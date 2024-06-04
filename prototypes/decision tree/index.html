@@ -204,6 +204,7 @@
         </div>
         <!-- Example dataset select form, modal for .csv dataset upload -->
         <div class="row p-2 justify-content-center">
+            <!-- Example dataset select -->
             <div class="col-auto">
                 <select id="selectExData" class="form-select border-primary-subtle" data-live-search="true">
                     <option id="selectPlaceholder" selected disabled>Choose example dataset</option>
@@ -223,6 +224,7 @@
                     });
                 </script>
             </div>
+            <!-- User csv modal -->
             <div class="col-auto ">
                 <button type="button" class="btn border-success-subtle" data-bs-toggle="modal"
                     data-bs-target="#uploadModal">
@@ -233,32 +235,70 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="uploadModalLabel">Upload .csv Example Data</h5>
+                                <div class="modal-title fw-semibold fs-5" id="uploadModalLabel">Upload .csv Example Data</div>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <form id="uploadForm">
                                     <div class="mb-3">
-                                        <div class="div text-center mb-2">
-                                            <span class="modal-title fw-bold fs-4">.csv file format requirements:</span>
-                                        </div>
-                                        <ol>
-                                            <li><strong>Format:</strong> The file needs to be in .csv (Comma-Separated Values) format</li>
-                                            <li><strong>Maximum Rows:</strong> Your file must not contain more than 150 rows of data (not counting feature row)</li>
-                                            <li><strong>Class Column:</strong> The class column, indicating the target variable, must be the last column in your dataset</li>
-                                            <li><strong>Maximum classes</strong> The target class can only have 2 distinct values</li>
-                                        </ol>
-                                        <div class="div text-center mb-2">
-                                            <span>Failure to meet these requirements may result in errors or incorrect analysis.</span>
-                                        </div>
+                                        <!-- File requirements -->
+                                        <div class="card bg-light mb-3">
+                                            <div class="card-header bg-danger-subtle" id="fileReqHeader"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseFileReq"
+                                                aria-expanded="true" aria-controls="collapseFileReq">
+                                                <a class="collapsed text-center fw-bold fs-5 d-block link-body-emphasis link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-50-hover"
+                                                    data-bs-toggle="collapse" href="#collapseFileReq"
+                                                    aria-expanded="false" aria-controls="collapseFileReq">
+                                                    FILE REQUIREMENTS
+                                                </a>
+                                            </div>
 
-                                        <label for="csvFile" class="form-label">Choose .csv file</label>
+                                            <div id="collapseFileReq" class="collapse" aria-labelledby="fileReqHeader"
+                                                data-bs-parent="#fileReqHeader">
+                                                <div class="card-body ">
+                                                    <ol>
+                                                        <li><strong>Format:</strong> The file needs to be in CSV
+                                                            (Comma-Separated
+                                                            Values) format</li>
+                                                        <li><strong>Categorical values:</strong> All features must only
+                                                            have
+                                                            categorical values</li>
+                                                        <li><strong>Class Column:</strong> The class column, indicating
+                                                            the target
+                                                            variable, must be the last column in your dataset</li>
+                                                        <li><strong>Maximum classes</strong> The target class can only
+                                                            have 2
+                                                            distinct values</li>
+                                                        <li><strong>Maximum Rows:</strong> Your file must not contain
+                                                            more than 150
+                                                            rows of data (not counting feature row)</li>
+                                                    </ol>
+                                                    
+                                                    <div class="div text-center mb-2">
+                                                        <span class="fw-bold">Example:</span>
+                                                    </div>
+                                                    <div class="text-center mb-2">
+                                                        <img src="img/csvExample.png" width="280" height="200">
+                                                    </div>
+                                                    <div class="div text-center">
+                                                        <span>Failure to meet these requirements may result in errors or
+                                                            incorrect
+                                                            analysis.</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Choose csv file -->
+                                        <div class="text-center">
+                                            <label for="csvFile" class="form-label ">Choose .csv file</label>
+                                        </div>
                                         <input class="form-control" type="file" id="csvFile" accept=".csv">
                                     </div>
                                 </form>
                             </div>
-                            <div class="modal-footer">
+                            <!-- Close, upload buttons -->
+                            <div class="modal-footer ">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="button" class="btn btn-primary" id="btnUploadModal">
                                     Upload
