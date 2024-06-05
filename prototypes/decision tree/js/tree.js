@@ -5,6 +5,14 @@ const STD_LEAFHEIGHT = 133;
 const STD_NODEHEIGHT = 92;
 const STD_NODEWIDTH = 82;
 
+const STD_NODE_NR_X_POS = 12;
+const STD_NODE_NR_WIDTH = 53;
+const STD_NODE_FONTSIZE = 16;
+const MAX_NODE_TEXTWIDTH = STD_NODEWIDTH - 10;
+
+const STD_LEAF_NR_X_POS = 17;
+const STD_LEAF_NR_WIDTH = 41;
+
 const STD_BRANCH_FONTSIZE = 12;
 const STD_BRANCH_STROKE_WIDTH = 1;
 const STD_BRANCH_DY = -0.7;
@@ -334,6 +342,60 @@ function createNewUse(id, href, x, y, width, height) {
     return newUse
 }
 
+/**
+ * Get the width that a text occupies in an SVG node
+ * @param {*} svgEl The SVG element in which the tree is displayed
+ * @param {*} textToDisplay The text displayed in a node
+ * @returns The width of the displayed text inside the node
+ */
+function getNodeTextWidth(svgEl, textToDisplay){
+    // Create temporary text element
+    let textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    textEl.setAttribute("x", 0);
+    textEl.setAttribute("y", 0);
+    textEl.setAttribute("font-size", STD_NODE_FONTSIZE);
+    textEl.textContent = textToDisplay;
+
+    // Append the text element to the SVG
+    svgEl.appendChild(textEl);
+
+    // Get the bounding box and width of the text element
+    let bbox = textEl.getBBox();
+
+    // Remove temporary text element again and return width
+    svgEl.removeChild(textEl);
+    return bbox.width;
+}
+
+/**
+ * Checks whether a given text is too wide to be displayed in a node
+ * @param {*} svgEl The SVG element in which the tree is displayed
+ * @param {*} textToDisplay The text that displayed in a node
+ * @returns Ratio between the maximum text width and the actual text width
+ */
+function checkNodeTextTooWide(svgEl, textEl) {
+    // Get text width
+    let textWidth = getNodeTextWidth(svgEl, textEl.textContent);
+
+    // Check if the text width is wider than the maximum acceptable text width, reduce font size if yes
+    let ratio = MAX_NODE_TEXTWIDTH / textWidth;
+    if (ratio < 1) {
+        textEl.setAttribute('font-size', STD_NODE_FONTSIZE * ratio);
+    }
+}
+
+/**
+ * Creates a new SVG symbol/template and use element that displays it based on the given node values
+ * @param {*} nodeId The node id
+ * @param {*} n The number of instances in the subset represented by this node
+ * @param {*} e The entropy of the subset represented by this node
+ * @param {*} attribute The attribute that this node represents / the best attribute of the subset that this node represents
+ * @param {*} x The x coordinate of this node
+ * @param {*} y The y coordinate of this node
+ * @param {*} width The width of this node
+ * @param {*} height The height of this node
+ * @returns The use element that displays the created SVG symbol
+ */
 function createNode(nodeId, n, e, attribute, x, y, width, height) {
     var svgEl = document.getElementById(svgId);
     var nodeTemplate = document.getElementById('node');
@@ -343,18 +405,43 @@ function createNode(nodeId, n, e, attribute, x, y, width, height) {
     var clonedTemplate = nodeTemplate.cloneNode(true);
     clonedTemplate.setAttribute('id', 'node' + nodeNumber);
 
-    // Update text contents
+    // Update text contents and check for each if the text is too wide, reduce the font size if yes
+    // For the node number text, check if it is still placed in the middle
     clonedTemplate.querySelector('#nodeNr').textContent += nodeNumber;
+    let widthNodeNr = getNodeTextWidth(svgEl, clonedTemplate.querySelector('#nodeNr').textContent);
+    if(widthNodeNr > STD_NODE_NR_WIDTH){
+        clonedTemplate.querySelector('#nodeNr').setAttribute('x', STD_NODE_NR_X_POS - ((widthNodeNr - STD_NODE_NR_WIDTH) / 2));
+    }
+    checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#nodeNr'));
+
     clonedTemplate.querySelector('#nodeN').textContent += n;
+    checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#nodeN'));
+
+    // Entropy can never be too wide (only values between 0 and 1 with a fixed 2 decimal points are displayed)
     clonedTemplate.querySelector('#nodeE').textContent += e;
+
     clonedTemplate.querySelector('#nodeAttribute').textContent = attribute;
+    checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#nodeAttribute'));
 
     // Append cloned template to the svg and return the use element
     svgEl.appendChild(clonedTemplate);
     return createNewUse('useNode' + nodeNumber, '#node' + nodeNumber, x, y, width, height);
 }
 
-
+/**
+ * Creates a new SVG symbol/template and use element that displays it based on the given node values
+ * @param {*} leafId The leaf id
+ * @param {*} n The number of instances in the subset represented by this leaf
+ * @param {*} class1 The number of instances in this subset belonging to class 1
+ * @param {*} class2 The number of instances in this subset belonging to class 2
+ * @param {*} e The entropy of the subset represented by this leaf
+ * @param {*} label The label value that this leaf represents based on the given subset
+ * @param {*} x The x coordinate of this node
+ * @param {*} y The y coordinate of this node
+ * @param {*} width The width of this node
+ * @param {*} height The height of this node
+ * @returns The use element that displays the created SVG symbol
+ */
 function createLeaf(leafId, n, class1, class2, e, label, x, y, width, height) {
     var svgEl = document.getElementById(svgId);
     var leafTemplate = document.getElementById('leaf');
@@ -364,13 +451,29 @@ function createLeaf(leafId, n, class1, class2, e, label, x, y, width, height) {
     var clonedTemplate = leafTemplate.cloneNode(true);
     clonedTemplate.setAttribute('id', 'leaf' + leafNumber);
 
-    // Update text contents
+    // Update text contents and check for each if the text is too wide, reduce the font size if yes
     clonedTemplate.querySelector('#leafNr').textContent += leafNumber;
+    let widthLeafNr = getNodeTextWidth(svgEl, clonedTemplate.querySelector('#leafNr').textContent);
+    console.log(widthLeafNr);
+    if(widthLeafNr > STD_LEAF_NR_WIDTH){
+        clonedTemplate.querySelector('#leafNr').setAttribute('x', STD_LEAF_NR_X_POS - ((widthLeafNr - STD_LEAF_NR_WIDTH) / 2));
+    }
+    checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#leafNr'));
+
     clonedTemplate.querySelector('#leafN').textContent += n;
+    checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#leafN'));
+
     clonedTemplate.querySelector('#leafYes').textContent = labelValues[0] + ' = ' + class1;
+    checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#leafYes'));
+    
     clonedTemplate.querySelector('#leafNo').textContent = labelValues[1] + ' = ' + class2;
+    checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#leafNo'));
+
+    // Entropy can never be too wide (only values between 0 and 1 with a fixed 2 decimal points are displayed)
     clonedTemplate.querySelector('#leafE').textContent += e;
+    
     clonedTemplate.querySelector('#leafLabel').textContent = label;
+    checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#leafLabel'));
 
     // Append cloned template to the svg and return the use element
     svgEl.appendChild(clonedTemplate);
