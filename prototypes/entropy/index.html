@@ -258,7 +258,32 @@
                 </ul>
             </div>
             <div class="col-md-3 col-auto d-flex align-items-center">
-                <span class="fw-light">Last edited: 12-05-2024</span>
+                <span class="date fw-light"></span>
+                <script>
+                    // Get the date of when the repository was last updated and write it into the corresponding footer span
+                    const desiredRepo = "TFG-decision-trees-sim";
+                    const dateTagClass = ".date";
+
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            let repos = JSON.parse(this.responseText);
+
+                            repos.forEach((repo) => {
+                                if (repo.name == desiredRepo) {
+                                    let lastUpdated = new Date(repo.updated_at);
+                                    console.log(lastUpdated.toUTCString());
+                                    let day = lastUpdated.getUTCDate();
+                                    let month = lastUpdated.getUTCMonth()+1;
+                                    let year = lastUpdated.getUTCFullYear();
+                                    $(dateTagClass).text(`Last updated: ${day}-${month}-${year}`);
+                                }
+                            });
+                        }
+                    };
+                    xhttp.open("GET", "https://api.github.com/users/danieldf01/repos", true);
+                    xhttp.send();
+                </script>
             </div>
         </div>
     </footer>
