@@ -16,6 +16,7 @@ const STD_LEAF_NR_WIDTH = 41;
 const STD_BRANCH_FONTSIZE = 12;
 const STD_BRANCH_STROKE_WIDTH = 1;
 const STD_BRANCH_DY = -0.7;
+const MAX_BRANCH_TEXT_PATH_RATIO = 0.9;
 
 // To retrieve locally stored csv data
 const csvA = 'csvAttributes';
@@ -348,7 +349,7 @@ function createNewUse(id, href, x, y, width, height) {
  * @param {*} textToDisplay The text displayed in a node
  * @returns The width of the displayed text inside the node
  */
-function getNodeTextWidth(svgEl, textToDisplay){
+function getNodeTextWidth(svgEl, textToDisplay) {
     // Create temporary text element
     let textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
     textEl.setAttribute("x", 0);
@@ -409,7 +410,7 @@ function createNode(nodeId, n, e, attribute, x, y, width, height) {
     // For the node number text, check if it is still placed in the middle
     clonedTemplate.querySelector('#nodeNr').textContent += nodeNumber;
     let widthNodeNr = getNodeTextWidth(svgEl, clonedTemplate.querySelector('#nodeNr').textContent);
-    if(widthNodeNr > STD_NODE_NR_WIDTH){
+    if (widthNodeNr > STD_NODE_NR_WIDTH) {
         clonedTemplate.querySelector('#nodeNr').setAttribute('x', STD_NODE_NR_X_POS - ((widthNodeNr - STD_NODE_NR_WIDTH) / 2));
     }
     checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#nodeNr'));
@@ -454,8 +455,7 @@ function createLeaf(leafId, n, class1, class2, e, label, x, y, width, height) {
     // Update text contents and check for each if the text is too wide, reduce the font size if yes
     clonedTemplate.querySelector('#leafNr').textContent += leafNumber;
     let widthLeafNr = getNodeTextWidth(svgEl, clonedTemplate.querySelector('#leafNr').textContent);
-    console.log(widthLeafNr);
-    if(widthLeafNr > STD_LEAF_NR_WIDTH){
+    if (widthLeafNr > STD_LEAF_NR_WIDTH) {
         clonedTemplate.querySelector('#leafNr').setAttribute('x', STD_LEAF_NR_X_POS - ((widthLeafNr - STD_LEAF_NR_WIDTH) / 2));
     }
     checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#leafNr'));
@@ -465,13 +465,13 @@ function createLeaf(leafId, n, class1, class2, e, label, x, y, width, height) {
 
     clonedTemplate.querySelector('#leafYes').textContent = labelValues[0] + ' = ' + class1;
     checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#leafYes'));
-    
+
     clonedTemplate.querySelector('#leafNo').textContent = labelValues[1] + ' = ' + class2;
     checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#leafNo'));
 
     // Entropy can never be too wide (only values between 0 and 1 with a fixed 2 decimal points are displayed)
     clonedTemplate.querySelector('#leafE').textContent += e;
-    
+
     clonedTemplate.querySelector('#leafLabel').textContent = label;
     checkNodeTextTooWide(svgEl, clonedTemplate.querySelector('#leafLabel'));
 
@@ -480,47 +480,91 @@ function createLeaf(leafId, n, class1, class2, e, label, x, y, width, height) {
     return createNewUse('useLeaf' + leafNumber, '#leaf' + leafNumber, x, y, width, height);
 }
 
+/**
+ * Checks whether a given text is too wide to be displayed alongside a branch
+ * @param {*} svgEl The SVG element in which the tree is displayed
+ * @param {*} path The path element along which the text is displayed
+ * @param {*} textToDisplay The text that is displayed alongside the branch
+ * @param {*} fontSize The font size of the text
+ * @param {*} textSpanEl The textSpan element that contains the text and sets the font size
+ */
+function checkBranchTextTooWide(svgEl, path, textToDisplay, fontSize, textSpanEl) {
+    // Create a temporary SVG text element to measure text length
+    let textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    textEl.setAttribute("font-size", fontSize);
 
+    textEl.textContent = textToDisplay;
+    svgEl.appendChild(textEl);
+
+    // Get the bounding box and width of the text element and the path length
+    let bbox = textEl.getBBox();
+    let textWidth = bbox.width;
+    let pathLength = path.getTotalLength();
+
+    let textPathratio = textWidth / pathLength;
+
+    if (textPathratio > MAX_BRANCH_TEXT_PATH_RATIO) {
+        let newFontSizeRatio = MAX_BRANCH_TEXT_PATH_RATIO / textPathratio;
+        textSpanEl.setAttribute('font-size', fontSize * newFontSizeRatio);
+    }
+
+    // Remove temporary text element again
+    svgEl.removeChild(textEl);
+}
+
+/**
+ * Creates a new SVG symbol/template and use element that displays it based on the given branch values
+ * @param {*} nodeId The id of the node the branch points to
+ * @param {*} x1 The branch's x1 value
+ * @param {*} y1 The branch's y1 value
+ * @param {*} x2 The branch's x2 value
+ * @param {*} y2 The branch's y2 value
+ * @param {*} value The branch's text
+ * @param {*} sizeRatio The nodes' size ratio that is relative to the svg's width and height; used to scale the branch
+ * @returns The use element that displays the created SVG symbol
+ */
 function createBranch(nodeId, x1, y1, x2, y2, value, sizeRatio) {
-    var svgEl = document.getElementById(svgId);
-    var branchTemplate = document.getElementById('branch');
+    const svgEl = document.getElementById(svgId);
+    let branchTemplate = document.getElementById('branch');
 
     // Clone the template
-    var clonedTemplate = branchTemplate.cloneNode(true);
+    let clonedTemplate = branchTemplate.cloneNode(true);
     clonedTemplate.setAttribute('id', 'branch' + nodeId);
 
-    var templateBranchPathId = 'branchPath';
-    var templateBranchTPid = 'branchTP';
-    var templateBranchValueId = 'branchValue';
+    const templateBranchPathId = 'branchPath';
+    const templateBranchTPid = 'branchTP';
+    const templateBranchValueId = 'branchValue';
 
     // Update position attributes and ids
+    let positionAttribute = '';
     if (x2 < x1) {
-        var positionAttribute = 'M' + x2 + ' ' + y2 + ' ' + x1 + ' ' + y1;
+        positionAttribute = 'M' + x2 + ' ' + y2 + ' ' + x1 + ' ' + y1;
         clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('marker-end', '');
         clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('marker-start', 'url(#arrowMarkerReverse)');
     } else {
-        var positionAttribute = 'M' + x1 + ' ' + y1 + ' ' + x2 + ' ' + y2;
+        positionAttribute = 'M' + x1 + ' ' + y1 + ' ' + x2 + ' ' + y2;
         clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('marker-end', 'url(#arrowMarker)');
     }
     clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('d', positionAttribute);
     clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('stroke-width', sizeRatio * STD_BRANCH_STROKE_WIDTH);
 
     clonedTemplate.querySelector('#' + templateBranchValueId).textContent = value;
-    var textSizeRatio = (y2 - y1) / 100;
-    clonedTemplate.querySelector('#' + templateBranchValueId).setAttribute('font-size', textSizeRatio * STD_BRANCH_FONTSIZE);
+    let textSizeRatio = (y2 - y1) / 100;
+    let fontSize = textSizeRatio * STD_BRANCH_FONTSIZE;
+    clonedTemplate.querySelector('#' + templateBranchValueId).setAttribute('font-size', fontSize);
     clonedTemplate.querySelector('#' + templateBranchValueId).setAttribute('dy', sizeRatio * STD_BRANCH_DY + '%');
-    if (x1 === x2) {
-        clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('startOffset', '50%');
-    } else {
-        clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('startOffset', '50%');
-    }
+    clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('startOffset', '50%');
+
+    // Check if the branch text is too wide to fit the branch
+    checkBranchTextTooWide(svgEl, clonedTemplate.querySelector('#' + templateBranchPathId), clonedTemplate.querySelector('#' + templateBranchValueId).textContent, fontSize, clonedTemplate.querySelector('#' + templateBranchValueId))
+
     clonedTemplate.querySelector('#' + templateBranchPathId).setAttribute('id', templateBranchPathId + nodeId);
     clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('href', '#' + templateBranchPathId + nodeId);
     clonedTemplate.querySelector('#' + templateBranchTPid).setAttribute('id', templateBranchTPid + nodeId);
     clonedTemplate.querySelector('#' + templateBranchValueId).setAttribute('id', templateBranchValueId + nodeId);
 
     // Create a new 'use' element
-    var newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    let newUse = document.createElementNS('http://www.w3.org/2000/svg', 'use');
     newUse.setAttribute('id', 'useBranch' + nodeId);
     newUse.setAttribute('href', '#branch' + nodeId);
 
