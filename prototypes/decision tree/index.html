@@ -84,7 +84,7 @@
                             <p class="card-text fw-light">
                                 Decision trees are constructed using a top-down, recursive partitioning approach
                                 called "Top-Down Induction of Decision Trees (TDIDT)".
-                                The algorithm selects the best attribute/feature to split the dataset into subsets
+                                The algorithm selects the best feature to split the dataset into subsets
                                 at each node based on a criterion, such as "Information Gain" or "Gini impurity"
                                 (this application uses "Information Gain").
                                 This process continues until all instances within a subset belong to the same class
@@ -107,8 +107,8 @@
                         <div class="card-body ">
                             <p class="card-text fw-bold">Input:</p>
                             <ul class="card-text fw-light ">
-                                <li>Dataset \( S \) with attributes \( A \)</li>
-                                <li>Target attribute \( Y \)</li>
+                                <li>Dataset \( S \) with features \( F \)</li>
+                                <li>Target feature \( Y \)</li>
                             </ul>
                             <p class="card-text fw-bold">Output:</p>
                             <ul class="card-text fw-light">
@@ -127,40 +127,40 @@
                                     </ul>
                                 </li>
                                 <li class="card-text fw-light">
-                                    Check if the attribute set \( A \) is <span class="fw-bold">empty</span>:
+                                    Check if the feature set \( F \) is <span class="fw-bold">empty</span>:
                                     <ul>
                                         <li>If yes, create a leaf node with the most frequent class label and
                                             return \( T \)</li>
                                     </ul>
                                 </li>
                                 <li class="card-text fw-light">
-                                    Calculate the information gain for each attribute in \( A \)
+                                    Calculate the information gain for each feature in \( F \)
                                 </li>
                                 <li class="card-text fw-light">
-                                    Select the attribute \( A_{\text{best}} \) with the <span class="fw-bold">highest
+                                    Select the feature \( F_{\text{best}} \) with the <span class="fw-bold">highest
                                         information gain</span>
                                 </li>
                                 <li class="card-text fw-light">
-                                    Make this current root node into a decision node for \( A_{\text{best}} \):
+                                    Make this current root node into a decision node for \( F_{\text{best}} \):
                                     <ul>
-                                        <li>Split the dataset \( S \) into subsets based on the values of attribute
-                                            \( A_{\text{best}} \)</li>
+                                        <li>Split the dataset \( S \) into subsets based on the values of feature
+                                            \( F_{\text{best}} \)</li>
                                     </ul>
                                 </li>
                                 <li class="card-text fw-light">
                                     <span class="fw-bold">Recursively</span> apply the ID3 algorithm to each subset:
                                     <ul>
                                         <li>For each subset \( S_i \), create a child node</li>
-                                        <li><span class="fw-bold">Input:</span> Subset \( S_i \) with attributes \(
-                                            A \setminus
-                                            \{A_{\text{best}}\} \), target attribute \( Y \)</li>
+                                        <li><span class="fw-bold">Input:</span> Subset \( S_i \) with feature \(
+                                            F \setminus
+                                            \{F_{\text{best}}\} \), target feature \( Y \)</li>
                                         <li><span class="fw-bold">Output:</span> Subtree \( T_i \)</li>
                                     </ul>
                                 </li>
                                 <li class="card-text fw-light">
                                     Return the decision tree \( T \):
                                     <ul>
-                                        <li>Decision tree \( T \) with root node \( A_{\text{best}} \) and subtree
+                                        <li>Decision tree \( T \) with root node \( F_{\text{best}} \) and subtree
                                             \( T_i \) as children</li>
                                     </ul>
                                 </li>
@@ -182,20 +182,21 @@
                                 To calculate the Information Gain, the following formula is used:
                             </p>
                             <p class="card-text fw-light">
-                                \(I(S, A) =\)
+                                \(I(S, F) =\)
                                 <a href="../entropy/index.html#calcInfoEntropy"
                                     style="text-decoration: none">\(E(S)\)</a>
                                 \( - \)
                                 <a href="../conditional entropy/index.html#calcInfoCondEntropy"
-                                    style="text-decoration: none">\(E(S|A)\)</a>
+                                    style="text-decoration: none">\(E(S|F)\)</a>
                             </p>
                             <p class="card-text fw-light">
                                 Where:
                             </p>
                             <ul class="card-text fw-light">
                                 <li>\(S\) is the dataset</li>
-                                <li>\(A\) is the attribute/set of values of that attribute</li>
-                                <li>\(E(S)\) is the conditional entropy of the dataset given the attribute \(A\)</li>
+                                <li>\(F\) is the feature/set of values of that feature</li>
+                                <li>\(E(S)\) is the entropy of the dataset \(S\)</li>
+                                <li>\(E(S|F)\) is the conditional entropy of the dataset given the feature \(F\)</li>
                             </ul>
                         </div>
                     </div>

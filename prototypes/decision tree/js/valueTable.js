@@ -171,7 +171,7 @@ function createValueTableForLeaf(tableEl, step) {
     if(valueTableGroups[step - 1].includes(0)){
         footCell.textContent = 'All labels have the same value';
     } else{
-        footCell.textContent = 'There are no features left to split the current dataset on, so the most common label value was chosen';
+        footCell.textContent = 'There are no features left to split the current dataset on, so the most frequent class label was chosen';
     }
     footRow.appendChild(footCell);
     foot.appendChild(footRow);
