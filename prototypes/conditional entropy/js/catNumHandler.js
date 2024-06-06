@@ -91,3 +91,4 @@ function addCategory() {
 }
 
 export { addCategory, removeCategory }
+export default addCategory;

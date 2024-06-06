@@ -241,3 +241,4 @@ function goToStep() {
 }
 
 export { initialStep, stepForward, stepBack, lastStep, goToStep };
+export default initialStep;

@@ -210,3 +210,4 @@ function createValueTable(step) {
 }
 
 export { createValueTable, loadData };
+export default createValueTable;

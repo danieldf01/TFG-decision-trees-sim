@@ -96,3 +96,4 @@ function calcCondEntropy() {
 }
 
 export { calcRatio, calcEntropyCat, calcCondEntropy };
+export default calcCondEntropy;

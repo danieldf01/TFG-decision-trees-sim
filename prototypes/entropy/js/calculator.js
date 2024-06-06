@@ -125,3 +125,4 @@ function calcEntropy() {
 }
 
 export { E, graphFunction, calcSum, calcProbs, entropy, calcEntropy, checkInput };
+export default E;

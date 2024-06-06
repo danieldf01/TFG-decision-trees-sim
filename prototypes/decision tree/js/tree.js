@@ -1161,3 +1161,4 @@ function handleResize() {
 window.onresize = handleResize;
 
 export { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch, buildTree, destroyTree, nodeCount, leafCount, dataTableGroups, valueTableGroups }
+export default buildTree;

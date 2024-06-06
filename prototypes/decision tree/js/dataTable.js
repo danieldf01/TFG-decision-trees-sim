@@ -97,3 +97,4 @@ function createTable(){
 }
 
 export { createTable };
+export default createTable;

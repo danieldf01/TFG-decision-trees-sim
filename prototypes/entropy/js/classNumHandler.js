@@ -124,3 +124,4 @@ function removeClass() {
 }
 
 export { addClass, removeClass };
+export default addClass;
