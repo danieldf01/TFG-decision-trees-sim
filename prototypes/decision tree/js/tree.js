@@ -1002,7 +1002,6 @@ function buildTree() {
     let dataCsv = JSON.parse(localStorage.getItem('csvData'));
     data = dataCsv[csvD];
     attributes = dataCsv[csvA];
-    console.log(attributes);
     attributeValues = dataCsv[csvAV];
     label = dataCsv[csvL];
     labelValues = dataCsv[csvLV];

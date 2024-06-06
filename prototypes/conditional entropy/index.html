@@ -262,9 +262,8 @@
                             repos.forEach((repo) => {
                                 if (repo.name == desiredRepo) {
                                     let lastUpdated = new Date(repo.updated_at);
-                                    console.log(lastUpdated.toUTCString());
                                     let day = lastUpdated.getUTCDate();
-                                    let month = lastUpdated.getUTCMonth()+1;
+                                    let month = lastUpdated.getUTCMonth() + 1;
                                     let year = lastUpdated.getUTCFullYear();
                                     $(dateTagClass).text(`Last updated: ${day}-${month}-${year}`);
                                 }

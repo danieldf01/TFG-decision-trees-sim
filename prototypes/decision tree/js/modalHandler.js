@@ -7,6 +7,10 @@ const tooManyRows = 1;
 const tooManyLabelVals = 2;
 const numericalVals = 3;
 const notComplete = 4;
+const tooManyCols = 5;
+
+const MAX_ROWS = 151;
+const MAX_COLS = 25;
 
 /**
  * Checks whether the user-selected CSV file is valid according to the specified requirements
@@ -14,14 +18,20 @@ const notComplete = 4;
  * @returns whether or not the user-selected CSV file is valid: returns numerical code for each case
  */
 function checkUserCsv(data) {
-    if (data.length > 151) {
+    if (data.length > MAX_ROWS) {
         return tooManyRows;
     }
 
     const headers = data[0];
+    if (headers.length > MAX_COLS) {
+        return tooManyCols;
+    }
+
     const attributes = headers.slice(0, -1);
     const labelValsDataRows = getLabelValsDataRows(data, attributes);
     const labelVals = labelValsDataRows[0];
+
+    console.log(labelVals);
     if (labelVals.length > 2) {
         return tooManyLabelVals;
     }
@@ -82,6 +92,8 @@ function handleUserCsv() {
                     datasetCardBody.style.display = "none";
                 } else if (checkReturn == tooManyRows) {
                     alert('The selected file has more than 150 instance rows. Please check the file requirements.');
+                } else if (checkReturn == tooManyCols) {
+                    alert('The selected file has more than 25 columns. Please check the file requirements.');
                 } else if (checkReturn == tooManyLabelVals) {
                     alert('The selected file has a target class with more than 2 distinct values. Please check the file requirements.');
                 } else if (checkReturn == numericalVals) {

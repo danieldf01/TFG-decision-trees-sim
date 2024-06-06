@@ -58,8 +58,6 @@ function transformData(data) {
     dataCsv['csvLabelValues'] = labelValuesArray;
     dataCsv['csvDataRows'] = dataRows;
 
-    console.log(dataCsv);
-
     // Save to local storage
     localStorage.setItem('csvData', JSON.stringify(dataCsv));
 

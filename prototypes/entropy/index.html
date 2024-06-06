@@ -191,7 +191,7 @@
                                 <tfoot style="border-bottom: hidden;">
                                     <tr>
                                         <td>
-                                            <div id="btnAddClass" class="btn btn-outline-primary" >+</div>
+                                            <div id="btnAddClass" class="btn btn-outline-primary">+</div>
                                             <script type="module">
                                                 import { addClass } from './js/classNumHandler.js';
 
@@ -272,9 +272,8 @@
                             repos.forEach((repo) => {
                                 if (repo.name == desiredRepo) {
                                     let lastUpdated = new Date(repo.updated_at);
-                                    console.log(lastUpdated.toUTCString());
                                     let day = lastUpdated.getUTCDate();
-                                    let month = lastUpdated.getUTCMonth()+1;
+                                    let month = lastUpdated.getUTCMonth() + 1;
                                     let year = lastUpdated.getUTCFullYear();
                                     $(dateTagClass).text(`Last updated: ${day}-${month}-${year}`);
                                 }
@@ -288,7 +287,7 @@
         </div>
     </footer>
     <script type="module">
-        import {graphFunction, calcEntropy} from './js/calculator.js';
+        import { graphFunction, calcEntropy } from './js/calculator.js';
 
         // Function graph creation with D3.js
         const margin = { top: 10, right: 50, bottom: 50, left: 50 },
@@ -365,7 +364,7 @@
                 .attr("cx", xScale(points[0][0]))
                 .attr("cy", yScale(0));
         }
-        
+
         function drawNewLine(points) {
             // Draw line between point and entropy graph
             svg.append("path")
