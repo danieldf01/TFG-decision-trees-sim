@@ -73,9 +73,13 @@ function transformData(data) {
 }
 
 function loadExampleData(selectedExample) {
-    var contContainer = document.getElementById("contentContainer");
-    if (contContainer.style.display == "none") {
-        contContainer.style.display = "block";
+    let dataInfoContainer = document.getElementById("dataInfoContainer");
+    if (dataInfoContainer.style.display == "none") {
+        dataInfoContainer.style.display = "block";
+    }
+    let stepByStepContainer = document.getElementById("stepByStepContainer");
+    if (stepByStepContainer.style.display == "none") {
+        stepByStepContainer.style.display = "block";
     }
 
     var filePath = null;

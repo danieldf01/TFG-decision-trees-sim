@@ -67,9 +67,13 @@ function handleUserCsv() {
                 const checkReturn = checkUserCsv(data);
                 if (checkReturn == valid) {
                     // Make content container visible if it was still hidden
-                    var contContainer = document.getElementById("contentContainer");
-                    if (contContainer.style.display == "none") {
-                        contContainer.style.display = "block";
+                    let dataInfoContainer = document.getElementById("dataInfoContainer");
+                    if (dataInfoContainer.style.display == "none") {
+                        dataInfoContainer.style.display = "block";
+                    }
+                    let stepByStepContainer = document.getElementById("stepByStepContainer");
+                    if (stepByStepContainer.style.display == "none") {
+                        stepByStepContainer.style.display = "block";
                     }
 
                     // Transform, store the data and build the tables and tree upon it

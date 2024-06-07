@@ -36,7 +36,8 @@
             <a href="https://www.ubu.es" class="d-flex align-items-center me-2 ">
                 <img src="img/ubulogocolorfull.png" width="100" height="50">
             </a>
-            <a href="../../index.html" class="fw-bold fs-5 ms-2 me-2 nav-link link-dark link-opacity-50-hover">Decision Tree Simulator</a>
+            <a href="../../index.html" class="fw-bold fs-5 ms-2 me-2 nav-link link-dark link-opacity-50-hover">Decision
+                Tree Simulator</a>
             <ul class="nav me-auto mx-auto">
                 <li class="nav-item">
                     <a href="../entropy/" class="nav-link link-dark px-2 link-opacity-50-hover ">Entropy</a>
@@ -328,7 +329,7 @@
         </div>
     </div>
     <!-- Dataset info card, tables, SVG tree -->
-    <div id="contentContainer" class="container pb-2" style="display: none;">
+    <div id="dataInfoContainer" class="container pb-2" style="display: none;">
         <!-- Dataset info card -->
         <div class="row m-2 justify-content-center">
             <div class="col-auto">
@@ -344,9 +345,11 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div id="stepByStepContainer" class="container-fluid" style="display: none;">
         <div class="row mb-4 justify-content-center">
             <!-- Step-by-step, SVG tree and legend -->
-            <div class="col-xl-7 col-lg-10 col-sm-12 col-12">
+            <div class="col-xxl-6 col-xl-7 col-lg-10 col-12">
                 <!-- Step counter -->
                 <div class="row pb-2 justify-content-center">
                     <div class="col-auto">
@@ -471,20 +474,26 @@
                 </div>
             </div>
             <!-- Data table, value table -->
-            <div class="col-xl-5 col-sm-12 col-auto justify-content-center ">
-                <!-- Data table -->
-                <div class="row-auto mt-2 mb-2 justify-content-center d-flex">
-                    <div class="table-responsive">
-                        <div id="dataTable" class="table-wrapper">
+            <div class="col-xxl-6 col-xl-5 col-lg-10 col-12">
+                <div class="row justify-content-center d-flex">
+                    <div class="col-xxl-6 col-xl-12 col-lg-6 col-12">
+                        <!-- Data table -->
+                        <div class="row-auto justify-content-center d-flex">
+                            <div class="table-responsive">
+                                <div id="dataTable" class="table-wrapper">
 
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Value table -->
-                <div class="row-auto justify-content-center d-flex">
-                    <div class="table-responsive">
-                        <div id="valueTable" class="table-wrapper">
+                    <div class="col-xxl-6 col-xl-12 col-lg-6 col-12">
+                        <!-- Value table -->
+                        <div class="row-auto justify-content-center d-flex">
+                            <div class="table-responsive">
+                                <div id="valueTable" class="table-wrapper">
 
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
