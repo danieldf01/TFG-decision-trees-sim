@@ -79,7 +79,6 @@ function handleUserCsv() {
                     const uploadModal = document.getElementById('uploadModal');
                     const modal = bootstrap.Modal.getInstance(uploadModal);
                     modal.hide();
-                    console.log("Huh");
 
                     // Change the select placeholder back to "Choose example dataset"
                     var selectPlaceholder = document.getElementById('selectPlaceholder');

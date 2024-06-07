@@ -1,0 +1,98 @@
+body::before {
+    content: "XS";
+    color: red;
+    font-size: 2rem;
+    font-weight: bold;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.table-wrapper {
+    max-height: 450px;
+    overflow: auto;
+    display: inline-block;
+}
+
+@media (min-width: 576px) {
+    body::before {
+        content: "SM";
+    }
+}
+
+@media (min-width: 768px) {
+    body::before {
+        content: "MD";
+    }
+}
+
+@media (min-width: 992px) {
+    body::before {
+        content: "LG";
+    }
+}
+
+@media (min-width: 1200px) {
+    body::before {
+        content: "XL";
+    }
+}
+
+@media (min-width: 1400px) {
+    body::before {
+        content: "XXL";
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 180px;
+}
+
+body {
+    margin-bottom: 180px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 180px;
+}
+
+.bg-image {
+    /* Image source: https://static.vecteezy.com/system/resources/previews/025/337/728/non_2x/forest-trees-silhouette-nature-landscape-green-park-alley-and-tree-silhouettes-illustration-vector.jpg */
+    background-image: url('../img/tree_background.png');
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    height: 100vh;
+    /* Adjust the height as needed */
+}
+
+
+/* Optional: Adjust height for different screen sizes */
+/* @media (max-width: 1200px) {
+    .bg-image {
+        width: 80px;;
+    }
+}
+
+@media (max-width: 992px) {
+    .bg-image {
+        height: calc(60vh - 180px);
+    }
+}
+
+@media (max-width: 768px) {
+    .bg-image {
+        height: calc(50vh - 180px);
+    }
+}
+
+@media (max-width: 576px) {
+    .bg-image {
+        height: calc(40vh);
+    }
+} */
