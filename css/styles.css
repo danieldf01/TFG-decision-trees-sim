@@ -68,31 +68,4 @@ footer {
     background-position: center bottom;
     background-repeat: no-repeat;
     height: 100vh;
-    /* Adjust the height as needed */
 }
-
-
-/* Optional: Adjust height for different screen sizes */
-/* @media (max-width: 1200px) {
-    .bg-image {
-        width: 80px;;
-    }
-}
-
-@media (max-width: 992px) {
-    .bg-image {
-        height: calc(60vh - 180px);
-    }
-}
-
-@media (max-width: 768px) {
-    .bg-image {
-        height: calc(50vh - 180px);
-    }
-}
-
-@media (max-width: 576px) {
-    .bg-image {
-        height: calc(40vh);
-    }
-} */
