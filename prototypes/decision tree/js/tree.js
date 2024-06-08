@@ -306,7 +306,7 @@ function id3(data, attributes, prevBranchVal, nodeId, leafId) {
             valTableGroup = [class1, class2];
             valueTableGroups.push(valTableGroup);
 
-            tree.children.push(new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, mostCommonLabel(subset), prevBranchVal));
+            tree.children.push(new TreeNode(leafId, null, new NodeValues(class1, class2, n, e), true, mostCommonLabel(data), prevBranchVal));
         } else {
             tree.prevBranchVal = prevBranchVal;
             let returnVals = id3(subset, remainingAttributes, value, nodeId, leafId);

@@ -1,25 +1,38 @@
 \capitulo{5}{Relevant aspects of the project development}
 
-Este apartado pretende recoger los aspectos más interesantes del desarrollo del proyecto, comentados por los autores del mismo.
-Debe incluir desde la exposición del ciclo de vida utilizado, hasta los detalles de mayor relevancia de las fases de análisis, diseño e implementación.
-Se busca que no sea una mera operación de copiar y pegar diagramas y extractos del código fuente, sino que realmente se justifiquen los caminos de solución que se han tomado, especialmente aquellos que no sean triviales.
-Puede ser el lugar más adecuado para documentar los aspectos más interesantes del diseño y de la implementación, con un mayor hincapié en aspectos tales como el tipo de arquitectura elegido, los índices de las tablas de la base de datos, normalización y desnormalización, distribución en ficheros3, reglas de negocio dentro de las bases de datos (EDVHV GH GDWRV DFWLYDV), aspectos de desarrollo relacionados con el WWW...
-Este apartado, debe convertirse en el resumen de la experiencia práctica del proyecto, y por sí mismo justifica que la memoria se convierta en un documento útil, fuente de referencia para los autores, los tutores y futuros alumnos.
+This chapter focuses on important parts of the project development that had a significant influence on the outcome of the work.
 
-\section{Decision Tree creation without D3.js}
+\section{Start of the project}
+At the start of the project, there was not much experience in web development. For that reason, the first sprints were not only used to learn about the concepts relevant to the topic of decision trees and start implementing first prototypes, but also to simultaneously gain an understanding of web development using HTML, JavaScript, CSS and surrounding tools. That rhythm continued throughout most of the project as almost each step introduced techniques that were new, but had to be learned and then implemented. This slowed down overall development tempo to some extent.
+
+\section{Decision tree creation without D3.js}
 As mentioned in \ref{d3js}, D3.js is an open-source JavaScript library which, among other things, allows the user to dynamically create and change DOM contents based on underlying data. For that reason, at the beginning of development, it was chosen to help create the graph for the Entropy function and later, dynamically create and change the decision trees examples.
 
-However, as development of the project went on and it was time to create a prototype for the creation of decision trees, the plan of using D3.js as the main tool to reach that goal was discarded. This decision was made after an extensive web research on how SVGs displaying trees were created with the library and how they would end up looking. With a few exceptions showing slight deviations, the standard D3.js tree looked like this:
+However, as development of the project went on and it was time to create a prototype for the creation of decision trees, the plan of using D3.js as the main tool to reach that goal was discarded. This decision was made after an extensive web research on how SVGs displaying trees were created with the library and how they would end up looking. With a few exceptions showing slight deviations, the common structure of D3.js trees was as figure \ref{fig:d3js_tree} displays.
 \imagen{d3js_tree}{SVG displaying a tree, created with D3.js}{1}
-Since this specific library was not exactly easy to use in the first place, trying to make it look the intended way (displaying labels on the edges and other important values connected to the nodes) would have made the creation significantly harder, if it had been possible at all.
+Since this specific library was not exactly easy to use in the first place, trying to make it look the intended way (displaying labels on the edges and other important values connected to the nodes) would have made the creation significantly harder, if it had even been possible at all.
 
 With that in mind, the decision was made not to use D3.js to create the decision trees, but to assemble the decision trees from simple SVG elements to form templates for branches, decision and leaf nodes, and to develop an algorithm that calculates the tree's elements' relative position to each other in an SVG that is responsive to different screen sizes.
 
-Even though that solution meant more work, it allowed the decision trees to look the intended way in the end:
-\imagen{decision_tree_webapp}{Dynamically created decision tree using the web application}{.7}
+Even though that solution meant more work, it allowed the decision trees to look the intended way in the end, as figure \ref{fig:decision_tree_webapp} shows.
+\imagen{decision_tree_webapp}{Dynamically created decision tree using the web application}{.6}
 
 \section{Evaluation of code quality with Codacy before reviews}
 As mentioned in \ref{codacy}, Codacy is a code analysis tool that helps developers to improve the quality of their code. With the biweekly meetings having functioned not only as a way to figure out the tasks for the next sprint, but also as an opportunity to review what had been done so far, there was often no time to check the code quality. Codacy provided everything needed to improve the code condition even before the review with the tutors.
 
 It offered the opportunity of checking the code's quality without having to wait for a review meeting or ask the tutors whether a certain way of implementing something was good or not.
 This gave the review meetings more space to focus on what had been done rather than how it had been done. Especially during the meetings towards the end of development, this extra time was needed to discuss additional changes that needed to be made before the project was finalized.
+
+\section{Decision between two features}
+As the deadline moved closer and the development phase was entering its final phase, it was clear that not all features that were initally set as objectives were going to be implemented. This was due to time constraints brought upon by the workload of other classes and exams.
+
+Two features, however, were still talked about in the final weeks before completion. One was to make the datasets for the decision tree simulator interactive, meaning that the user would be able to dynamically add columns and rows to a dataset that was already loaded. The other was to let the user load own datasets in the form of Comma-separated values (CSV) files to let the application build a decision tree upon.
+
+While it was clear that with the remaining time, it would not be possible to implement both features, a decision had to be made and it was made in favor of the latter. This feature would give the user more freedom by letting them choose a dataset from the internet or create their own and use it to observe how different compositions of datasets would influence the resulting decision tree.
+
+\section{Limitations of a small web application}
+With the development nearing its completion and the resulting web application having been a rather small one, it was clear that the program would have some limitations. One being the fact that, even though users are able to load their own datasets in CSV file format, there are some restrictions. E.g., the file cannot contain more than 150 rows of instances. While computational complexity is also part of the reason for this constraint, the main reason for the limit of 150 rows is the resulting decision tree's size. With a tree that is too big, the user might not be able to read individual nodes' contents and therefore have a hard time understanding the algorithm, which would defeat the whole purpose of this project.
+
+Another drawback that the size of the application brings with it is the possibility of branches or their labels overlapping with other nodes. Figure \ref{fig:decision_tree_overlapping} shows how the branch label ``very small'' overlaps with the leaf node ``Leaf 8''.
+\imagen{decision_tree_overlapping}{Branch label overlapping with leaf node}{.2}
+Due to time constraints, this is a problem that could not be given higher priority for resolution than other necessary refinements, as it would have brought a higher level of workload than was acceptable at the time.

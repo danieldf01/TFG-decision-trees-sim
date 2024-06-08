@@ -5,7 +5,7 @@ In this section, all the development tools that have been used to carry out the 
 \section{Bootstrap}
 Bootstrap~\cite{bootstrap5_tutorial} is a front-end framework which is known for providing useful and easy-to-use HTML and CSS templates like tables, buttons, forms and many others. It also comes with JavaScript components like modal dialogues and dropdown menus.
 
-One of Bootstrap's key features is its grid system which lets users divide their web page's contents into rows and columns:
+One of Bootstrap's key features is its grid system which lets users divide their web page's contents into rows and columns. Figure \ref{fig:bootstrap_grid_system} shows how the grid system is structured.
 \imagen{bootstrap_grid_system}{The Bootstrap grid system}{1}
 Each row possesses 12 columns which the user can freely utilize to organize the contents that are to be displayed. Bootstrap also automatically puts the device on which the web page is displayed into one of six different size categories, based on the device's screen width. This, in combination with the grid system, allows the developer to make their website responsive to different screens, ranging from large desktop monitors to smartphones.
 
@@ -13,7 +13,7 @@ In addition to Bootstrap's ability to create responsive websites, the wide varie
 
 In this project, the newest version of Bootstrap at present, Bootstrap 5, is used. The main advantages are its usage of vanilla JavaScript for its components instead of relying on jQuery, new components for better customization and simplified CSS which reduces file size and loading times for the created pages.
 
-The following images show how Bootstrap was incorporated to display a custom alert to the user, making use of Bootstrap's grid system with the ``row'' and ``col'' CSS classes and the ``alert'' class for the alert:
+Figures \ref{fig:bootstrap_proof_code} and \ref{fig:bootstrap_proof_alert} show how Bootstrap was incorporated to display a custom alert to the user, making use of Bootstrap's grid system with the ``row'' and ``col'' CSS classes and the ``alert'' class for the alert.
 \imagen{bootstrap_proof_code}{Usage of Bootstrap}{1}
 \imagen{bootstrap_proof_alert}{Bootstrap Alert}{1}
 
@@ -24,22 +24,22 @@ D3.js does not invent new data presentation formats, instead, it makes use of we
 
 A major feature of D3.js is its ability to dynamically change the displayed contents. Whether that change is triggered by user interactions or a change in underlying data, the library's data join concept allows separate operations for entering, updating and exiting existing DOM elements based on a given set of data. Besides filtering and sorting, it lets you control what happens to your contents in many ways when changes happen and update your website accordingly.
 
-The following images show the usage of D3.js in this project. It was used to create a coordinate system with a graph displaying the binary entropy function. It is also used to dynamically add a point and line to the graph, corresponding to the binary entropy value that was calculated by the user:
+Figures \ref{fig:d3js_proof_graph}, \ref{fig:d3js_proof_drawpoint}, and \ref{fig:d3js_proof_entropygraph} show the usage of D3.js in this project. It was used to create a coordinate system with a graph displaying the binary entropy function. It is also used to dynamically add a point and line to the graph, corresponding to the binary entropy value that was calculated for the user's input values:
 \imagen{d3js_proof_graph}{Usage of D3.js: Defining the chart area}{1}
 \imagen{d3js_proof_drawpoint}{Usage of D3.js: drawing the point and line}{.6}
 \imagen{d3js_proof_entropygraph}{D3.js graph}{.5}
 
 \section{PyCharm} \label{pycharm}
-PyCharm~\cite{pycharm} is the Integrated Development Environment (IDE) I used during the first 2 and part of the 3rd sprint. It is an IDE developed by JetBrains which is specifically designed for Python development and is the one I had mainly been using for university assignments. With its support for web development frameworks like Flask and features like code completion for HTML, CSS and JavaScript, it served useful in allowing a quick start into this project's development.
-PyCharm's built-in live preview for HTML files and its interactive debugging feature also made working on the prototypes much simpler. The following image shows the usage of that feature:
+PyCharm~\cite{pycharm} is the Integrated Development Environment (IDE) I used during the first two and part of the third sprint. It is an IDE developed by JetBrains which is specifically designed for Python development and is the one I had mainly been using for university assignments. With its support for web development frameworks like Flask and features like code completion for HTML, CSS and JavaScript, it served useful in allowing a quick start into this project's development.
+PyCharm's built-in live preview for HTML files and its interactive debugging feature also made working on the prototypes much simpler. Figure \ref{fig:pycharm_proof_livepreview} shows the usage of that feature.
 \imagen{pycharm_proof_livepreview}{PyCharm's live preview}{1}
 Its version control integration of systems like Git allowed an easier experience of making local changes remotely available.
 
-However, one of the Issues during the 3rd sprint was to start using Bootstrap to make the website's layout responsive. Due to set-up problems with the IDE, PyCharm was not able to provide auto-completion for the framework. To make use of that and other features, I started using a different program for developing the website during the 3rd sprint.
+However, one of the issues during the third sprint was to start using Bootstrap to make the website's layout responsive. Due to set-up problems with the IDE, PyCharm was not able to provide auto-completion for the framework. To make use of that and other features, I started using a different program for developing the website during the third sprint.
 
 \section{Visual Studio Code}
 Visual Studio Code~\cite{vscode} is an open-source code editor by Microsoft. While it also provides all the benefits mentioned in section \ref{pycharm}, it comes with a handful of other advantages of which the most significant one would be the vast variety of available extensions.
-These include Bootstrap IntelliSense which enables CSS class auto-completion, Live Server which launches a local server with a live reload feature, and GitLens which, e.g., allows the user to see inline information about when and in which commit the current line of code was last changed. The image~\ref{fig:vscode_proof_gitlens} shows this feature:
+These include Bootstrap IntelliSense which enables CSS class auto-completion, Live Server which launches a local server with a live reload feature, and GitLens which, e.g., allows the user to see inline information about when and in which commit the current line of code was last changed. Figure~\ref{fig:vscode_proof_gitlens} shows this feature.
 \imagen{vscode_proof_gitlens}{GitLens extension}{1}
 These extensions allow the user to add features based on what they need. By only including essential coding features upon first installation, the editor take up less space than IDEs like PyCharm.
 In addition, its lightweight design that is optimized for performance leaves behind a smaller memory footprint.
@@ -47,25 +47,26 @@ In addition, its lightweight design that is optimized for performance leaves beh
 Ultimately, these features made me switch to Visual Studio Code for the remaining sprints.
 
 \section{GitHub}
-GitHub is a platform that is mainly used for version control on software development projects. Not only does it provide a location for users to store their files, make and track changes, it also makes it possible to share repositories with other developers and therefore presents an easy way to collaborate on projects.
+GitHub~\cite{github} is a platform that is mainly used for version control on software development projects. Not only does it provide a location for users to store their files, make and track changes, it also makes it possible to share repositories with other developers and therefore presents an easy way to collaborate on projects.
 
 Project management is made easier with GitHub, too. Providing tools for code review, milestone and issue tracking, it gives participants of the project insight on the current progress. Communication through comments on specific issues, commits, pull requests or code reviews is possible, too, allowing for organized feedback.
 
-In this project, GitHub has been used to store all relevant files and update the development in \href{https://github.com/danieldf01/TFG-decision-trees-sim/}{this repository}. To be able to set up defined tasks and track progress, \href{https://github.com/danieldf01/TFG-decision-trees-sim/issues}{these issues} have been set up. Furthermore, \href{https://danieldf01.github.io/}{this GitHub Pages repository} has been used to deploy prototypes for different functionalities of the web application. GitHub Pages is a site hosting service that allows the user to host a website directly from a GitHub repository. Doing that made it easier to review sprints with the tutors as the deployed web application could simply be opened on any browser without having to launch it from an IDE or a code editor.
+In this project, GitHub has been used to store all relevant files and update the development in 
+the repository\footnote{GitHub: \url{https://github.com/danieldf01/TFG-decision-trees-sim/}}. Issues\footnote{GitHub issues: \url{https://github.com/danieldf01/TFG-decision-trees-sim/issues}} were used to set up defined tasks and track progress. In addition to that, a GitHub Pages repository\footnote{GitHub Pages repository: \url{https://danieldf01.github.io/}} was used to deploy prototypes for different functionalities of the web application. GitHub Pages is a site hosting service that allows the user to host a website directly from a GitHub repository. Doing that made it easier to review sprints with the tutors as the deployed web application could simply be opened on any browser without having to launch it from an IDE or a code editor.
 
 All these functions have been used by the presenter of this work and the tutors to ensure an organized and transparent development process.
 
 \section{Zube}
-Zube is a project management platform for software development teams that comes with tools that help to plan and manage projects efficiently. Allowing a direct link to GitHub repositories, issues are synced so that when a change is made to those linked issues on GitHub, that information is transferred to Zube, and vice versa.
+Zube~\cite{zube} is a project management platform for software development teams that comes with tools that help to plan and manage projects efficiently. Allowing a direct link to GitHub repositories, issues are synced so that when a change is made to those linked issues on GitHub, that information is transferred to Zube, and vice versa.
 
 Tracking progress is made easy with the inclusion of sprints and allowing the user to add issues to a sprint board which can be used for project management methodologies like Scrum. Charts like Burndown and Burnup show each sprint's progress over the time set for the sprint. The Burndown charts were used to analyze the temporal planning throughout the project in the corresponding section in the Anexos part.
 
-As seen in the image below, the Sprint Board, among other tools, has been used to plan out each sprint thoroughly and document each step in regards to the created issues.
+Figure \ref{fig:sprint4_screenshot} shows the Sprint Board which, among other tools, was used to plan out each sprint thoroughly and document each step in regards to the created issues.
 \imagen{sprint4_screenshot}{Sprint Board example}{1}
 
 \section{Codacy} \label{codacy}
-Codacy is a code analysis tool that helps software developers improve their code quality. Allowing a link to GitHub, it reviews commits in real-time and checks the code's quality based on code security, code duplication, coding style and other general issues.
+Codacy~\cite{codacy} is a code analysis tool that helps software developers improve their code quality. Allowing a link to GitHub, it reviews commits in real-time and checks the code's quality based on code security, code duplication, coding style and other general issues.
 Codacy's coding standards can be customized to fit the developers' own quality standards by making it possible to, e.g., ignore certain issues that are irrelevant to the project, introduce other security guidelines and enforce specific coding styles of their own.
 
-As seen in the image below, which shows the timeline of existing issues within the code in the remote repository, Codacy has been used to continuously identify and tackle all sorts of problems in the code that arose during the development of the web application.
+As seen in figure \ref{fig:codacy_screenshot}, which shows the timeline of existing issues within the code in the remote repository, Codacy has been used to continuously identify and tackle all sorts of problems in the code that arose during the development of the web application.
 \imagen{codacy_screenshot}{Codacy quality evolution}{1}

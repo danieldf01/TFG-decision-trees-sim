@@ -6,13 +6,13 @@ In the following, all the theoretical concepts relevant for the understanding of
 Machine learning~\cite{machine_learning} is a field of artificial intelligence which focuses on developing algorithms that are able to learn from given input data and, based on that learned knowledge, generalize to unseen data. Machine learning problems can be categorized into three main tasks: Classification problems, Regression problems, and Clustering problems.
 
 \subsection{Classification problems} \label{classification_problems}
-Classification problems~\cite{classification_regression} in machine learning describe the process of predicting a class or category of a given input. The labeled input data is learned with all its features and values to reach the goal of building a model that can also categorize new data, that has not been seen before, into one of the given classes or categories. An example would be classifying emails as spam or not spam. This type of machine learning problem will be discussed in more detail in the section \ref{classification}.
+Classification problems~\cite{classification_regression} in machine learning describe the process of predicting a class or category of a given input. A dataset is given as input. It is made up of instances that refer to all the individual data points. Each instance is characterized by a set of attributes and associated with a label or class. Depending on the source, attributes are often also called ``features'', but to avoid confusion, the term ``attributes'' will be used going forward. The input data is learned with all its attributes and values to reach the goal of building a model that can also categorize new data, that has not been seen before, into one of the given classes.  An example would be classifying emails as spam or not spam. This type of machine learning problem will be discussed in more detail in the section \ref{classification}.
 
 \subsection{Regression problems}
 Regression problems~\cite{classification_regression} in machine learning describe the process of predicting a continuous value based on labeled input data. Instead of predicting a defined class or category, the goal here is to build a model that can predict the quantity of something. An example would be predicting the salary of a person based on their education degree and previous work experience.
 
 \subsection{Clustering problems}
-Clustering problems~\cite{clustering} in machine learning do not aim to predict something, like the previous two. Given some unlabeled input data, the goal is to group similar data points together based on certain features to generate an output of clusters inside of which the data of points are more similar to each other than to data points in other clusters.
+Clustering problems~\cite{clustering} in machine learning do not aim to predict something, like the previous two. Given some unlabeled input data, the goal is to group similar data points together based on certain attributes to generate an output of clusters inside of which the data of points are more similar to each other than to data points in other clusters.
 
 \section{Classification algorithms} \label{classification}
 As mentioned before in \ref{classification_problems}, the goal in classification tasks~\cite{classification_regression} is to assign a class or a label to some input data. Classification aims to create a model that can also generalize to new data. To achieve this, there are multiple algorithms and evaluation metrics that are used to measure a model's performance.
@@ -29,7 +29,7 @@ This algorithm~\cite{logistic_regression} is mostly used for binary classificati
 \subsection{Decision Trees}
 A decision tree~\cite{decisiontrees} is a versatile supervised learning algorithm used for classification and regression tasks. Its goal is to predict the value of a variable based on previously processed input. Its hierarchical structure includes a root node and several internal and leaf nodes.
 
-It starts at the root, which represents the feature that best separates the underlying dataset based on a certain criterion. An example would be information gain, which is more thoroughly explained in \ref{information_gain}. From the root on, branches extend to internal nodes, also called decision nodes. These internal nodes also represent features along with a decision rule that tells us how to further split the data. These features are continuously evaluated until homogenous subsets are created by the leaf nodes. These represent all the possible outcomes of the dataset with each one corresponding to a class label.
+It starts at the root, which represents the attribute that best separates the underlying dataset based on a certain criterion. An example would be information gain, which is more thoroughly explained in \ref{information_gain}. From the root on, branches extend to internal nodes, also called decision nodes. These internal nodes also represent attributes along with a decision rule that tells us how to further split the data. These attributes are continuously evaluated until subsets are created that are either homogenous in regard to the class label or they cannot be split any further. Leaf nodes are created from these subsets. They represent all the possible outcomes of the dataset with each one corresponding to a class label.
 
 Decision tree learning utilizes a divide and conquer approach, iteratively finding the best split points until all or most of the input data is classified.
 
@@ -59,43 +59,54 @@ Recall~\cite{evaluation_metrics} describes how many of the actual positive cases
 \[ \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} \]
 Recall is useful when False Negatives are of a higher concern than False Positives.
 
-\section{Feature Selection}
-In machine learning, feature selection~\cite{feature_selection} is indispensable when the goal is to build an accurate and efficient model. In the context of prediction tasks, feature selection helps in finding the features that are most beneficial for the prediction. 
+\section{Feature/Attribute Selection}
+While the most widely known and commonly used title for this process is ``Feature selection'', going forward, it will be referred to as the synonymous ``Attribute selection'' to preserve consistency throughout this work.
 
-But how is determined which feature is better or more important than another? In the context of classification problems, the main idea is to select those features that best prove their ability to differentiate between different target classes. Those features are most likely to improve the model's capability of performing prediction tasks and with that, its overall performance.
+In machine learning, attribute selection~\cite{feature_selection} is indispensable when the goal is to build an accurate and efficient model. In the context of prediction tasks, attribute selection helps in finding the attributes that are most beneficial for the prediction. 
 
-There are multiple supervised and unsupervised techniques to select the best feature. While each comes with its own advantages and disadvantages, the focus in this work will be on two supervised techniques: Information gain and Fisher's Score. Both have a filter-based approach, which means they evaluate the relevance of features by studying their statistical properties or correlation with other features, independently of the learning algorithm itself. They are usually used for categorical data.
+But how is determined which attribute is better or more important than another? In the context of classification problems, the main idea is to select those attributes that best prove their ability to differentiate between different target classes. Those attributes are most likely to improve the model's capability of performing prediction tasks and with that, its overall performance.
+
+There are multiple supervised and unsupervised techniques to select the best attribute. While each comes with its own advantages and disadvantages, the focus in this work will be on two supervised techniques: Information gain and Fisher's Score. Both have a filter-based approach, which means they evaluate the relevance of attributes by studying their statistical properties or correlation with other attributes, independently of the learning algorithm itself. They are usually used for categorical data.
 
 \subsection{Information gain} \label{information_gain}
-Information gain~\cite{feature_selection} is a method that is commonly used in decision tree algorithms like ID3. It is also used in this project to select the best possible features for the construction of decision trees. It measures the relevance of a feature by evaluating how much information it provides about the class labels. It does so by calculating the reduction in entropy. With that, the higher the information gain of a feature, the more important and useful it is considered for decision-making.
+Information gain~\cite{feature_selection} is a method that is commonly used in decision tree algorithms like ID3. It is also used in this project to select the best possible attributes for the construction of decision trees. It measures the relevance of a attribute by evaluating how much information it provides about the class labels. It does so by calculating the reduction in entropy. With that, the higher the information gain of an attribute, the more important and useful it is considered for decision-making.
 
 It can be calculated~\cite{information_gain_wiki} using the following formula:
-\[ \text{IG(S, F)} = \text{E(S)} - \text{E(S}\mid \text{F)}\]
-Where: $S$ is the dataset, $F$ is the feature for which the Information gain is calculated, $E(S)$ is the entropy (\ref{entropy}) of the dataset $S$, and $E(S\mid F)$ is the conditional entropy (\ref{conditional_entropy}) of the dataset, given feature $F$.
+\[ \text{IG(S, A)} = \text{E(S)} - \text{E(S}\mid \text{A)}\]
+Where:
+\begin{description}
+	\item[S] is the dataset.
+	\item[A] is the attribute for which the information gain is calculated.
+    \item[E(S)] is the entropy (\ref{entropy}) of the dataset $S$.
+    \item[E(S $\mid$ A)] is the conditional entropy (\ref{conditional_entropy}) of dataset $S$, given attribute $A$.
+\end{description}
 
-Figure \ref{fig:info_gain_example} shows the calculation of Information gain based on an example dataset.
-\imagen{info_gain_example}{Information gain example}{.8}
-The correlation between a feature's entropy and Information gain values can be observed. The lower the conditional entropy of a feature, the higher the Information gain and its usefulness in the process of decision-making. Here, the feature "Outlook" would be chosen as the best one out of the four.
+Figure \ref{fig:info_gain_example} shows the calculation of information gain based on an example dataset.
+\imagen{info_gain_example}{Information gain example}{.7}
+The correlation between an attribute's entropy and information gain values can be observed. The lower the conditional entropy of an attribute, the higher the information gain and its usefulness in the process of decision-making. Here, the attribute "Outlook" would be chosen as the best one out of the four.
 
 \subsection{Fisher's Score}
-Fisher's Score~\cite{feature_selection}, also known as Fisher's Discriminant Ratio, is a technique that ranks features by measuring their ability to differentiate classes in a dataset.
+Fisher's Score~\cite{feature_selection}, also known as Fisher's Discriminant Ratio, is a technique that ranks attributes by measuring their ability to differentiate classes in a dataset.
 
-It calculates~\cite{feature_selection_fishers_score} that ability by determining the ratio of between-class variance and within-class variance. The between-class variance measures the spread of a feature's values across different classes. A higher value indicates that the means of different classes are further apart, making the feature more discriminative. On the denominator side of the division, the within-class variance determines the spread of the feature values within each class. A lower value means that the data points within each class are closer to the class mean, also making the feature more discriminative.
+It calculates~\cite{8abf67a05c864edc85fbc3af89c826a8} that ability by determining the ratio of between-class variance and within-class variance. The between-class variance measures the spread of an attribute's values across different classes. A higher value indicates that the means of different classes are further apart, making the attribute more discriminative. On the denominator side of the division, the within-class variance determines the spread of the attribute values within each class. A lower value means that the data points within each class are closer to the class mean, also making the attribute more discriminative.
 
-In conclusion~\cite{feature_selection}, the higher a feature's Fisher's Score, the more discriminative and more fitting for classification it is. Therefore, the features with higher scores are considered more useful.
+In conclusion~\cite{feature_selection}, the higher an attribute's Fisher's Score, the more discriminative and more fitting for classification it is. Therefore, the attributes with higher scores are considered more useful.
 
 \section{ID3 algorithm} \label{ID3}
-The ID3 algorithm is a technique in machine learning used for generating decision trees. Developed by Ross Quinlan in 1986, ID3 is designed to create a model in form of a tree that predicts the value of a target variable based on several input variables of a dataset. It is widely recognized for its simplicity and effectiveness in handling classification problems. Before describing the algorithm in more detail, the concept of entropy and conditional entropy will be examined as they play an essential role in the creation process of a decision tree.
+The ID3 algorithm~\cite{id3_algorithm_wiki} is a technique in machine learning used for generating decision trees. Developed by Ross Quinlan in 1986, ID3 is designed to create a model in form of a tree that predicts the value of a target variable based on several input variables of a dataset. It is widely recognized for its simplicity and effectiveness in handling classification problems. Before describing the algorithm in more detail, the concept of entropy and conditional entropy will be examined as they play an essential role in the creation process of a decision tree.
 
 \subsection{Entropy} \label{entropy}
 In the context of decision tree algorithms, entropy~\cite{entropy_dash} can be viewed as a measure of impurity in a dataset. It can also be described as a measure of disorder, uncertainty or the expected surprise of a classification, but going forward, the term impurity will be used to avoid confusion. In datasets with binary classes, where variables can only have two possible outcome values, the entropy value lies between 0 and 1, inclusive. The higher the entropy, the more impure the dataset is. In a binary-class dataset, a node that has an equal distribution of, e.g., 5 instances belonging to one class and the other 5 instances belonging to the other class, would have an entropy value of 1. Inversely, a node that has all its instances belong to only one class would have an entropy value of 0, making´it a pure node.
 The value is calculated using the following formula:
 
-
 \[ \text{E(X)} = -\sum_\text{i=1}^\text{n} \text{p}_\text{i} {\text{log}_\text{2} \text{(p}_\text{i})} \]
+Where:
+\begin{description}
+	\item[E(X)] is the entropy of dataset $X$.
+	\item[n] describes the number of classes in the dataset.
+    \item[$\text{p}_\text{i}$] is the proportion of instances in class $i$ or, in other words, the probability of an instance belonging to class $i$.
+\end{description}
 
-
-$E(X)$ is the entropy of dataset $X$, $n$ describes the number of classes in the dataset, and $p_i$ the proportion of instances in class $i$ or, in other words, the probability of an instance belonging to class $i$.
 
 Figure \ref{fig:entropy_graph} describes the entropy function in relation to the composition of a node and shows really well how entropy is used to determine how impure a node is.
 \imagen{entropy_graph}{Descriptive graph of the entropy function}{.7}
@@ -104,54 +115,45 @@ However, it must be mentioned that the value of entropy can reach values higher 
 
 
 \subsection{Conditional Entropy} \label{conditional_entropy}
-In the context of decision trees, the conditional entropy~\cite{conditional_entropy_wiki} $E(Y\mid X)$ measures the uncertainty in the target variable $Y$, which usually describes the class labels, given a certain value of the feature $X$ that is used for splitting a node.
-It can be described as the weighted sum of $E(Y\mid X = x)$ for every possible value $x$ of $X$:
+In the context of decision trees, the conditional entropy~\cite{conditional_entropy_wiki} $E(Y\mid X)$ measures the uncertainty in the target variable $Y$, which usually describes the class labels, given a certain value of the attribute $X$ that is used for splitting a node.
+It can be described as the weighted sum of $E(Y\mid X = x)$ for every possible value $x$ of $X$ and is calculated using the following formula:
 \[\text{E(Y}\mid \text{X}) = \sum_{\text{x} \in \text{X}} \text{p(x)} \text{E(Y}\mid \text{X = x)}\]
-The formula sums up the conditional entropies for all the possible values $x$ of feature $X$. As the weight, it uses $p(x)$, which is the proportion between the number of instances that have the feature value $x$ and the size of the dataset.
-Calculating the conditional entropies for the individual values $x$ of feature $X$ is possible with the following formula:
+The formula sums up the conditional entropies for all the possible values $x$ of attribute $X$. As the weight, it uses $p(x)$, which is the proportion between the number of instances that have the attribute value $x$ and the size of the dataset.
+Calculating the conditional entropies for the individual values $x$ of attribute $X$ is possible with the following formula:
 \[ \text{E(Y}\mid \text{X = x)} = -\sum_{\text{y} \in \text{Y}} \text{p(y}\mid \text{x)} \text{log}_\text{2} \text{(p(y}\mid \text{x))} \]
-$p(y\mid x)$ represents the proportion of instances in the dataset with feature value $x$ that also have the class value $y$. It sums over all the possible values of the target variable $Y$.
+$p(y\mid x)$ represents the proportion of instances in the dataset with attribute value $x$ that also have the class value $y$. It calculates the cumulative sum of all possible values of the target variable $Y$.
 
-In the end, this conditional entropy calculation evaluates the effectiveness of splitting a node based on the particular feature $X$. The lower the conditional entropy, the lower the impurity of the data after splitting the node based on the particular feature the conditional entropy was calculated for.
+In the end, the conditional entropy evaluates the effectiveness of splitting a node based on the particular attribute $X$. The lower the conditional entropy, the lower the impurity of the data after splitting the node based on the particular attribute the conditional entropy was calculated for.
 
 \subsection{Algorithm}
+The ID3 algorithm~\cite{id3_algorithm_wiki} constructs decision trees by using a top-down, recursive partitioning approach called "Top-Down Induction of Decision Trees" (TDIDT). With a dataset $S$ and attributes $A$ as input and the tree $T$ as output, the steps are:
+
+\begin{enumerate}
+	\item $S$ will represent the root node of the current tree $T$.
+	\item Check if all instances in $S$ belong to the same class.
+    \begin{itemize}
+        \item If yes, create a leaf node with the corresponding class label and return the node as $T$.
+    \end{itemize}
+    \item Check if the attribute set $A$ is empty.
+    \begin{itemize}
+        \item If yes, create a leaf node with the most frequent class label and return the node as $T$.
+    \end{itemize}
+    \item Calculate the information gain for each attribute in $A$ and select $A_{best}$ as the attribute with the highest information gain.
+    \item Create a decision node containing $A_{best}$.
+    \item Split $S$ into subsets based on the different values of $A_{best}$.
+    \item For each subset $S_i$, do a recursion call with:
+    \begin{description}
+    	\item[Input:] Subset $S_i$, attributes $A \backslash \{A_{best}\}$.
+    	\item[Output:] Subtree $T_i$.
+    \end{description}
+    \item Append $T_i$ to $T$'s children and return $T$. 
+\end{enumerate}
+
 
 
 \section{Referencias}
 
 Las referencias se incluyen en el texto usando cite~\cite{wiki:latex}. Para citar webs, artículos o libros~\cite{koza92}, si se desean citar más de uno en el mismo lugar~\cite{bortolot2005, koza92}.
-
-
-\section{Imágenes}
-
-Se pueden incluir imágenes con los comandos standard de \LaTeX, pero esta plantilla dispone de comandos propios como por ejemplo el siguiente:
-
-\imagen{escudoInfor}{Autómata para una expresión vacía}{.5}
-
-
-
-\section{Listas de items}
-
-Existen tres posibilidades:
-
-\begin{itemize}
-	\item primer item.
-	\item segundo item.
-\end{itemize}
-
-\begin{enumerate}
-	\item primer item.
-	\item segundo item.
-\end{enumerate}
-
-\begin{description}
-	\item[Primer item] más información sobre el primer item.
-	\item[Segundo item] más información sobre el segundo item.
-\end{description}
-	
-\begin{itemize}
-\item 
-\end{itemize}
 
 \section{Tablas}
 
