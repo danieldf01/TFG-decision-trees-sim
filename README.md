@@ -23,6 +23,9 @@ It does so by providing an Entropy calculator, a Conditional Entropy calculator,
 * Student: Daniel Drefs Fernandes
 * Tutors: Carlos López Nozal, Ismael Ramos Pérez
 
+## Deployment
+This project is deployed through the GitHub Pages service at [this link](https://danieldf01.github.io).
+
 ## Acknowledgments
 
-This project was influenced by the final project "[Web Thoth](http://cgosorio.es/Seshat/)" of tutor Ismael Ramos Pérez
+This project was influenced by the final project "[Web Thoth](http://cgosorio.es/Seshat/)" of tutor Ismael Ramos Pérez.
