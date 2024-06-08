@@ -2,58 +2,11 @@
 
 In the following, all the theoretical concepts relevant for the understanding of the project will be explained.
 
-\section{Decision Trees}
-
-A decision tree ~\cite{decisiontrees} is a versatile supervised learning algorithm used for classification and regression tasks. Its goal is to predict the value of a variable based on previously processed input. Its hierarchical structure includes a root node and several internal and leaf nodes.
-
-It starts at the root, which represents the feature that best separates the underlying dataset based on a certain criterion. An example would be information gain, which is explained in \ref{information_gain}. From there branches extend to internal nodes, also called decision nodes. These internal nodes also represent features along with a decision rule that tells us how to further split the data. These features are continuously evaluated until homogenous subsets are created by the leaf nodes. These represent all the possible outcomes of the dataset with each one corresponding to a class label.
-
-Decision tree learning utilizes a divide and conquer approach, iteratively finding the best split points until all or most of the input data is classified.
-
-An example of a decision tree which evaluates whether a person should buy a game or not:
-\imagen{decision_tree_example}{Decision tree example}{1}
-
-\subsection{Subsecciones}
-
-Además de secciones tenemos subsecciones.
-
-\subsubsection{Subsubsecciones}
-
-Y subsecciones. 
-
-\section{Entropy} \label{entropy}
-In the context of decision tree algorithms, entropy ~\cite{entropy_dash} can be viewed as a measure of impurity in a dataset. It can also be described as a measure of disorder, uncertainty or the expected surprise of a classification, but going forward, the term impurity will be used to avoid confusion. In datasets with binary classes, where variables can only have two possible outcome values, the entropy value lies between 0 and 1, inclusive. The higher the entropy, the more impure the dataset is. In a binary-class dataset, a node that has an equal distribution of, e.g., 5 instances belonging to one class and the other 5 instances belonging to the other class, would have an entropy value of 1. Inversely, a node that has all its instances belong to only one class would have an entropy value of 0, making´it a pure node.
-The value is calculated using the following formula:
-
-
-\[ E(X) = -\sum_{i=1}^{n} {p_i} {log_2 (p_i)} \]
-
-
-$E(X)$ is the entropy of dataset $X$, $n$ describes the number of classes in the dataset, and $p_i$ the proportion of instances in class $i$ or, in other words, the probability of an instance belonging to class $i$.
-
-This following graph ~\cite{entropy_T} that describes the entropy function in relation to the composition of a node shows really well how entropy is used to determine how impure a node is:
-\imagen{entropy_graph}{Descriptive graph of the entropy function}{.7}
-In a dataset with binary classes, the x-axis describes the amount of instances in a dataset belonging to the positive class while the y-axis measures their entropy values. It records the lowest values at the extremes where there are only or no positive instances recorded in a given dataset while the highest impurity is reached when the numbers of positive and negative instances are equal.
-However, it must be mentioned that the value of entropy can reach values higher than 1 if the dataset possesses more than 2 class labels. 
-
-
-\subsection{Conditional Entropy} \label{conditional_entropy}
-In the context of decision trees, the conditional entropy~\cite{conditional_entropy_wiki} $E(Y\mid X)$measures the uncertainty in the target variable $Y$, which is usually the class labels, given a certain value of the attribute $X$ that is used for splitting a node.
-It can be described as the weighted sum of $E(Y\mid X = x)$ for every possible value $x$ of $X$:
-\[E(Y\mid X) = \sum_{x \in X} {p(x)} {E(Y\mid X = x)}\]
-The formula sums up the conditional entropies for all the possible values $x$ of attribute $X$. As the weight, it uses $p(x)$, which is the proportion between the number of instances that have the attribute value $x$ and the size of the dataset.
-Calculating the conditional entropies for the individual values $x$ of attribute $X$ is possible with the following formula:
-\[ E(Y\mid X = x) = -\sum_{y \in Y} {p(y\mid x)} {log_2 {(p(y\mid x))}} \]
-$p(y\mid x)$ represents the proportion of instances in the dataset with attribute value $x$ that also have the class value $y$. It sums over all the possible values of the target variable $Y$. It can be used synonymous with the formula for $E(X)$ that was previously shown in \ref{entropy}
-
-In the end, this conditional entropy calculation evaluates the effectiveness of splitting a node based on the particular attribute $X$. The lower the conditional entropy, the lower the impurity of the data after splitting the node based on the particular attribute the conditional entropy was calculated for.
-
-
 \section{Machine Learning}
 Machine learning~\cite{machine_learning} is a field of artificial intelligence which focuses on developing algorithms that are able to learn from given input data and, based on that learned knowledge, generalize to unseen data. Machine learning problems can be categorized into three main tasks: Classification problems, Regression problems, and Clustering problems.
 
 \subsection{Classification problems} \label{classification_problems}
-Classification problems~\cite{classification_regression} in machine learning describe the process of predicting a class or category of a given input. The labeled input data is learned with all its attributes and values to reach the goal of building a model that can also categorize new data, that has not been seen before, into one of the given classes or categories. An example would be classifying emails as spam or not spam. This type of machine learning problem will be discussed in more detail in the section \ref{classification}.
+Classification problems~\cite{classification_regression} in machine learning describe the process of predicting a class or category of a given input. The labeled input data is learned with all its features and values to reach the goal of building a model that can also categorize new data, that has not been seen before, into one of the given classes or categories. An example would be classifying emails as spam or not spam. This type of machine learning problem will be discussed in more detail in the section \ref{classification}.
 
 \subsection{Regression problems}
 Regression problems~\cite{classification_regression} in machine learning describe the process of predicting a continuous value based on labeled input data. Instead of predicting a defined class or category, the goal here is to build a model that can predict the quantity of something. An example would be predicting the salary of a person based on their education degree and previous work experience.
@@ -61,68 +14,68 @@ Regression problems~\cite{classification_regression} in machine learning describ
 \subsection{Clustering problems}
 Clustering problems~\cite{clustering} in machine learning do not aim to predict something, like the previous two. Given some unlabeled input data, the goal is to group similar data points together based on certain features to generate an output of clusters inside of which the data of points are more similar to each other than to data points in other clusters.
 
-\subsection{Decision Trees}
-With decision trees~\cite{decisiontrees} ultimately following the goal to create a model that predicts the value of a target variable and doing so by learning labeled input data, they are used for both classification and regression tasks.
-
-
-\section{Classification} \label{classification}
+\section{Classification algorithms} \label{classification}
 As mentioned before in \ref{classification_problems}, the goal in classification tasks~\cite{classification_regression} is to assign a class or a label to some input data. Classification aims to create a model that can also generalize to new data. To achieve this, there are multiple algorithms and evaluation metrics that are used to measure a model's performance.
 
-\subsection{Classification algorithms}
-
-\subsubsection{K-Nearest Neighbors}
+\subsection{K-Nearest Neighbors}
 K-Nearest Neighbors~\cite{knn}, or short KNN, is an algorithm that uses distance as a measure to determine K of a data point's nearest neighbors. Based on that information, a classification or prediction is made about which of the groups the data point is grouped with. KNN does not go through a training stage, instead it just stores and memorizes the training dataset.
 
-\subsubsection{Support Vector Machine}
-Support Vector Machine~\cite{svm}, or short SVM, is an algorithm that can perform linear as well as non-linear classification. Linear classifiers assume that a data set is linearly separable while non-linear classifiers are not bound to that restrictive belief. With SVM being able to perform both methods, it is able to find a hyperplane that best separates different classes in a data set by maximizing the margin between classes. 
+\subsection{Support Vector Machine}
+Support Vector Machine~\cite{svm}, or short SVM, is an algorithm that can perform linear as well as non-linear classification. Linear classifiers assume that a dataset is linearly separable while non-linear classifiers are not bound to that restrictive belief. With SVM being able to perform both methods, it is able to find a hyperplane that best separates different classes in a dataset by maximizing the margin between classes. 
 
-\subsubsection{Logistic Regression}
+\subsection{Logistic Regression}
 This algorithm~\cite{logistic_regression} is mostly used for binary classification problems. It uses the logistic function to determine the probability of a given input belonging to a certain class.
+
+\subsection{Decision Trees}
+A decision tree~\cite{decisiontrees} is a versatile supervised learning algorithm used for classification and regression tasks. Its goal is to predict the value of a variable based on previously processed input. Its hierarchical structure includes a root node and several internal and leaf nodes.
+
+It starts at the root, which represents the feature that best separates the underlying dataset based on a certain criterion. An example would be information gain, which is more thoroughly explained in \ref{information_gain}. From the root on, branches extend to internal nodes, also called decision nodes. These internal nodes also represent features along with a decision rule that tells us how to further split the data. These features are continuously evaluated until homogenous subsets are created by the leaf nodes. These represent all the possible outcomes of the dataset with each one corresponding to a class label.
+
+Decision tree learning utilizes a divide and conquer approach, iteratively finding the best split points until all or most of the input data is classified.
+
+Figure \ref{fig:decision_tree_example} shows an example of a decision tree which evaluates whether a person should buy a game or not:
+\imagen{decision_tree_example}{Decision tree example}{1}
 
 \subsection{Evaluation metrics}
 
 \subsubsection{Confusion Matrix}
-A confusion matrix~\cite{evaluation_metrics} is a table that is used to describe a classification model's performance. It presents an overview of the predictions on the test data set against the actual classes:
+A confusion matrix~\cite{evaluation_metrics} is a table that is used to describe a classification model's performance. It presents an overview of the predictions on the test dataset against the actual classes. Figure \ref{fig:confusion_matrix} shows an example of such a matrix where TP = True Positive, TN = True Negative, FP = False Positive, and FN = False Negative.
 \imagen{confusion_matrix}{Example of a confusion matrix}{.5}
-Where:
-TP = True Positive; TN = True Negative; FP = False Positive; FN = False Negative.
 It is useful for measuring other metrics like Accuracy, Precision and Recall
 
 \subsubsection{Accuracy}
 Accuracy~\cite{evaluation_metrics} measures how many of all the classified instances were given the correct label.
 It uses the following formula:
-\[ Accuracy = {TP + TN}/{TP + TN + FP + FN} \]
-This metric is useful for well balanced data sets. If 99 of the data set's instances belonged to one class and only 1 belonged to the other, likeliness is high that the used model would always predict the class with the higher amount of instances, resulting in a 99\% accuracy due to the data set's composure.
+\[ \text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} \]
+This metric is useful for well-balanced datasets. In contrast, if 99 of the dataset's instances belonged to one class and only 1 belonged to the other, likeliness is high that the used model would always predict the class with the higher amount of instances, resulting in a 99\% accuracy due to the dataset's composure.
 
 \subsubsection{Precision}
 Precision~\cite{evaluation_metrics} describes the ratio of correctly predicted positive cases to the total predicted positive cases. In short words, it measures the accuracy of the positive class predictions and is calculated with the following formula:
-\[ Precision = {TP}/{TP + FP} \]
+\[ \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}} \]
 Precision is useful for cases where False Positives are a bigger concern than False Negatives
 
-\subsubsection{Recall (Sensitivity}
+\subsubsection{Recall}
 Recall~\cite{evaluation_metrics} describes how many of the actual positive cases our model was able to correctly predict. It measures the ability of the model to find all positive instances and is calculated using the following formula:
-\[ Recall = {TP}/{TP + FN} \]
+\[ \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} \]
 Recall is useful when False Negatives are of a higher concern than False Positives.
 
 \section{Feature Selection}
-In machine learning, feature selection~\cite{feature_selection} is indispensable when the goal is to build an accurate and efficient model. In the context of prediction tasks, feature selection helps in finding the features or attributes that are most beneficial for the prediction. 
+In machine learning, feature selection~\cite{feature_selection} is indispensable when the goal is to build an accurate and efficient model. In the context of prediction tasks, feature selection helps in finding the features that are most beneficial for the prediction. 
 
 But how is determined which feature is better or more important than another? In the context of classification problems, the main idea is to select those features that best prove their ability to differentiate between different target classes. Those features are most likely to improve the model's capability of performing prediction tasks and with that, its overall performance.
 
 There are multiple supervised and unsupervised techniques to select the best feature. While each comes with its own advantages and disadvantages, the focus in this work will be on two supervised techniques: Information gain and Fisher's Score. Both have a filter-based approach, which means they evaluate the relevance of features by studying their statistical properties or correlation with other features, independently of the learning algorithm itself. They are usually used for categorical data.
 
 \subsection{Information gain} \label{information_gain}
-Information gain~\cite{feature_selection} is a method that is commonly used in decision tree algorithms like ID3 and C4.5. It is also used in this project to select the best possible features for the construction of decision trees. It measures the relevance of a feature by evaluating how much information it provides about the class labels. It does so by calculating the reduction in entropy. With that, the higher the information gain of a feature, the more important and useful it is considered for decision-making.
+Information gain~\cite{feature_selection} is a method that is commonly used in decision tree algorithms like ID3. It is also used in this project to select the best possible features for the construction of decision trees. It measures the relevance of a feature by evaluating how much information it provides about the class labels. It does so by calculating the reduction in entropy. With that, the higher the information gain of a feature, the more important and useful it is considered for decision-making.
 
 It can be calculated~\cite{information_gain_wiki} using the following formula:
-\[IG(S, A) = {E(S)} - {E(S\mid A)}\]
-Where: $S$ is the dataset, $A$ is the feature/attribute for which the Information gain is calculated, $E(S)$ is the entropy (\ref{entropy}) of the dataset $S$, and $E(S\mid A)$ is the conditional entropy (\ref{conditional_entropy}) of the dataset, given feature $A$.
+\[ \text{IG(S, F)} = \text{E(S)} - \text{E(S}\mid \text{F)}\]
+Where: $S$ is the dataset, $F$ is the feature for which the Information gain is calculated, $E(S)$ is the entropy (\ref{entropy}) of the dataset $S$, and $E(S\mid F)$ is the conditional entropy (\ref{conditional_entropy}) of the dataset, given feature $F$.
 
-The following image shows the calculation of Information gain based on an example dataset:
-\imagen{information_gain_example}{Information gain example}{.6}
+Figure \ref{fig:info_gain_example} shows the calculation of Information gain based on an example dataset.
+\imagen{info_gain_example}{Information gain example}{.8}
 The correlation between a feature's entropy and Information gain values can be observed. The lower the conditional entropy of a feature, the higher the Information gain and its usefulness in the process of decision-making. Here, the feature "Outlook" would be chosen as the best one out of the four.
-
-
 
 \subsection{Fisher's Score}
 Fisher's Score~\cite{feature_selection}, also known as Fisher's Discriminant Ratio, is a technique that ranks features by measuring their ability to differentiate classes in a dataset.
@@ -130,6 +83,38 @@ Fisher's Score~\cite{feature_selection}, also known as Fisher's Discriminant Rat
 It calculates~\cite{feature_selection_fishers_score} that ability by determining the ratio of between-class variance and within-class variance. The between-class variance measures the spread of a feature's values across different classes. A higher value indicates that the means of different classes are further apart, making the feature more discriminative. On the denominator side of the division, the within-class variance determines the spread of the feature values within each class. A lower value means that the data points within each class are closer to the class mean, also making the feature more discriminative.
 
 In conclusion~\cite{feature_selection}, the higher a feature's Fisher's Score, the more discriminative and more fitting for classification it is. Therefore, the features with higher scores are considered more useful.
+
+\section{ID3 algorithm} \label{ID3}
+The ID3 algorithm is a technique in machine learning used for generating decision trees. Developed by Ross Quinlan in 1986, ID3 is designed to create a model in form of a tree that predicts the value of a target variable based on several input variables of a dataset. It is widely recognized for its simplicity and effectiveness in handling classification problems. Before describing the algorithm in more detail, the concept of entropy and conditional entropy will be examined as they play an essential role in the creation process of a decision tree.
+
+\subsection{Entropy} \label{entropy}
+In the context of decision tree algorithms, entropy~\cite{entropy_dash} can be viewed as a measure of impurity in a dataset. It can also be described as a measure of disorder, uncertainty or the expected surprise of a classification, but going forward, the term impurity will be used to avoid confusion. In datasets with binary classes, where variables can only have two possible outcome values, the entropy value lies between 0 and 1, inclusive. The higher the entropy, the more impure the dataset is. In a binary-class dataset, a node that has an equal distribution of, e.g., 5 instances belonging to one class and the other 5 instances belonging to the other class, would have an entropy value of 1. Inversely, a node that has all its instances belong to only one class would have an entropy value of 0, making´it a pure node.
+The value is calculated using the following formula:
+
+
+\[ \text{E(X)} = -\sum_\text{i=1}^\text{n} \text{p}_\text{i} {\text{log}_\text{2} \text{(p}_\text{i})} \]
+
+
+$E(X)$ is the entropy of dataset $X$, $n$ describes the number of classes in the dataset, and $p_i$ the proportion of instances in class $i$ or, in other words, the probability of an instance belonging to class $i$.
+
+Figure \ref{fig:entropy_graph} describes the entropy function in relation to the composition of a node and shows really well how entropy is used to determine how impure a node is.
+\imagen{entropy_graph}{Descriptive graph of the entropy function}{.7}
+In a dataset with binary classes, the x-axis describes the amount of instances in a dataset belonging to the positive class while the y-axis measures their entropy values. It records the lowest values at the extremes where there are only or no positive instances recorded in a given dataset while the highest impurity is reached when the numbers of positive and negative instances are equal.
+However, it must be mentioned that the value of entropy can reach values higher than 1 if the dataset possesses more than 2 class labels. 
+
+
+\subsection{Conditional Entropy} \label{conditional_entropy}
+In the context of decision trees, the conditional entropy~\cite{conditional_entropy_wiki} $E(Y\mid X)$ measures the uncertainty in the target variable $Y$, which usually describes the class labels, given a certain value of the feature $X$ that is used for splitting a node.
+It can be described as the weighted sum of $E(Y\mid X = x)$ for every possible value $x$ of $X$:
+\[\text{E(Y}\mid \text{X}) = \sum_{\text{x} \in \text{X}} \text{p(x)} \text{E(Y}\mid \text{X = x)}\]
+The formula sums up the conditional entropies for all the possible values $x$ of feature $X$. As the weight, it uses $p(x)$, which is the proportion between the number of instances that have the feature value $x$ and the size of the dataset.
+Calculating the conditional entropies for the individual values $x$ of feature $X$ is possible with the following formula:
+\[ \text{E(Y}\mid \text{X = x)} = -\sum_{\text{y} \in \text{Y}} \text{p(y}\mid \text{x)} \text{log}_\text{2} \text{(p(y}\mid \text{x))} \]
+$p(y\mid x)$ represents the proportion of instances in the dataset with feature value $x$ that also have the class value $y$. It sums over all the possible values of the target variable $Y$.
+
+In the end, this conditional entropy calculation evaluates the effectiveness of splitting a node based on the particular feature $X$. The lower the conditional entropy, the lower the impurity of the data after splitting the node based on the particular feature the conditional entropy was calculated for.
+
+\subsection{Algorithm}
 
 
 \section{Referencias}

@@ -1,8 +1,8 @@
 \documentclass[a4paper,12pt,twoside]{memoir}
 
 % Castellano
-\usepackage[spanish,es-tabla]{babel}
-\selectlanguage{spanish}
+\usepackage[spanish,es-tabla,english]{babel}
+\selectlanguage{english}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern} % Scalable font
@@ -355,7 +355,7 @@
 \newcommand{\nombre}{Daniel Drefs Fernandes} %%% cambio de comando
 
 % Datos de portada
-\title{Simulador árboles de decisión}
+\title{Decision Tree Simulator}
 \author{\nombre}
 \tutor{Carlos López Nozal \\ Ismael Ramos Pérez}
 \date{\today}
@@ -374,13 +374,13 @@
 
 \noindent\includegraphics[width=\textwidth]{cabecera}\vspace{1cm}
 
-\noindent D. nombre tutor, profesor del departamento de nombre departamento, área de nombre área.
+\noindent D. Carlos López Nozal y Ismael Ramos Pérez, profesores del departamento de Ingeniería Informática, área de Lenguajes y Sistemas Informáticos.
 
-\noindent Expone:
+\noindent Exponen:
 
-\noindent Que el alumno D. \nombre, con DNI dni, ha realizado el Trabajo final de Grado en Ingeniería Informática titulado título de TFG. 
+\noindent Que el alumno D. \nombre, con DNI L1TLL31X4, ha realizado el Trabajo final de Grado en Ingeniería Informática titulado Decision Tree Simulator. 
 
-\noindent Y que dicho trabajo ha sido realizado por el alumno bajo la dirección del que suscribe, en virtud de lo cual se autoriza su presentación y defensa.
+\noindent Y que dicho trabajo ha sido realizado por el alumno bajo la dirección de los que suscriben, en virtud de lo cual se autoriza su presentación y defensa.
 
 \begin{center} %\large
 En Burgos, {\large \today}
@@ -422,12 +422,10 @@ D. nombre co-tutor
 % Abstract en castellano
 \renewcommand*\abstractname{Resumen}
 \begin{abstract}
-En este primer apartado se hace una \textbf{breve} presentación del tema que se aborda en el proyecto.
 \end{abstract}
 
 \renewcommand*\abstractname{Descriptores}
 \begin{abstract}
-Palabras separadas por comas que identifiquen el contenido del proyecto Ej: servidor web, buscador de vuelos, android \ldots
 \end{abstract}
 
 \clearpage
@@ -435,12 +433,18 @@ Palabras separadas por comas que identifiquen el contenido del proyecto Ej: serv
 % Abstract en inglés
 \renewcommand*\abstractname{Abstract}
 \begin{abstract}
-A \textbf{brief} presentation of the topic addressed in the project.
+The aim of this project has been to create a web application that helps in learning the concept of decision trees, their creation and all the prerequisites that are necessary to understand the topic, like entropy and conditional entropy calculation.
+
+The entropy and conditional entropy calculators are driven by user-chosen input values.
+
+The decision tree algorithm that is taught through this application is the ID3 algorithm. A step-by-step visualization is provided to ensure a simple and intuitive learning experience. The visualization includes a dynamically created decision tree, displayed with Scalable Vector Graphics (SVG), and two tables that represent the dataset and relevant values at each step, respectively.
+
+This project has been deployed through the GitHub Pages service at the following URL: \url{https://danieldf01.github.io}.
 \end{abstract}
 
 \renewcommand*\abstractname{Keywords}
 \begin{abstract}
-keywords separated by commas.
+Decision trees, entropy, conditional entropy, ID3 algorithm.
 \end{abstract}
 
 \clearpage
