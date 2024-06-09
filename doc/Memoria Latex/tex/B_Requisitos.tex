@@ -8,7 +8,7 @@ The main objective of this project has been to create a web application under th
 
 It provides dynamic calculators for entropy and conditional entropy which let the user input values to they can observe how different values affect the results. There is also a visual representation of the binary entropy graph that uses SVG and responds with markers to the user's input, if they used two classes to calculate the entropy.
 
-The decision tree simulation presents a step-by-step visualization of the ID3 algorithm so that each user can follow the steps at their own pace. They can choose between selecting one of the example datasets or loading their own dataset in CSV file format. With a combination of a decision tree that is dynamically created using SVG, a dataset table, a value table, and visual cues at each step, the goal was to make the user's learning experience simple and intuitive.
+The decision tree ID3 simulation presents a step-by-step visualization of the ID3 algorithm so that each user can follow the steps at their own pace. They can choose between selecting one of the example datasets or loading their own dataset in CSV file format. With a combination of a decision tree that is dynamically created using SVG, a dataset table, a value table, and visual cues at each step, the goal was to make the user's learning experience simple and intuitive.
 
 \section{Requirements catalog}
 \subsection{Functional Requirements}
@@ -36,7 +36,7 @@ The decision tree simulation presents a step-by-step visualization of the ID3 al
 \end{itemize}
 
 \begin{itemize}
-    \item \textbf{FR-3} From the web, it must be possible to run the Decision Tree simulator for executing a step-by-step simulation of the ID3 algorithm.
+    \item \textbf{FR-3} From the web, it must be possible to run the Decision Tree ID3 simulator for executing a step-by-step simulation of the ID3 algorithm.
     \begin{itemize}
         \item \textbf{FR-3.1} The user must be able to choose a dataset from one of the example datasets that are provided by the web application.
         \item \textbf{FR-3.2} The user must be able to select their own dataset in a CSV file format.
@@ -59,7 +59,7 @@ The decision tree simulation presents a step-by-step visualization of the ID3 al
         \item \textbf{NFR-3.1} The user must be warned through appearing alerts if any of the user-made inputs is invalid.
     \end{itemize}
     \item \textbf{NFR-4} For the Entropy calculator, if more than 2 classes are used, the user must be informed through an appearing alert about the fact that the calculated results will not be displayed on the Binary Entropy graph.
-    \item \textbf{NFR-5} For the Decision Tree simulator, the application must recognize CSV files that meet the file requirements that are displayed in the application as valid.
+    \item \textbf{NFR-5} For the Decision Tree ID3 simulator, the application must recognize CSV files that meet the file requirements that are displayed in the application as valid.
     \begin{itemize}
         \item \textbf{NFR-5.1} The user must be warned through an appearing alert if the proposed CSV file fails to meet any of the requirements and is therefore recognized as invalid.
     \end{itemize}
@@ -141,12 +141,12 @@ The decision tree simulation presents a step-by-step visualization of the ID3 al
 	\centering
 	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
 		\toprule
-		\textbf{UC-3}    & \textbf{Run Decision Tree simulator}\\
+		\textbf{UC-3}    & \textbf{Run Decision Tree ID3 simulator}\\
 		\toprule
 		\textbf{Version}              & 1.0    \\
 		\textbf{Author}                & Daniel Drefs Fernandes \\
 		\textbf{Associated requirements} & FR-3, FR-3.1, FR-3.2, FR-3.3, FR-3.4, FR-3.5, FR-3.6, FR-3.7, FR-3.8, FR-3.9 \\
-		\textbf{Description}          & The user runs the Decision Tree simulator with the desired dataset, receives the results in a visual format on the website and goes through the step-by-step simulation. \\
+		\textbf{Description}          & The user runs the Decision Tree ID3 simulator with the desired dataset, receives the results in a visual format on the website and goes through the step-by-step simulation. \\
 		\textbf{Precondition}         & The CSV file introduced by the user is valid. \\
 		\textbf{Actions}             &
 		\begin{enumerate}
@@ -165,5 +165,5 @@ The decision tree simulation presents a step-by-step visualization of the ID3 al
 		\textbf{Importance}          & High \\
 		\bottomrule
 	\end{tabularx}
-	\caption{UC-3 Run Decision Tree simulator.}
+	\caption{UC-3 Run Decision Tree ID3 simulator.}
 \end{table}

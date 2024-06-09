@@ -9,7 +9,7 @@ One of Bootstrap's key features is its grid system which lets users divide their
 \imagen{bootstrap_grid_system}{The Bootstrap grid system}{1}
 Each row possesses 12 columns which the user can freely utilize to organize the contents that are to be displayed. Bootstrap also automatically puts the device on which the web page is displayed into one of six different size categories, based on the device's screen width. This, in combination with the grid system, allows the developer to make their website responsive to different screens, ranging from large desktop monitors to smartphones.
 
-In addition to Bootstrap's ability to create responsive websites, the wide variety of CSS classes used for common HTML elements like buttons offer further simplicity to the web design aspect of creating a page. With this, maintaining a visual consistency throughout the project is made easier, too.
+In addition to Bootstrap's ability to create responsive websites, the wide variety of CSS classes used for common HTML elements, like buttons, offer further simplicity to the web design aspect of creating a page. With this, maintaining a visual consistency throughout the project is also made easier.
 
 In this project, the newest version of Bootstrap at present, Bootstrap 5, is used. The main advantages are its usage of vanilla JavaScript for its components instead of relying on jQuery, new components for better customization and simplified CSS which reduces file size and loading times for the created pages.
 
@@ -20,22 +20,23 @@ Figures \ref{fig:bootstrap_proof_code} and \ref{fig:bootstrap_proof_alert} show 
 \section{D3.js} \label{d3js}
 "D3"~\cite{d3js_what_is_d3} stands for "data-driven documents" and perfectly describes the free, open-source JavaScript library. "Documents" refers to the Document Object Model (DOM). D3.js lets the user bind data to its elements. The library works like a toolbox that uses a variety of discrete modules which, e.g., allow selection and transition operations. It binds these modules together so all the necessary tools are at hand, ready to be applied.
 
-D3.js does not invent new data presentation formats, instead, it makes use of web standards like SVG to display contents. Incorporating these standards, the library also allows the use of external stylesheets which can be employed to change the graphics' visual representations.
+D3.js makes use of web standards like SVG to display contents. Incorporating these standards, the library also allows the use of external stylesheets which can be employed to change the graphics' visual representations.
 
-A major feature of D3.js is its ability to dynamically change the displayed contents. Whether that change is triggered by user interactions or a change in underlying data, the library's data join concept allows separate operations for entering, updating and exiting existing DOM elements based on a given set of data. Besides filtering and sorting, it lets you control what happens to your contents in many ways when changes happen and update your website accordingly.
+A major feature of D3.js is its ability to dynamically change the displayed contents. Whether that change is triggered by user interactions or a change in underlying data, the library's ``data join'' concept allows separate operations for entering, updating and exiting existing DOM elements based on a given set of data. Besides filtering and sorting, it lets the user control what happens to their contents in many ways when changes happen and update their website accordingly.
 
 Figures \ref{fig:d3js_proof_graph}, \ref{fig:d3js_proof_drawpoint}, and \ref{fig:d3js_proof_entropygraph} show the usage of D3.js in this project. It was used to create a coordinate system with a graph displaying the binary entropy function. It is also used to dynamically add a point and line to the graph, corresponding to the binary entropy value that was calculated for the user's input values:
 \imagen{d3js_proof_graph}{Usage of D3.js: Defining the chart area}{1}
 \imagen{d3js_proof_drawpoint}{Usage of D3.js: drawing the point and line}{.6}
 \imagen{d3js_proof_entropygraph}{D3.js graph}{.5}
+\pagebreak
 
 \section{PyCharm} \label{pycharm}
-PyCharm~\cite{pycharm} is the Integrated Development Environment (IDE) I used during the first two and part of the third sprint. It is an IDE developed by JetBrains which is specifically designed for Python development and is the one I had mainly been using for university assignments. With its support for web development frameworks like Flask and features like code completion for HTML, CSS and JavaScript, it served useful in allowing a quick start into this project's development.
+PyCharm~\cite{pycharm} is the Integrated Development Environment (IDE) that was used during the first two and part of the third sprint. It is an IDE developed by JetBrains which is specifically designed for Python development. With its support for web development frameworks like Flask and features like code completion for HTML, CSS and JavaScript, it served useful in allowing a quick start into this project's development.
 PyCharm's built-in live preview for HTML files and its interactive debugging feature also made working on the prototypes much simpler. Figure \ref{fig:pycharm_proof_livepreview} shows the usage of that feature.
 \imagen{pycharm_proof_livepreview}{PyCharm's live preview}{1}
 Its version control integration of systems like Git allowed an easier experience of making local changes remotely available.
 
-However, one of the issues during the third sprint was to start using Bootstrap to make the website's layout responsive. Due to set-up problems with the IDE, PyCharm was not able to provide auto-completion for the framework. To make use of that and other features, I started using a different program for developing the website during the third sprint.
+However, one of the issues during the third sprint was to start using Bootstrap to make the website's layout responsive. Due to set-up problems with the IDE, PyCharm was not able to provide auto-completion for the framework. To make use of that and other features, a different program overtook the task of developing the application.
 
 \section{Visual Studio Code}
 Visual Studio Code~\cite{vscode} is an open-source code editor by Microsoft. While it also provides all the benefits mentioned in section \ref{pycharm}, it comes with a handful of other advantages of which the most significant one would be the vast variety of available extensions.
@@ -43,8 +44,6 @@ These include Bootstrap IntelliSense which enables CSS class auto-completion, Li
 \imagen{vscode_proof_gitlens}{GitLens extension}{1}
 These extensions allow the user to add features based on what they need. By only including essential coding features upon first installation, the editor take up less space than IDEs like PyCharm.
 In addition, its lightweight design that is optimized for performance leaves behind a smaller memory footprint.
-
-Ultimately, these features made me switch to Visual Studio Code for the remaining sprints.
 
 \section{GitHub}
 GitHub~\cite{github} is a platform that is mainly used for version control on software development projects. Not only does it provide a location for users to store their files, make and track changes, it also makes it possible to share repositories with other developers and therefore presents an easy way to collaborate on projects.
@@ -62,7 +61,9 @@ Zube~\cite{zube} is a project management platform for software development teams
 Tracking progress is made easy with the inclusion of sprints and allowing the user to add issues to a sprint board which can be used for project management methodologies like Scrum. Charts like Burndown and Burnup show each sprint's progress over the time set for the sprint. The Burndown charts were used to analyze the temporal planning throughout the project in the corresponding section in the Anexos part.
 
 Figure \ref{fig:sprint4_screenshot} shows the Sprint Board which, among other tools, was used to plan out each sprint thoroughly and document each step in regards to the created issues.
+\pagebreak
 \imagen{sprint4_screenshot}{Sprint Board example}{1}
+\pagebreak
 
 \section{Codacy} \label{codacy}
 Codacy~\cite{codacy} is a code analysis tool that helps software developers improve their code quality. Allowing a link to GitHub, it reviews commits in real-time and checks the code's quality based on code security, code duplication, coding style and other general issues.
