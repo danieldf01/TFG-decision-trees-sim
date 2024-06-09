@@ -98,11 +98,11 @@ function handleUserCsv() {
                 } else if (checkReturn == tooManyCols) {
                     alert('The selected file has more than 25 columns. Please check the file requirements.');
                 } else if (checkReturn == tooManyLabelVals) {
-                    alert('The selected file has a target class with more than 2 distinct values. Please check the file requirements.');
+                    alert('The selected file has a class attribute with more than 2 distinct categories. Please check the file requirements.');
                 } else if (checkReturn == numericalVals) {
                     alert('The selected file includes numerical values. Please check the file requirements.');
                 } else if (checkReturn == notComplete) {
-                    alert('The number of values of at least one row in the selected file does not match the number of attributes. Please check the file requirements.');
+                    alert('The number of columns of at least one row in the selected file does not match the number of attributes. Please check the file requirements.');
                 }
             }
         });
