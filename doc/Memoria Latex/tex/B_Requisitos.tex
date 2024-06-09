@@ -1,10 +1,14 @@
 \apendice{Requirements Specification}
 
 \section{Introduction}
-
-Una muestra de cómo podría ser una tabla de casos de uso:
+This section will explain the requirements of the application by specifying (non-)functional requirements and use cases.
 
 \section{General objectives}
+The main objective of this project has been to create a web application under the name of "Decision Tree Simulator" and with the purpose of helping users learn the concept of decision trees, how they are created and all necessary surrounding topics in an intuitive and simple way.
+
+It provides dynamic calculators for entropy and conditional entropy which let the user input values to they can observe how different values affect the results. There is also a visual representation of the binary entropy graph that uses SVG and responds with markers to the user's input, if they used two classes to calculate the entropy.
+
+The decision tree simulation presents a step-by-step visualization of the ID3 algorithm so that each user can follow the steps at their own pace. They can choose between selecting one of the example datasets or loading their own dataset in CSV file format. With a combination of a decision tree that is dynamically created using SVG, a dataset table, a value table, and visual cues at each step, the goal was to make the user's learning experience simple and intuitive.
 
 \section{Requirements catalog}
 \subsection{Functional Requirements}
@@ -31,6 +35,21 @@ Una muestra de cómo podría ser una tabla de casos de uso:
     \end{itemize}
 \end{itemize}
 
+\begin{itemize}
+    \item \textbf{FR-3} From the web, it must be possible to run the Decision Tree simulator for executing a step-by-step simulation of the ID3 algorithm.
+    \begin{itemize}
+        \item \textbf{FR-3.1} The user must be able to choose a dataset from one of the example datasets that are provided by the web application.
+        \item \textbf{FR-3.2} The user must be able to select their own dataset in a CSV file format.
+        \item \textbf{FR-3.3} The application must, given a valid CSV file, load the dataset that is contained in the file.
+        \item \textbf{FR-3.4} The application must, following a successful load of a dataset, display an information card in regards to the chosen dataset, the root node of the dynamically created decision tree, a data table presenting the dataset, and a value table that presents values that are relevant to the decision tree's creation at each step.
+        \item \textbf{FR-3.5} The user must be able to navigate through the step-by-step simulation with the use of the four buttons that represent the four functions ``Initial step'', ``Step back'', ``Step forward'', and ``Last step'', respectively.
+        \item \textbf{FR-3.6} The application must, given that the ``Initial step'' button was clicked by the user, go to the first step of the simulation.
+        \item \textbf{FR-3.7} The application must, given that the ``Step back'' button was clicked by the user and the simulation had not already been at the first step, go back one step in the simulation.
+        \item \textbf{FR-3.8} The application must, given that the ``Step forward'' button was clicked by the user and the simulation had not already been at the last step, go forward one step in the simulation.
+        \item \textbf{FR-3.9} The application must, given that the ``Last step'' button was clicked by the user, go to the last step of the simulation.
+    \end{itemize}
+\end{itemize}
+
 \subsection{Non-functional requirements}
 \begin{itemize}
     \item \textbf{NFR-1} The user interface must be simple and intuitive.
@@ -40,6 +59,10 @@ Una muestra de cómo podría ser una tabla de casos de uso:
         \item \textbf{NFR-3.1} The user must be warned through appearing alerts if any of the user-made inputs is invalid.
     \end{itemize}
     \item \textbf{NFR-4} For the Entropy calculator, if more than 2 classes are used, the user must be informed through an appearing alert about the fact that the calculated results will not be displayed on the Binary Entropy graph.
+    \item \textbf{NFR-5} For the Decision Tree simulator, the application must recognize CSV files that meet the file requirements that are displayed in the application as valid.
+    \begin{itemize}
+        \item \textbf{NFR-5.1} The user must be warned through an appearing alert if the proposed CSV file fails to meet any of the requirements and is therefore recognized as invalid.
+    \end{itemize}
 \end{itemize}
 
 \section{Requirements specification}
@@ -81,7 +104,7 @@ Una muestra de cómo podría ser una tabla de casos de uso:
 \end{table}
 
 \subsection{Use cases}
-% Use case 1
+% Use case 2
 \begin{table}[p]
 	\centering
 	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
@@ -110,4 +133,37 @@ Una muestra de cómo podría ser una tabla de casos de uso:
 		\bottomrule
 	\end{tabularx}
 	\caption{UC-2 Run Conditional Entropy calculator.}
+\end{table}
+
+\subsection{Use cases}
+% Use case 3
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{UC-3}    & \textbf{Run Decision Tree simulator}\\
+		\toprule
+		\textbf{Version}              & 1.0    \\
+		\textbf{Author}                & Daniel Drefs Fernandes \\
+		\textbf{Associated requirements} & FR-3, FR-3.1, FR-3.2, FR-3.3, FR-3.4, FR-3.5, FR-3.6, FR-3.7, FR-3.8, FR-3.9 \\
+		\textbf{Description}          & The user runs the Decision Tree simulator with the desired dataset, receives the results in a visual format on the website and goes through the step-by-step simulation. \\
+		\textbf{Precondition}         & The CSV file introduced by the user is valid. \\
+		\textbf{Actions}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item The user opens the application.
+			\item The user chooses a dataset from one of the example datasets that are provided by the application.
+            \begin{enumerate}
+                \item Alternatively, the user chooses their own dataset in a CSV file format.
+            \end{enumerate}
+            \item The application loads the dataset and displays an information card designated for the dataset, the root node of the decision tree, a data table corresponding to the dataset, and the value table.
+            \item The user uses the four presented buttons to navigate through the step-by-step simulation.
+		\end{enumerate}\\
+		\textbf{Postcondition}        & The decision tree, data table, and value table are displayed at the user's desired step of the simulation. \\
+		\textbf{Exceptions}          & If the user has introduced an invalid CSV file, the application will display an alert and inform the user to check the file requirements. \\
+		\textbf{Importance}          & High \\
+		\bottomrule
+	\end{tabularx}
+	\caption{UC-3 Run Decision Tree simulator.}
 \end{table}
