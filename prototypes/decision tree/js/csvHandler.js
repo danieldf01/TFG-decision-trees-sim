@@ -59,7 +59,7 @@ function transformData(data) {
     dataCsv['csvDataRows'] = dataRows;
 
     // Save to local storage
-    localStorage.setItem('csvData', JSON.stringify(dataCsv));
+    sessionStorage.setItem('csvData', JSON.stringify(dataCsv));
 
     // Reset everything and build the tree and tables based on the new data 
     var svgEl = document.getElementById(svgId);

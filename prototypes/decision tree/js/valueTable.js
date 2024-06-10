@@ -180,7 +180,7 @@ function createValueTableForLeaf(tableEl, step) {
 }
 
 function loadData(){
-    let dataCsv = JSON.parse(localStorage.getItem('csvData'));
+    let dataCsv = JSON.parse(sessionStorage.getItem('csvData'));
     label = dataCsv[csvL];
     labelValues = dataCsv[csvLV];
 }

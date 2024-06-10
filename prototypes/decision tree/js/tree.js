@@ -999,7 +999,7 @@ function buildSvgTree() {
 }
 
 function buildTree() {
-    let dataCsv = JSON.parse(localStorage.getItem('csvData'));
+    let dataCsv = JSON.parse(sessionStorage.getItem('csvData'));
     data = dataCsv[csvD];
     attributes = dataCsv[csvA];
     attributeValues = dataCsv[csvAV];

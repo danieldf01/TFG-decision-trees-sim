@@ -1,6 +1,7 @@
 \apendice{Software Project Plan}
 
 \section{Introduction}
+This section presents how time management was handled in the course of this project. Throughout the development, bi-weekly meetings were held that served the purpose of reviewing what had been done and discussing what the tasks for the next sprint would be. To give better insight, a burndown of every sprint will be displayed. They are automatically created by Zube, the project agility tool that was used. The issues which these graphs are based on are all found in the ``Issues'' section\footnote{GitHub issues: \url{https://github.com/danieldf01/TFG-decision-trees-sim/issues}} of the project's GitHub repository.
 
 \section{Time planning}
 \subsection{Sprint 1 (29/02/2024 - 13/03/2024): Kick off project}
@@ -29,7 +30,7 @@ During this sprint, the main tasks were to refactor the GitHub repository struct
 As figure \ref{fig:sprint3_burndown} shows, all the tasks of this sprint were completed in time.
 \imagen{sprint3_burndown}{Burndown Sprint 3}
 
-\subsection{Sprint 4 (18/04/2024 - 02/05/2024): Prototype Decision Tree}
+\subsection{Sprint 4 (18/04/2024 - 02/05/2024): Prototype Decision Tree} \label{sprint_4}
 \paragraph{Objectives:}
 The main tasks of this sprint were to, on one hand, improve the existing prototypes with exceptions and enhance the overall code quality and, on the other hand, create a prototype that displays a decision tree based on an example dataset. Besides that, it was also asked to continue working on the Memoria by documenting some technical environments that were used.
 
@@ -61,8 +62,49 @@ The final sprint of this project's development was used to refine some of the al
 Figure \ref{fig:sprint7_burndown} shows a burndown of the final sprint. As this sprint still took place during the exam phase, not all tasks could be finished here either.  However, those were only minor issues like an improvement of the repository's README file which could were completed in the final days before the deadline.
 \imagen{sprint7_burndown}{Burndown Sprint 7}
 
-\section{Estudio de viabilidad}
+\subsection{Overview}
+Figure \ref{fig:sprints_overview} displays an overview of the amount of issues that were resolved during each sprint.
+\imagen{sprints_overview}{Sprints overview}
+The workload was visibly increased starting at sprint 4 (\ref{sprint_4}), which marked the start of the implementation of the decision tree prototype. Before that point, a lot of the sprints' work included learning and getting used to new technologies in order to be able to use them. Most of this process was not captured in the form of issues. 
 
-\subsection{Viabilidad económica}
+\section{Viability study}
 
-\subsection{Viabilidad legal}
+\subsection{Economic viability}
+\subsubsection{Staff costs}
+This project has been carried out by one programmer over the course of approximately 3 months. Taking into consideration the developer's status of full-time student who also had to spend time in preparation for other classes, the overall development time can be estimated to a part-time employment. Considering the monthly minimum wage for general workers in Spain in 2024 of 1134,00€ per month~\cite{minimum_wage_spain_2024}, the estimated salary would be:
+
+\[ 3m * 1134\text{€}/m = 3402\text{€} \]
+
+As this represents only the gross wage, social security contributions have to be added, as well. As of 2024, these make up 36,85\%, with the employee having to contribute 6,45\% and the employer 30,4\%~\cite{spain_taxes}. Adding this to the gross wage totals up to:
+
+\[ 3402\text{€} + 3402\text{€} * 0,3685 = 4655,637\text{€} \]
+
+\subsubsection{Software and hardware costs}
+The software cost of this project is equal to 0 as only free software has been used. As for hardware, a device with a value of 863,27€ has been used to carry out this project. Depreciation does not have to be considered as the device was bought at the beginning of development. Having used this device for the project over the course of 3 months, it makes up for a total cost of:
+
+\[ 3m * 863,27\text{€}/m = 2589,81\text{€} \]
+
+\subsubsection{Total cost}
+Considering staff and hardware costs together, the total cost is summed up to:
+
+\[ 2589,81\text{€} + 4655,637\text{€} = 7245,447\text{€} \]
+\pagebreak
+
+\subsection{Legal viability}
+Table \ref{tabla:table_dependencies} shows every used dependency, its version and license
+
+\tablaSmallSinColores{Every dependency used in the project and its license}{l c c}{table_dependencies}
+{ \multicolumn{1}{l}{Dependency} & Version & License \\}{ 
+jQuery & 3.7.1 & MIT \\
+jest & 29.7.0 & MIT \\
+jest-environment-jsdom & 29.7.0 & MIT \\
+D3 & 7.9.0 & ISC \\
+Bootstrap & 5.3.3 & MIT \\
+bootstrap-icons & 1.11.3 & MIT \\
+MathJax & 3.2.2 & Apache-2.0 \\
+Polyfill service & 3.25.3 & CC0-1.0 \\
+@popperjs/core & 2.11.8 & MIT \\
+papaparse & 5.4.1 & MIT \\
+} 
+
+The most restrictive of these licenses would be the Apache-2.0 license, which is still a permissive license that allows, e.g., the software being used, modified and distributed in a commercial context.

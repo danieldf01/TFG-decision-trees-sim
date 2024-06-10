@@ -2,8 +2,14 @@
 
 \section{Introducción}
 
-\section{Diseño de datos}
+\section{Data design}
+\subsection{Data storage}
+For the decision tree ID3 simulator, each example dataset is stored in a separate CSV file in a directory designated to the example data. When a certain dataset is selected by a user, a series of functions are triggered that load that set to be ready to use for the step-by-step simulation. The detailed process will be discussed in \ref{proc_design}. 
 
-\section{Diseño procedimental}
+When a user requests to load their own dataset for the simulation, that data is stored in the page's session storage. As no server was set up for this project, it had to be stored locally, which also brings advantages like faster access and the data being stored only for the duration of the page session. After storing the user's data locally in their page session, it is accessed by the application to load the dataset and process it.
+
+\subsection{Decision tree design}
+
+\section{Diseño procedimental} \label{proc_design}
 
 \section{Diseño arquitectónico}

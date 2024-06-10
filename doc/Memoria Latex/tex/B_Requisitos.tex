@@ -39,14 +39,15 @@ The decision tree ID3 simulation presents a step-by-step visualization of the ID
     \item \textbf{FR-3} From the web, it must be possible to run the Decision Tree ID3 simulator for executing a step-by-step simulation of the ID3 algorithm.
     \begin{itemize}
         \item \textbf{FR-3.1} The user must be able to choose a dataset from one of the example datasets that are provided by the web application.
-        \item \textbf{FR-3.2} The user must be able to select their own dataset in a CSV file format.
-        \item \textbf{FR-3.3} The application must, given a valid CSV file, load the dataset that is contained in the file.
-        \item \textbf{FR-3.4} The application must, following a successful load of a dataset, display an information card in regards to the chosen dataset, the root node of the dynamically created decision tree, a data table presenting the dataset, and a value table that presents values that are relevant to the decision tree's creation at each step.
-        \item \textbf{FR-3.5} The user must be able to navigate through the step-by-step simulation with the use of the four buttons that represent the four functions ``Initial step'', ``Step back'', ``Step forward'', and ``Last step'', respectively.
-        \item \textbf{FR-3.6} The application must, given that the ``Initial step'' button was clicked by the user, go to the first step of the simulation.
-        \item \textbf{FR-3.7} The application must, given that the ``Step back'' button was clicked by the user and the simulation had not already been at the first step, go back one step in the simulation.
-        \item \textbf{FR-3.8} The application must, given that the ``Step forward'' button was clicked by the user and the simulation had not already been at the last step, go forward one step in the simulation.
-        \item \textbf{FR-3.9} The application must, given that the ``Last step'' button was clicked by the user, go to the last step of the simulation.
+        \item \textbf{FR-3.2} Given that the button labeled "Load own CSV dataset" was clicked, the application must present a modal to the user in which the requirements for a CSV file and an input form are displayed.
+        \item \textbf{FR-3.3} The user must be able to select their own dataset in a CSV file format through an input form.
+        \item \textbf{FR-3.4} The application must, given a valid CSV file, load the dataset that is contained in the file.
+        \item \textbf{FR-3.5} The application must, following a successful load of a dataset, display an information card in regards to the chosen dataset, the root node of the dynamically created decision tree, a data table presenting the dataset, and a value table that presents values that are relevant to the decision tree's creation at each step.
+        \item \textbf{FR-3.6} The user must be able to navigate through the step-by-step simulation with the use of the four buttons that represent the four functions ``Initial step'', ``Step back'', ``Step forward'', and ``Last step'', respectively.
+        \item \textbf{FR-3.7} The application must, given that the ``Initial step'' button was clicked by the user, go to the first step of the simulation.
+        \item \textbf{FR-3.8} The application must, given that the ``Step back'' button was clicked by the user and the simulation had not already been at the first step, go back one step in the simulation.
+        \item \textbf{FR-3.9} The application must, given that the ``Step forward'' button was clicked by the user and the simulation had not already been at the last step, go forward one step in the simulation.
+        \item \textbf{FR-3.10} The application must, given that the ``Last step'' button was clicked by the user, go to the last step of the simulation.
     \end{itemize}
 \end{itemize}
 
@@ -67,8 +68,12 @@ The decision tree ID3 simulation presents a step-by-step visualization of the ID
 
 \section{Requirements specification}
 \subsection{Use case diagram}
+Figure \ref{fig:use_case_diagram} displays the use case diagram.
+\imagen{use_case_diagram}{Use case diagram}
 
 \subsection{Use cases}
+The textual use cases are displayed in tables \ref{table:uc_1}, \ref{table:uc_2}, \ref{table:uc_3}, and \ref{table:uc_4}.
+
 % Use case 1
 \begin{table}[p]
 	\centering
@@ -101,9 +106,9 @@ The decision tree ID3 simulation presents a step-by-step visualization of the ID
 		\bottomrule
 	\end{tabularx}
 	\caption{UC-1 Run Entropy calculator.}
+    \label{table:uc_1}
 \end{table}
 
-\subsection{Use cases}
 % Use case 2
 \begin{table}[p]
 	\centering
@@ -133,9 +138,9 @@ The decision tree ID3 simulation presents a step-by-step visualization of the ID
 		\bottomrule
 	\end{tabularx}
 	\caption{UC-2 Run Conditional Entropy calculator.}
+    \label{table:uc_2}
 \end{table}
 
-\subsection{Use cases}
 % Use case 3
 \begin{table}[p]
 	\centering
@@ -145,25 +150,58 @@ The decision tree ID3 simulation presents a step-by-step visualization of the ID
 		\toprule
 		\textbf{Version}              & 1.0    \\
 		\textbf{Author}                & Daniel Drefs Fernandes \\
-		\textbf{Associated requirements} & FR-3, FR-3.1, FR-3.2, FR-3.3, FR-3.4, FR-3.5, FR-3.6, FR-3.7, FR-3.8, FR-3.9 \\
+		\textbf{Associated requirements} & FR-3, FR-3.1, FR-3.4, FR-3.5, FR-3.6, FR-3.7, FR-3.8, FR-3.9, FR-3.10 \\
 		\textbf{Description}          & The user runs the Decision Tree ID3 simulator with the desired dataset, receives the results in a visual format on the website and goes through the step-by-step simulation. \\
-		\textbf{Precondition}         & The CSV file introduced by the user is valid. \\
+		\textbf{Precondition}         & None \\
 		\textbf{Actions}             &
 		\begin{enumerate}
 			\def\labelenumi{\arabic{enumi}.}
 			\tightlist
 			\item The user opens the application.
-			\item The user chooses a dataset from one of the example datasets that are provided by the application.
-            \begin{enumerate}
-                \item Alternatively, the user chooses their own dataset in a CSV file format.
-            \end{enumerate}
-            \item The application loads the dataset and displays an information card designated for the dataset, the root node of the decision tree, a data table corresponding to the dataset, and the value table.
+			\item The user clicks on the dropdown element labeled ``Choose example dataset''. 
+            \item The user chooses a dataset from one of the example datasets that are provided by the application.
+            \item The application loads the dataset.
+            \item The application displays an information card designated for the dataset, the root node of the decision tree, a data table corresponding to the dataset, and the value table.
             \item The user uses the four presented buttons to navigate through the step-by-step simulation.
 		\end{enumerate}\\
 		\textbf{Postcondition}        & The decision tree, data table, and value table are displayed at the user's desired step of the simulation. \\
-		\textbf{Exceptions}          & If the user has introduced an invalid CSV file, the application will display an alert and inform the user to check the file requirements. \\
+		\textbf{Exceptions}          & None \\
 		\textbf{Importance}          & High \\
 		\bottomrule
 	\end{tabularx}
 	\caption{UC-3 Run Decision Tree ID3 simulator.}
+    \label{table:uc_3}
+\end{table}
+
+% Use case 4
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{UC-4}    & \textbf{Use own CSV dataset}\\
+		\toprule
+		\textbf{Version}              & 1.0    \\
+		\textbf{Author}                & Daniel Drefs Fernandes \\
+		\textbf{Associated requirements} & FR-3, FR-3.2 FR-3.3, FR-3.4 \\
+		\textbf{Description}          & Within the Decision Tree ID3 simulator, the user selects their own CSV dataset that the application loads. \\
+		\textbf{Precondition}         & The user has opened the application. \\
+		\textbf{Actions}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item The user clicks on the button that is labeled ``Load own CSV dataset''.
+			\item The application displays a modal in which the user is presented with the file requirements and an input form.
+            \begin{enumerate}
+                \item The user reads the file requirements.
+            \end{enumerate}
+            \item The user clicks on the input form and selects the desired CSV file from their file system.
+            \item If given a valid CSV file, the application closes the modal and loads the dataset.
+		\end{enumerate}\\
+		\textbf{Postcondition}        & The user's desired dataset is loaded. \\
+		\textbf{Exceptions}          & If the user has introduced an invalid CSV file, the application will display an alert that informs the user which requirement was not met and tells them to check the file requirements. \\
+		\textbf{Importance}          & Low \\
+		\bottomrule
+	\end{tabularx}
+	\caption{UC-4 Use own CSV dataset.}
+    \label{table:uc_4}
 \end{table}
