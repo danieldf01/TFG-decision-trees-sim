@@ -5,8 +5,7 @@
   "description": "The aim of this project is to create a web application that simulates the operation of decision tree algorithms.",
   "directories": {
     "doc": "doc",
-    "img": "img",
-    "prototypes": "prototypes"
+    "img": "img"
   },
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --env=jsdom "
