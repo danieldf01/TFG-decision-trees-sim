@@ -1,5 +1,5 @@
 import { buildTree, destroyTree } from './tree.js';
-import { createTable } from './dataTable.js';
+import { createDataTable } from './dataTable.js';
 import { createValueTable, loadData } from './valueTable.js';
 import { initialStep } from './stepbystep.js';
 import { getDataInfo, getDataLink } from "../exampledata/dataInfo.js";
@@ -37,7 +37,7 @@ function getLabelValsDataRows(data, attributes) {
         return { attributes: attributeObj, label: label };
     });
 
-    return [Array.from(labelValues), dataRows]; 
+    return [Array.from(labelValues), dataRows];
 }
 
 function transformData(data) {
@@ -66,22 +66,13 @@ function transformData(data) {
     destroyTree(svgEl);
     buildTree();
 
-    createTable();
+    createDataTable();
     loadData();
     createValueTable(1);
     initialStep();
 }
 
 function loadExampleData(selectedExample) {
-    let dataInfoContainer = document.getElementById("dataInfoContainer");
-    if (dataInfoContainer.style.display == "none") {
-        dataInfoContainer.style.display = "block";
-    }
-    let stepByStepContainer = document.getElementById("stepByStepContainer");
-    if (stepByStepContainer.style.display == "none") {
-        stepByStepContainer.style.display = "block";
-    }
-
     var filePath = null;
     switch (selectedExample) {
         case dataset1:
@@ -110,6 +101,16 @@ function loadExampleData(selectedExample) {
                 transformData(parsedData.data);
             }
         });
+
+
+        let dataInfoContainer = document.getElementById("dataInfoContainer");
+        if (dataInfoContainer.style.display == "none") {
+            dataInfoContainer.style.display = "block";
+        }
+        let stepByStepContainer = document.getElementById("stepByStepContainer");
+        if (stepByStepContainer.style.display == "none") {
+            stepByStepContainer.style.display = "block";
+        }
 
         var currentDatasetSpan = document.getElementById('currentDatasetSpan');
         currentDatasetSpan.textContent = selectedExample;

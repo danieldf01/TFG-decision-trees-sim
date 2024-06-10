@@ -230,6 +230,15 @@ function findBestAttribute(data, attributes, valTableGroup) {
     return bestAttribute;
 }
 
+/**
+ * The ID3 algorithm that creates a decision tree structure
+ * @param {*} data the dataset of the current node
+ * @param {*} attributes the considered attributes
+ * @param {*} prevBranchVal the label of the branch path for which the current node serves as the destination node
+ * @param {*} nodeId the current node id
+ * @param {*} leafId the current leaf id
+ * @returns 
+ */
 function id3(data, attributes, prevBranchVal, nodeId, leafId) {
     if (data.length === 0) return null;
     let allPositive = true;

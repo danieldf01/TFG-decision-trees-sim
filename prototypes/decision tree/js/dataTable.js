@@ -37,7 +37,7 @@ function createBodyRows(count){
     return bodyRow;
 }
 
-function createTable(){
+function createDataTable(){
     let dataCsv = JSON.parse(sessionStorage.getItem('csvData'));
     data = dataCsv[csvD];
     attributes = dataCsv[csvA];
@@ -96,5 +96,5 @@ function createTable(){
     tableDiv.appendChild(tableEl);
 }
 
-export { createTable };
-export default createTable;
+export { createDataTable };
+export default createDataTable;

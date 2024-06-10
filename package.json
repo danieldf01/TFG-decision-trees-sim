@@ -3,7 +3,6 @@
   "type": "module",
   "version": "1.0.0",
   "description": "The aim of this project is to create a web application that simulates the operation of decision tree algorithms.",
-  "main": "index.html",
   "directories": {
     "doc": "doc",
     "img": "img",
