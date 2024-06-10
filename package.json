@@ -19,7 +19,7 @@
   },
   "jest": {
     "setupFiles": [
-      "./setup-jest.js"
+      "./applications/setup-jest.js"
     ],
     "transform": {}
   },

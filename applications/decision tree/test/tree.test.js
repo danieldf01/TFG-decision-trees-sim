@@ -1,6 +1,6 @@
 // disabled because this is the recommended way to import modules for Jest testing
 /* eslint-disable */
-import { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch } from './tree';
+import { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch } from '../js/tree';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

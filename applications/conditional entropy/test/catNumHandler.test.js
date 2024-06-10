@@ -1,6 +1,6 @@
 // disabled because this is the recommended way to import modules for Jest testing
 /* eslint-disable */
-import { addCategory, removeCategory } from './catNumHandler';
+import { addCategory, removeCategory } from '../js/catNumHandler';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

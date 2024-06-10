@@ -1,6 +1,6 @@
 // disabled because this is the recommended way to import modules for Jest testing
 /* eslint-disable */
-import { E, graphFunction, calcSum, calcProbs, entropy, checkInput } from './calculator';
+import { E, graphFunction, calcSum, calcProbs, entropy, checkInput } from '../js/calculator';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
