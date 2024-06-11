@@ -197,7 +197,7 @@ test('calcCondEntropy: properly calculates the conditional entropy with instance
 
     var condEntropy = document.getElementById('ce').textContent;
 
-    expect(condEntropy).toBe("0.5619639695247292");
+    expect(condEntropy).toBe("0.56");
 })
 
 test('calcCondEntropy: properly calculates the conditional entropy with instances [0, 0, 5, 5]', () => {
@@ -213,7 +213,7 @@ test('calcCondEntropy: properly calculates the conditional entropy with instance
 
     var condEntropy = document.getElementById('ce').textContent;
 
-    expect(condEntropy).toBe("1");
+    expect(condEntropy).toBe("1.00");
 })
 
 test('calcCondEntropy: properly calculates the conditional entropy with instances [0, 0, 0, 0]', () => {
@@ -229,7 +229,7 @@ test('calcCondEntropy: properly calculates the conditional entropy with instance
 
     var condEntropy = document.getElementById('ce').textContent;
 
-    expect(condEntropy).toBe("0");
+    expect(condEntropy).toBe("0.00");
 })
 
 test('calcCondEntropy: properly calculates the conditional entropy with instances [4, 6, 3, 3]', () => {
@@ -245,5 +245,5 @@ test('calcCondEntropy: properly calculates the conditional entropy with instance
 
     var condEntropy = document.getElementById('ce').textContent;
 
-    expect(condEntropy).toBe("0.9818441215341679");
+    expect(condEntropy).toBe("0.98");
 })

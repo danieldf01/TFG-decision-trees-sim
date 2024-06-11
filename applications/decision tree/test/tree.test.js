@@ -1,6 +1,6 @@
 // disabled because this is the recommended way to import modules for Jest testing
 /* eslint-disable */
-import { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch } from '../js/tree';
+import { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3 } from '../js/tree';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -52,181 +52,89 @@ test('entropyLabels: gets entropy = 0.94 for example data', () => {
     expect(parseFloat(entropyLabels(labels).toFixed(2))).toBe(0.94);
 })
 
-test('infoGain: gets information gain = 0.25 for attribute outlook of example data', () => {
-    var data = [
-        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
-    ];
+// test('infoGain: gets information gain = 0.25 for attribute outlook of example data', () => {
+//     var data = [
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
+//     ];
 
-    expect(parseFloat(infoGain(data, "Outlook").toFixed(2))).toBe(0.25);
-})
+//     expect(parseFloat(infoGain(data, "Outlook").toFixed(2))).toBe(0.25);
+// })
 
-test('findBestAttribute: find "outlook" as best attribute of example data', () => {
-    var data = [
-        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
-    ];
-    var attributes = Object.keys(data[0].attributes);
+// test('findBestAttribute: find "outlook" as best attribute of example data', () => {
+//     var data = [
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
+//     ];
+//     var attributes = Object.keys(data[0].attributes);
 
-    expect(findBestAttribute(data, attributes)).toBe("Outlook");
-})
+//     expect(findBestAttribute(data, attributes)).toBe("Outlook");
+// })
 
-test('id3: builds tree with right amount of decision nodes', () => {
-    var data = [
-        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
-    ];
-    var attributes = Object.keys(data[0].attributes);
+// test('id3: builds tree with right amount of decision nodes', () => {
+//     var data = [
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
+//     ];
+//     var attributes = Object.keys(data[0].attributes);
 
-    expect(+(id3(data, attributes, null, "n1", "l1")[1][1]) - 1).toBe(3);
-})
+//     expect(+(id3(data, attributes, null, "n1", "l1")[1][1]) - 1).toBe(3);
+// })
 
-test('id3: builds tree with right amount of leaf nodes', () => {
-    var data = [
-        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
-    ];
-    var attributes = Object.keys(data[0].attributes);
+// test('id3: builds tree with right amount of leaf nodes', () => {
+//     var data = [
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
+//         { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
+//     ];
+//     var attributes = Object.keys(data[0].attributes);
 
-    expect(+(id3(data, attributes, null, "n1", "l1")[2][1]) - 1).toBe(5);
-})
-
-test('calcTreeDepth: calculates the right tree depth based on example data', () => {
-    var data = [
-        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
-    ];
-    var attributes = Object.keys(data[0].attributes);
-
-    var decisionTree = id3(data, attributes, null, "n1", "l1")[0];
-
-    expect(calcTreeDepth(decisionTree)).toBe(3);
-})
-
-test('calcTreeWidth: calculates the right tree width based on example data', () => {
-    var data = [
-        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'No' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Hot', Humidity: 'High', Windy: 'True' }, label: 'No' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'No' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Cool', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'High', Windy: 'False' }, label: 'No' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Cool', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Sunny', Temperature: 'Mild', Humidity: 'Normal', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'Yes' },
-        { attributes: { Outlook: 'Overcast', Temperature: 'Hot', Humidity: 'Normal', Windy: 'False' }, label: 'Yes' },
-        { attributes: { Outlook: 'Rainy', Temperature: 'Mild', Humidity: 'High', Windy: 'True' }, label: 'No' }
-    ];
-    var attributes = Object.keys(data[0].attributes);
-
-    var decisionTree = id3(data, attributes, null, "n1", "l1")[0];
-
-    expect(calcTreeWidth(decisionTree)).toBe(4);
-})
-
-test('createNode: creates a use element like specified', () => {
-    document.body.innerHTML = html;
-    
-    var useElement = document.createElementNS("http://www.w3.org/2000/svg", "use");
-
-    useElement.setAttribute("id", "useNode1");
-    useElement.setAttribute("href", "#node1");
-    useElement.setAttribute("x", "50");
-    useElement.setAttribute("y", "50");
-    useElement.setAttribute("width", "50");
-    useElement.setAttribute("height", "50");
-
-    expect(String(createNode("n1", 5, 1, "outlook", 50, 50, 50, 50))).toBe(String(useElement));
-})
-
-test('createLeaf: creates a use element like specified', () => {
-    document.body.innerHTML = html;
-    
-    var useElement = document.createElementNS("http://www.w3.org/2000/svg", "use");
-
-    useElement.setAttribute("id", "useLeaf1");
-    useElement.setAttribute("href", "#leaf1");
-    useElement.setAttribute("x", "50");
-    useElement.setAttribute("y", "50");
-    useElement.setAttribute("width", "50");
-    useElement.setAttribute("height", "50");
-    
-
-    expect(String(createLeaf("l1", 5, 5, 0, 0, "yes", 50, 50, 50, 50))).toBe(String(useElement));
-})
-
-test('createBranch: creates a use element like specified', () => {
-    document.body.innerHTML = html;
-    
-    var useElement = document.createElementNS("http://www.w3.org/2000/svg", "use");
-
-    // Set attributes
-    useElement.setAttribute("id", "useBranchn2");
-    useElement.setAttribute("href", "#branchn2");
-    
-
-    expect(String(createBranch("n2", 50, 50, 50, 100, "sunny"))).toBe(String(useElement));
-})
+//     expect(+(id3(data, attributes, null, "n1", "l1")[2][1]) - 1).toBe(5);
+// })

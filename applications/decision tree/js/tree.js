@@ -622,43 +622,6 @@ function createNodes(node, nodeIndex, svgEl, groupId, nodeWidth, nodeHeight, lea
     return groupId;
 }
 
-// Calculate the tree's depth (including the root node)
-function calcTreeDepth(rootNode) {
-    if (!rootNode) return 0;
-    if (rootNode.children.length === 0) return 1;
-
-    let maxDepth = 0;
-
-    rootNode.children.forEach(child => {
-        maxDepth = Math.max(maxDepth, calcTreeDepth(child));
-    });
-
-    return maxDepth + 1;
-}
-
-// Calculate the tree's width by getting the maximum amount of nodes a row has
-function calcTreeWidth(rootNode) {
-    if (!rootNode) return 0;
-    if (rootNode.children.length === 0) return 0;
-
-    let maxWidth = 0;
-    let maxWidth2 = 0;
-
-    rootNode.children.forEach(child => {
-        maxWidth++;
-        child.children.forEach(() => {
-            maxWidth2++;
-        });
-    });
-    maxWidth = Math.max(maxWidth, maxWidth2);
-
-    rootNode.children.forEach(child => {
-        maxWidth = Math.max(maxWidth, calcTreeWidth(child));
-    });
-
-    return maxWidth;
-}
-
 function countNodesAtEachLevel(root) {
     if (!root) {
         return [];
@@ -1018,6 +981,9 @@ function buildTree() {
     dataTableGroups = [];
     valueTableGroups = [];
 
+    console.log(data);
+    console.log(attributes);
+
     let treeValues = id3(data, attributes, null, "n1", "l1");
     decisionTree = treeValues[0];
     nodeCount = +treeValues[1].substring(1) - 1;
@@ -1169,5 +1135,5 @@ function handleResize() {
 
 window.onresize = handleResize;
 
-export { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, calcTreeDepth, calcTreeWidth, createNode, createLeaf, createBranch, buildTree, destroyTree, nodeCount, leafCount, dataTableGroups, valueTableGroups }
+export { mostCommonLabel, entropyLabels, infoGain, findBestAttribute, id3, createNode, createLeaf, createBranch, buildTree, destroyTree, nodeCount, leafCount, dataTableGroups, valueTableGroups }
 export default buildTree;
