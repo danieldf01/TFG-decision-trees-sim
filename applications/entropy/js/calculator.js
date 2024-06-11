@@ -1,5 +1,5 @@
-import { checkInput } from '../../../lib/input-check.js';
-import { entropy } from '../../../lib/entropy-calculator.js';
+import { checkInput } from '../../lib/input-check.js';
+import { entropy } from '../../lib/entropy-calculator.js';
 
 const parseIntBase = 10;
 const probColumnIndex = 1;

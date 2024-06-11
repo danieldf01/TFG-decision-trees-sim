@@ -1,5 +1,5 @@
 import { goToStep } from './stepbystep.js';
-import { entropy } from '../../../lib/entropy-calculator.js';
+import { entropy } from '../../lib/entropy-calculator.js';
 
 const STD_LEAFHEIGHT = 133;
 const STD_NODEHEIGHT = 92;
