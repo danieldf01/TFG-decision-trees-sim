@@ -1,11 +1,223 @@
-\apendice{Documentación técnica de programación}
+\apendice{Technical programming documentation}
 
-\section{Introducción}
+\section{Introduction}
+This section will include a more in-depth description of how the program works. The focus will be on the functionality of the SVG decision tree creation so that it can be modified or expanded upon more easily in the future.
 
-\section{Estructura de directorios}
+\section{Directory structure}
+In the following, all the project's directories will be listed along with a brief description of their content. The most important files will be listed, as well.
 
-\section{Manual del programador}
+\dirtree{%
+	.1 /.
+	.2 applications \ldots{} The different parts of the application.
+    .3 conditional entropy \ldots{} The conditional entropy calculator.
+    .4 css \ldots{} CSS file with style properties unique to the conditional entropy calculator.
+    .4 js \ldots{} JavaScript files.
+    .4 test \ldots{} Test files.
+    .4 index.html \ldots{} Content of the web page.
+    .3 decision tree \ldots{} The decision tree ID3 simulator.
+    .4 css \ldots{} CSS file with style properties unique to the decision tree ID3 simulator.
+    .4 exampledata \ldots{} CSV files that contain the example datasets and a JavaScript file containing information about them.
+    .4 img \ldots{} Images that are only displayed in the decision tree ID3 simulator.
+    .4 js \ldots{} JavaScript files.
+    .4 test \ldots{} Test files.
+    .4 index.html \ldots{} Content of the web page.
+    .3 entropy \ldots{} The entropy calculator.
+    .4 css \ldots{} CSS file with style properties unique to the entropy calculator.
+    .4 js \ldots{} JavaScript files.
+    .4 lib \ldots{} Libraries that are only used by the entropy calculator.
+    .4 test \ldots{} Test files.
+    .4 index.html \ldots{} Content of the web page.
+    .3 img \ldots{} Images that are shared by multiple parts of the application.
+    .3 lib \ldots{} Libraries that are shared by multiple parts of the application.
+    .2 css \ldots{} CSS file with style properties unique to the front page.
+    .2 doc \ldots{} The Memoria and anexos.
+    .3 Latex \ldots{} The corresponding Latex files.
+    .3 anexos.pdf \ldots{} This file.
+    .3 Memoria.pdf \ldots{} The Memoria.
+    .2 img \ldots{} Images that are only displayed on the front page.
+    .2 index.html \ldots{} Content of the front page.
+}
 
-\section{Compilación, instalación y ejecución del proyecto}
+\section{Programmer manual}
+In the following, it is described how the ID3 algorithm and the SVG tree's creation was programmed.
 
-\section{Pruebas del sistema}
+For both algorithms, the same ``TreeNode'' class was used. Its fields include:
+\begin{description}
+    \item[id:] The node's id, e.g. ``node1''.
+    \item[attribute:] The node's attribute. In case of a leaf node, it is given the value null.
+    \item[nodeValues:] This describes an object of another class called ``NodeValues''. It is used to save a node's values that are displayed in the SVG tree:
+    \begin{description}
+        \item[class1:] The number of instances belonging to the first of the two distinct target classes.
+        \item[class2:] The number of instances belonging to the second of the two distinct target classes.
+        \item[n:] The number of instances present in the node's underlying (sub-)dataset.
+        \item[entropy:] The entropy value of the node's underlying (sub-)dataset.
+    \end{description}
+    \item[isLeaf:] Boolean value that indicates whether a node is a leaf or not.
+    \item[label:] In case of a leaf node, the label value is stored.
+    \item[prevBranchVal:] The label of the branch path of which this node is the destination node. It is null for only the root node of a decision tree.
+    \item[parent:] The parent object of the node. It is null for only the root node of a decision tree.
+    \item[children:] An array of a node's children objects
+    \item[depth:] The depth of a node in the decision tree.
+    \item[x:] The absolute x position of the node within the SVG container.
+    \item[y:] The absolute y position of the node within the SVG container.
+    \item[mod:] The amount by which a node's children will be shifted to the right in the creation of the SVG tree.
+\end{description}
+
+\subsection{ID3 algorithm}
+This algorithm is designed to create a decision tree structure made up of objects of the previously explained ``TreeNode'' class. 
+
+The implementation can be found in the file applications/decision tree/js/tree.js and is run using the function id3(data, attributes, prevBranchVal, nodeId, leafId), where:
+\begin{description}
+    \item[data:] the current node's dataset
+    \item[attributes:] the attributes considered for the current node
+    \item[prevBranchVal:] the label of the branch path for which the current node serves as destination node
+    \item[nodeId:] the current node id
+    \item[leafId:] the current leaf id 
+\end{description}
+It must be noted that, as the algorithm creates the tree through a top-down approach, the node id and leaf id have to be increased using different variables the node id is only increased when a decision node has been created and the leaf id otherwise.
+
+Listing \ref{id3_listing_1} shows the first step of the algorithm, which is the calculation of the ``nodeValues'':
+\begin{lstlisting}[caption=Calculation of ``nodeValues'']
+    let allPositive = true;
+    let allNegative = true;
+    let class1 = 0;
+    let class2 = 0;
+    let n = data.length;
+
+    // Save the labels in an array
+    let datasetLabels = [];
+    data.forEach(function (row) {
+        datasetLabels.push(row.label);
+    });
+
+    // Caclulate entropy for the dataset
+    let e = entropyLabels(datasetLabels).toFixed(2);
+
+    for (const row of data) {
+        if (row.label == labelValues[1]) {
+            class2++;
+            allPositive = false;
+        }
+        if (row.label == labelValues[0]) {
+            class1++;
+            allNegative = false;
+        }
+    }
+\end{lstlisting} \label{id3_listing_1}
+
+Variables ``allPositive'' and ``allNegative'' are then used to determine whether the algorithm has reached a leaf node, in which case, it creates a TreeNode object with the calculated ``nodeValues'' and returns it. It also does so if the current set of attributes is empty.
+
+It must be taken into account that the storing of values that are to be displayed in the data and value tables after the tree creation also happens in this function. Listing \ref{id3_listing_2} shows an example of that.
+\begin{lstlisting}[caption=Storing of relevant values for the value table]
+    if (allPositive) {
+        valTableGroup = [class1, class2];
+        valueTableGroups.push(valTableGroup);
+        ...
+    }
+\end{lstlisting} \label{id3_listing_2}
+Here, if a leaf node has been reached, the number of instances belonging to both classes are stored in an array ``valTableGroup'' and pushed into another array ``valueTableGroups'' that saves relevant values for the value table at each step.
+
+While it would have also been possible to do another traversal to give higher priority to a separation of concern, it was decided not to do that as this would not have only meant another traversal of the tree, but another calculation of all the values that had been calculated, but not stored, during the first traversal.
+
+The next steps are to calculate the best attribute based on their information gain value, split the current dataset into subsets using the attribute's categories, and doing a recursion call.
+Alternatively, if any of the created subsets, a leaf node is created with the most common label of the dataset before the split.
+Listing \ref{id3_listing_3} shows that part of the code.
+\begin{lstlisting}[caption=Recursion call for each subset]
+    // Do a recursive call for each value of the
+    selected attribute or add a leaf node if the
+    value's subset is empty
+    for (const value of bestAttributeValues) {
+        let subset = data.filter(instance =>
+        instance.attributes[bestAttribute]
+        === value);
+
+        ...
+
+        if (subset.length === 0) {
+            valTableGroup = [class1, class2];
+            valueTableGroups.push(valTableGroup);
+
+            tree.children.push(new TreeNode(leafId,
+            null, new NodeValues(class1, class2, n,
+            e), true, mostCommonLabel(data),
+            prevBranchVal));
+        } else {
+            tree.prevBranchVal = prevBranchVal;
+            let returnVals = id3(subset,
+            remainingAttributes, value, nodeId,
+            leafId);
+            tree.children.push(returnVals[0]);
+            nodeId = returnVals[1];
+            leafId = returnVals[2];
+        }
+    }
+    return [tree, nodeId, leafId];
+\end{lstlisting} \label{id3_listing_3}
+It is worth mentioning that the node id and the leaf id have to be returned as well for them to be increased in an appropriate way.
+
+In the end, a tree structure will be created that represents the decision tree that will be drawn using SVG afterwards.
+
+\subsection{SVG tree creation}
+Before explaining the calculation of each node's position, it must be mentioned that the tree is created using HTML SVG elements. A SVG container is placed on the web page, its size changes dynamically when the browser window is resized. All following calculations are done relative to the current SVG container size. SVG symbols were created that work as templates for the individual nodes that are dynamically created. The symbols are cloned and changed to display each node's individual properties. For this reason, upon creation of these symbols, a standard height and width was set for decision nodes and leaf nodes. Figure \ref{fig:symbol_example} shows the symbol that was created for decision nodes.
+
+\imagen{symbol_example}{Decision node symbol}{1}
+
+The implementation can be found in the file applications/decision tree/js/tree.js and is run using the function buildSvgTree().
+
+\subsubsection{Setup}
+The first step in calculating the node's positions is to determine how many rows and columns the SVG tree will possess. One row contains either a certain amount of columns of nodes or branch paths. Columns contain nodes.
+
+The amount of nodes at each level/depth is counted. To calculate the amount of rows, the number of levels is multiplied by 2 and 1 is subtracted. A leaf node's height is used as a measure. Figure \ref{fig:svg_leaf_height_column_width} shows an example decision tree which contains 5 rows.
+\imagen{svg_leaf_height_column_width}{SVG decision tree containing 5 rows}{.8}
+As the red markers indicate, exactly 5 leaf nodes stacked on top of each other would fit into the SVG of which the borders are marked by a dotted line. The amount of columns is determined by calculating the maximum amount of nodes on one level. In figure \ref{fig:svg_leaf_height_column_width}, the amount of columns would be 4 as the last level contains 4 nodes.
+
+Based on these values, the actual height of a row is determined by dividing the height of the SVG container by the number of rows. The same is done for the width of a column, using the width of the SVG container.
+
+However, only one ratio can be used to down-scale the width and height of the nodes according to the sizes of the tree the SVG container. The smaller, more restrictive one between the two ratios is determined and chosen. If the bigger one would be chosen, the nodes could go out of bounds of the SVG container.
+
+With the determined ratio, the final widths and heights of decision and leaf nodes is calculated. It is made sure that a separate column width is calculated to ensure that there will be a minimum space between nodes on the same level. That column width can be seen as the blue marker between ``Leaf 1'' and ``Leaf 2'' in figure \ref{fig:svg_leaf_height_column_width}.
+
+\subsubsection{Calculating nodes' positions}
+This algorithm partially implements the Reingold-Tilford algorithm~\cite{reingold-tilford-tidier-drawing-of-trees}, which was originally proposed as a method for drawing binary trees in a compact and aesthetically pleasing manner. This implementation expands on the idea by making it work with non-binary trees.
+
+As a first step, the algorithm does a post-order traversal of the tree and calculates the nodes' initial x-positions. It does so by positioning the leaf nodes next to each other, each at a distance of the width of a column. Nodes that have one child are positioned above their child and nodes with more than one child are placed in the middle between their children. Additionally, it is checked if a parent node has any siblings left of it. If yes, it is placed one column width apart from their left sibling. Its mod value is also set which, at a later step, will shift its children to the right.
+
+For better understanding, example images~\cite{reingold_tilford_lim} using letters as node descriptors will be used. Figure \ref{fig:drawingtrees_afterpositioningchildrenunderparent1} shows each node's x-positions after the described first step.
+\imagen{drawingtrees_afterpositioningchildrenunderparent1}{Initial nodes' x-positions}{1}
+
+However, the tree has overlapping nodes in this state, so they need to be corrected. Still traversing the tree in a post-order, each node's left edges are calculated and checked if they overlap with any of its siblings' right edges. Figure \ref{fig:drawingtrees_check_conflicts} shows node N's left edge in red and its sibling's E's right edge in blue.
+\imagen{drawingtrees_check_conflicts}{Initial nodes' x-positions}{1}
+It can be seen that node H of node N's subtree is overlapping with node C of node E's subtree. To avoid conflicts like this, each of the current node's sibling's right edges are checked for whether all nodes are at least one column width apart. If that is not the case, the node (in this case N) is shifted by the necessary amount and its mod property is increased by the same amount so that its children will be shifted later, too.
+
+To make the tree more aesthetically appealing, the algorithm makes sure to also center nodes in between of subtrees that were overlapping and had to be shifted. In this case, F would have to be shifted. Figure \ref{fig:drawingtrees_fulltree} shows the results of this step.
+\imagen{drawingtrees_fulltree}{Nodes' x-positions after resolved conflicts}{1}
+
+With that, the first traversal of the tree has been completed. However, a node's mod value can be of negative value, which could potentially position its child nodes out of bounds of the SVG container. That is why, in addition, the left edges of the root node are calculated again and shifted by the necessary amount. That same amount is added to the mod value to ensure all children will be in bounds.
+
+Inversely, the root node's right edges are calculated, as well, to check if there is still free space between the tree's right edge and the right border of the SVG container. If there is, the tree is shifted to the right.
+
+As a final step, the algorithm does a top-down traversal of the tree and calculates each node's final x-position by adding the mod value of all its parent nodes to its x-position. Their y-values are also calculated in this step, which are based on their depth and the height of a row, which is equal to a leaf node's height. 
+
+\subsubsection{Symbol cloning}
+With all nodes' positions inside the SVG container calculated, the aforementioned symbols are cloned to store each node's and branch path's individual properties. Ultimately, use elements are created that display these cloned symbols and indicate each node's position. Figure \ref{fig:useleaf_example} shows an example of a use element displaying a leaf node.
+\imagen{useleaf_example}{Example of a leaf node use element}{.5}
+These use elements and all cloned symbols are made sure to be deleted before a different dataset is loaded.
+
+Ultimately, an aesthetically pleasing decision tree is created using SVG. An example is shown in figure
+
+\section{Project compilation, installation and execution}
+There are no executables or scripts that need to be run to execute this project as it is based on HTML pages with JavaScript files as the underlying scripts that make the web pages interactive. However, to make use of the locally included libraries used in this project, it needs to be cloned from the GitHub repository.
+
+This project was developed on a machine operating on the Windows 11 OS. Git would have to be installed on the machine, which can be done through a package download from the official git website\footnote{git download for Windows: \url{https://www.git-scm.com/download/win}}.
+
+The project would have to be cloned to the user's file system. From that point on, no further compilation installation would have to be done. The project would be ready to be run in a browser and modified in any code editor.
+
+However, to run the tests included in the project, Node.js and npm would need to be installed, which can be done in multiple way, as indicated on the official website\footnote{Node.js and npm installation: \url{https://docs.npmjs.com/downloading-and-installing-node-js-and-npm}}. To install the relevant dependencies for the testing framework, the command ``npm install'' would have to be run from the terminal. The current directory would have to be the project directory in the user's file system. When everything is installed, the tests could be run with the command ``npm test''.
+
+\section{System testing}
+\subsection{Jest}
+Jest~\cite{jest} is a JavaScript testing framework that allows the user to write simple JavaScript tests without a complicated setup. This framework has been used as a main device for testing the project's functionality. Code coverage reports are also created every time a test is run. However, due to time constraints towards the end of the project, not all files and functions could be formally tested. Figure \ref{fig:jest_code_coverage} shows the code coverage of the created tests for this project with Jest.
+\imagen{jest_code_coverage}{Jest code coverage}{1}
+
+\subsection{Manual testing}
+In addition to the usage of the Jest testing framework, the biweekly sprint review meetings were also used as a method of manually testing the web application. In this way, the tutors often stumbled upon errors the presenter of this work had not considered. The tutors also reviewed the web application on their own before a meeting, which brought the advantage of having been able to discuss shortcomings or mistakes during the meetings.

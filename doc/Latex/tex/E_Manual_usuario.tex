@@ -1,9 +1,126 @@
-\apendice{Documentación de usuario}
+\apendice{User documentation}
 
-\section{Introducción}
+\section{Introduction}
+This appendix shows what requirements the user has to meet to run the application and how to install and use it.
 
-\section{Requisitos de usuarios}
+\section{User requirements}
+As this project consists of a web application, the user only needs to be able to run a browser that supports JavaScript, CSS sheets, Bootstrap, jQuery, and D3. Some examples would be:
+\begin{itemize}
+    \item Google Chrome
+    \item Mozilla Firefox
+    \item Microsoft Edge
+    \item Apple Safari
+    \item Opera
+\end{itemize}
 
-\section{Instalación}
+\section{Installation}
+No installation is necessary for this project as it consists of a web application.
 
-\section{Manual del usuario}
+\section{User manual}
+First, the user needs to open the application through the following URL: \url{https://danieldf01.github.io}.
+
+\subsection{Front page}
+They are presented with the front page that is shown in figure \ref{fig:app_front_page}.
+\imagen{app_front_page}{Front page of the web application}{1}
+Besides the title and a short introduction, three information cards are displayed, each one corresponding to a functionality of the web application with the opportunity to open either one: ``Entropy calculator'', ``Conditional Entropy calculator'', and ``Decision Tree ID3''. 
+
+\subsection{Entropy calculator}
+If they choose to open the Entropy calculator, they are presented with the page shown in figure \ref{fig:app_entropy_1}.
+\imagen{app_entropy_1}{Entropy calculator page}{1}
+
+The page consists of the following components:
+\begin{itemize}
+    \item Information cards at the top.
+    \begin{description}
+        \item[General Information:] provides a brief introduction to the concept of entropy.
+        \item[Calculation:] displays the entropy formula and explains each part of it.
+    \end{description}
+    \item A graph displaying the binary entropy function on the left.
+    \item The entropy calculator on the right, consisting of two tables.
+    \begin{description}
+        \item[Left table:] represents an example attribute whose instances are distributed among 2 classes.
+        \item[Right table:] shows the proportion of each class in the dataset and the entropy of the attribute.
+    \end{description}
+\end{itemize}
+
+The user is now free to introduce any positive integer values into the input forms presented in the left table and calculate the entropy for those values. The user is informed by an alert if invalid values were put in.
+
+If the entropy was calculated for two classes, a red marker in form of a line and a point will appear on the graph on the left, indicating the proportion of class 1 and the corresponding entropy value of the attribute. This is shown in figure \ref{fig:app_entropy_2}.
+\imagen{app_entropy_2}{Entropy was calculated for 2 classes}{1}
+
+The user can also add classes with a click of the ``+'' button and calculate the entropy for an attribute whose instances can belong to more than two classes. However, the red marker that indicates the results on the graph will not be displayed with more than two classes. The user is also informed about this with the use of an information alert. Figure \ref{fig:app_entropy_3} shows that.
+\imagen{app_entropy_3}{Entropy is calculated with more than two classes}{1}
+The user can also remove the class that was last added by clicking the ``-'' button.
+
+\subsection{Conditional Entropy calculator}
+Figure \ref{fig:app_cond_entropy_1} shows what users are shown upon entering the page for the conditional entropy calculator.
+\imagen{app_cond_entropy_1}{Conditional Entropy calculator page}{1}
+
+The page contains the following content:
+\begin{itemize}
+    \item Information cards at the top.
+    \begin{description}
+        \item[General Information:] provides a brief introduction to the concept of conditional entropy.
+        \item[Calculation:] displays the formulas used to calculate the conditional entropy and explains each part of them.
+    \end{description}
+    \item The conditional entropy calculator in the middle.
+\end{itemize}
+
+Much like on the entropy calculator page, the user can introduce any positive integer values into the input forms presented in the table and calculate the conditional entropy for those values. The user is informed by an alert if invalid values were put in.
+
+The user is able to add categories with a click of the ``+'' button and calculate the conditional entropy for an attribute with more than two categories. They can also remove the category that was last added by clicking the ``-'' button. This is indicated in figure \ref{fig:app_cond_entropy_2}.
+\imagen{app_cond_entropy_2}{Conditional entropy calculated for 3 categories}{1}
+
+\subsection{Decision Tree ID3}
+After first entering the page for the decision tree ID3 simulator, the user is presented with what is depicted in figure \ref{fig:app_decision_tree_1}.
+\imagen{app_decision_tree_1}{Decision tree ID3 simulator page}{1}
+
+In this state of the page, the contents are:
+\begin{itemize}
+    \item Information cards at the top.
+    \begin{description}
+        \item[General Information:] provides a brief introduction to the concept of decision trees and how they are constructed with the ID3 algorithm.
+        \item[ID3 Algorithm:] explains the ID3 algorithm in detail
+        \item[Calculation:] displays the information gain formula and explains each part of it.
+    \end{description}
+    \item A dropdown menu and a button below the information cards.
+\end{itemize}
+
+The user can now choose between using an example dataset, provided by the application, for the simulation and loading their own dataset in CSV file format.
+
+\subsubsection{Example dataset} \label{example_dataset}
+The user chose one of the example datasets and is now presented with additional content that is shown in figure \ref{fig:app_decision_tree_2}.
+\imagen{app_decision_tree_2}{Loaded dataset}{1}
+
+The now visible content includes:
+\begin{itemize}
+    \item Information card about the dataset in the middle below the dropdown menu and button.
+    \item On the left, the first node of the decision tree that is built upon the chosen dataset.
+    \item A legend above and left of the node.
+    \item Four buttons representing the functions ``Initial step'', ``Step back'', ``Step forward'', and ``Last step''.
+    \item A step counter above the four buttons.
+    \item Two tables on the right:
+    \begin{description}
+        \item[Left table:] A table representing the loaded dataset.
+        \item[Right table:] A table representing relevant values at each step.
+    \end{description}
+\end{itemize}
+
+The user can now choose to move throught the step-by-step simulation by clicking any of the four buttons. As the decision tree is built to completion with the step-by-step simulation, the tables on the right are also changed. E.g., arriving at the last step would look like figure  displays.
+\imagen{app_decision_tree_3}{Final step of the step-by-step simulation}{1}
+
+Even with a dataset already loaded, the user can choose to switch to a different dataset.
+
+\subsubsection{User CSV dataset}
+If the user chooses to click on the button labeled ``Load own CSV dataset'', a modal appears as is shown in figure .
+\imagen{app_decision_tree_4}{Modal that appears when user wants to load their own CSV dataset}{.6}
+They are now presented with:
+\begin{itemize}
+    \item A collapsible card containing file requirements at the top.
+    \item Below that, an input form for the user to choose their own file.
+    \item Two buttons at the bottom right of the modal, labeled ``Close'' and ``Upload''.
+\end{itemize}
+The user can now choose to read the file requirements before trying to upload their own dataset in CSV file format via the suggested input form. If they click on the input form, they get to choose a file from their file system. After clicking on the button labeled ``Upload'', the selected file will be checked and, if it is invalid (does not meet the file requirements), the user is confronted with an alert that describes why the file is considered invalid. An example of this is displayed in figure \ref{fig:app_decision_tree_5}.
+\imagen{app_decision_tree_5}{Alert that appears when a user tried to upload an invalid file}{.8}
+
+Following that, they can try again with a different file and, if the file is valid, and the upload was successful, they are presented with the same general content as in \ref{example_dataset}. However, a description of the dataset will not be provided. And, unless it is the same dataset, the constructed decision tree will look different and the tables will have different contents. 

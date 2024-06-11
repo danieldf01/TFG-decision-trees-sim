@@ -1,9 +1,35 @@
-\apendice{Anexo de sostenibilización curricular}
+\apendice{Curricular sustainability annex}
 
-\section{Introducción}
-Este anexo incluirá una reflexión personal del alumnado sobre los aspectos de la sostenibilidad que se abordan en el trabajo.
-Se pueden incluir tantas subsecciones como sean necesarias con la intención de explicar las competencias de sostenibilidad adquiridas durante el alumnado y aplicadas al Trabajo de Fin de Grado.
+\section{Introduction}
+This appendix will offer a personal reflection on the sustainability of this project. In the context of a web application, sustainability aims to create solutions that are efficient, user-friendly and environmentally responsible.
 
-Más información en el documento de la CRUE \url{https://www.crue.org/wp-content/uploads/2020/02/Directrices_Sosteniblidad_Crue2012.pdf}.
+\section{Reflection on sustainability}
+\subsection{Client-side processing}
+The decision of only using client-side processing for an application as small as this one ensures a higher ressource efficiency, as none of the used data needed to be stored on a server. A user's CSV dataset is always stored in their browser page's session, which is erased when the tab or the window is closed. 
 
-Este anexo tendrá una extensión comprendida entre 600 y 800 palabras.
+\subsection{KISS}
+The aforementioned structure choice also goes with the KISS (Keep It Simple, Stupid) principle which aims for simplicity and avoiding unnecessary complexity. This results in lower overall energy consumption and lower maintenance costs. It produces fewer bugs and makes the project easier to update or upgrade. Simpler code also proves to show higher adaptability to future changes that might be implemented by possible developers aiming to enhance the application's functionality.
+
+\subsection{Open-source}
+only open-source tools and libraries were used in this project, which contributes to their further development and wide-spread usage. Having the code to this project publicly available and giving anyone access to it is another sustainable contribution to the developer community. Not only does it give other programmers the chance to extend this code, it could also prove helpful in teaching students or people who are interested in the topic.
+
+\subsection{Reducing computational complexity}
+Throughout this project, it was tried to always keep the computational complexity as low as possible by using efficient recursive algorithms like, e.g., the Reingold-Tilford algorithm for calculating nodes' positions in a tree.
+
+\subsection{Maintainability}
+It was made sure to keep this project's code easily readable for future developers who might build upon this project or modify it in some way. This was done by clear comments that explain what is done at each step. Easy-to-understand variable and function names were a priority, too. Additionally, it was tried to keep separation of concern at a high level so that programmers trying to expand upon or edit this project can easily dismantle each component without having to worry about unclear entanglements within the code.
+
+\subsection{Production cost}
+As seen in \ref{software_hardware_costs}, the only production cost for this project came from the system it was developed on. No additional licenses or tools had to be bought that might have influenced sustainability in an unfavourable way.
+
+\subsection{Lightweight design}
+The decision to stick to a more minimalistic design for the web application with a little amount of presented images adds to the project's resource efficiency. The use of SVG contributes to that, as well.
+
+\subsection{Site-hosting with GitHub Pages}
+Using GitHub Pages as a site-hosting service to display this web application adds to this project's sustainability as well, as GitHub is owned by Microsoft, which has made commitments to carbon emissions and using renewable energy.
+
+\subsection{Responsive Design}
+Building a web application that works well across different devices allows for a shared experience regardless of the type of device the project is being run on. It reduces the need for multiple versions of the same application.
+
+\subsection{Potential for improvement}
+However, there is a part of this project that weighs negatively on its sustainability. That being the unfinished tests. Unfinished tests equal a possibility of an undiscovered error or unexpected behavior that might pose an obstacle to a future developer that wants to expand upon this project. Needless to say, even with a full test coverage, there would be the possibility of unforeseen errors occurring. But it would be smaller than with only parts of the project being covered by tests.

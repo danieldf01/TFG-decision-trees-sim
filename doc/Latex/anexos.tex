@@ -8,6 +8,9 @@
 \usepackage{lmodern} % scalable font
 \usepackage{microtype}
 \usepackage{placeins}
+\usepackage{dirtree}
+\usepackage{listings}
+
 
 \RequirePackage{booktabs}
 \RequirePackage[table]{xcolor}
@@ -38,19 +41,19 @@
 
 % Imagenes
 \usepackage{graphicx}
-\newcommand{\imagen}[2]{
+\newcommand{\imagen}[3]{
 	\begin{figure}[!h]
 		\centering
-		\includegraphics[width=0.9\textwidth]{#1}
+		\includegraphics[width=#3\textwidth]{#1}
 		\caption{#2}\label{fig:#1}
 	\end{figure}
 	\FloatBarrier
 }
 
-\newcommand{\imagenflotante}[2]{
-	\begin{figure}%[!h]
+\newcommand{\imagenflotante}[3]{
+	\begin{figure}
 		\centering
-		\includegraphics[width=0.9\textwidth]{#1}
+		\includegraphics[width=#3\textwidth]{#1}
 		\caption{#2}\label{fig:#1}
 	\end{figure}
 }
@@ -353,7 +356,7 @@
 
 
 % Datos de portada
-\title{Simulador árboles de decisión \\Documentación Técnica}
+\title{Decision Tree Simulator \\Technical documentation}
 \author{Daniel Drefs Fernandes}
 \tutor{Carlos López Nozal \\ Ismael Ramos Pérez}
 \date{\today}
@@ -387,6 +390,10 @@
 \clearpage
 
 \listoftables
+
+\clearpage
+
+\lstlistoflistings
 
 \clearpage
 
