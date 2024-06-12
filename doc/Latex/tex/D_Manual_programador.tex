@@ -127,7 +127,7 @@ This algorithm partially implements the Reingold-Tilford algorithm~\cite{reingol
 
 As a first step, the algorithm does a post-order traversal of the tree and calculates the initial x-positions of the nodes. It does so by positioning the leaf nodes next to each other, each at a distance of the width of a column. Nodes that have one child are positioned above their child and nodes with more than one child are placed in the middle between their children. Additionally, it is checked if a parent node has any siblings left of it. If yes, it is placed one column width apart from their left sibling. Its mod value is also set which, at a later step, will shift its children to the right.
 
-For better understanding, example images~\cite{reingold_tilford_lim} using letters as node descriptors will be used. Figure \ref{fig:rg_tree_initial} shows the x-positions of each node after the described first step.
+For better understanding, example images using letters as node descriptors will be used. Figure \ref{fig:rg_tree_initial} shows the x-positions of each node after the described first step.
 \imagen{rg_tree_initial}{Initial x-positions of the nodes}{1}
 
 However, the tree has overlapping nodes in this state, so they need to be corrected. Still traversing the tree in a post-order, the left edges of each node are calculated and checked if they overlap with any of the right edges of its siblings. Figure \ref{fig:rg_tree_initial_edges} shows the left edge of node N in red and the right edge of its sibling, node E, in blue.
