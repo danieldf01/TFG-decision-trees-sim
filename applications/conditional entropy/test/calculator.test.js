@@ -1,4 +1,4 @@
-// disabled because this is the recommended way to import modules for Jest testing
+// disabled to not trigger Codacy warnings because this is the recommended way to import modules for Jest testing
 /* eslint-disable */
 import { calcRatio, calcEntropyCat, calcCondEntropy } from '../js/calculator';
 import fs from 'fs';
@@ -10,8 +10,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const html = fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf8');
 
-// jest
-//     .dontMock('fs');
     
 test('calcRatio: properly calculates the ratio and between categories with instances [1, 5, 1, 8]', () => {
     document.body.innerHTML = html;

@@ -13,6 +13,12 @@ const dataset3 = "Iris";
 const dataset4 = "Mushrooms";
 const dataset5 = "Lenses";
 
+/**
+ * Gets all each attribute's distinct categories/values
+ * @param {*} data The dataset
+ * @param {*} attributes Array of the attribute names
+ * @returns Array of arrays that contain each attribute's distinct categories/values
+ */
 function getAttributes(data, attributes) {
     const attributeValues = attributes.map((key, index) => {
         const values = new Set();
@@ -21,10 +27,17 @@ function getAttributes(data, attributes) {
         }
         return Array.from(values);
     });
+    console.log(attributeValues);
 
     return attributeValues;
 }
 
+/**
+ * Gets all the distinct label values and data rows
+ * @param {*} data The dataset
+ * @param {*} attributes Array of the attribute names
+ * @returns An array of all distinct label values and all data rows as an array of objects
+ */
 function getLabelValsDataRows(data, attributes) {
     const labelValues = new Set();
     const dataRows = data.slice(1).map(row => {
@@ -36,10 +49,15 @@ function getLabelValsDataRows(data, attributes) {
         labelValues.add(label);
         return { attributes: attributeObj, label: label };
     });
+    console.log(dataRows);
 
     return [Array.from(labelValues), dataRows];
 }
 
+/**
+ * Transform the parsed data into a form that can be used by the program
+ * @param {*} data The dataset
+ */
 function transformData(data) {
     const headers = data[0];
     const attributes = headers.slice(0, -1);
@@ -72,6 +90,10 @@ function transformData(data) {
     initialStep();
 }
 
+/**
+ * Parses the example data and displays the right information about the dataset
+ * @param {*} selectedExample The name of the selected example dataset
+ */
 function loadExampleData(selectedExample) {
     var filePath = null;
     switch (selectedExample) {

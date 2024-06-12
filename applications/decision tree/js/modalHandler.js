@@ -54,6 +54,9 @@ function checkUserCsv(data) {
     return valid;
 }
 
+/**
+ * Handles the request of a user wanting to upload their own CSV dataset
+ */
 function handleUserCsv() {
     const fileInput = document.getElementById('csvFile');
     const file = fileInput.files[0];
@@ -64,7 +67,9 @@ function handleUserCsv() {
             complete: function (results) {
                 const data = results.data;
 
+                // Check if the introduced CSV file is valid
                 const checkReturn = checkUserCsv(data);
+                // CSV file is valid
                 if (checkReturn == valid) {
                     // Make content container visible if it was still hidden
                     let dataInfoContainer = document.getElementById("dataInfoContainer");
@@ -93,6 +98,8 @@ function handleUserCsv() {
 
                     var datasetCardBody = document.getElementById('datasetCardBody');
                     datasetCardBody.style.display = "none";
+                    
+                    // CSV file is invalid
                 } else if (checkReturn == tooManyRows) {
                     alert('The selected file has more than 150 instance rows. Please check the file requirements.');
                 } else if (checkReturn == tooManyCols) {

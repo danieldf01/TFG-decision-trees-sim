@@ -1,4 +1,4 @@
-// disabled because this is the recommended way to import modules for Jest testing
+// disabled to not trigger Codacy warnings because this is the recommended way to import modules for Jest testing
 /* eslint-disable */
 import { addCategory, removeCategory } from '../js/catNumHandler';
 import fs from 'fs';
@@ -10,8 +10,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const html = fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf8');
 
-// jest
-//     .dontMock('fs');
 
 test('addCategory: properly add one category', () => {
     document.body.innerHTML = html;

@@ -1,4 +1,5 @@
-body::before {
+/* Display screen size according to Bootstrap thresholds for development purposes */
+/* body::before {
     content: "XS";
     color: red;
     font-size: 2rem;
@@ -36,10 +37,11 @@ body::before {
     body::before {
         content: "XXL";
     }
-}
+} */
 
+
+/* Set SVG properties */
 svg {
-    /* border: 1px solid blue; */
     width: 100%;
     height: 100%;
 }
@@ -48,9 +50,12 @@ svg {
     width: 100%;
     height: 100%;
     overflow: auto;
-    border: 1px dashed #aaa;
+    /* A marker for the SVG's outline, only for development purposes */
+    /* border: 1px dashed #aaa; */
 }
 
+
+/* Keep the footer at the bottom of the page, even if the page has too little content to reach the bottom of the screen */
 html {
     position: relative;
     min-height: 100%;
@@ -68,6 +73,8 @@ footer {
     height: 180px;
 }
 
+
+/* Legend */
 .color-box {
     display: inline-block;
     width: 20px;
@@ -76,6 +83,8 @@ footer {
     border: 1px solid #ccc;
 }
 
+
+/* For making the table scroll vertically if it exceeds max-height */
 .table-wrapper {
     max-height: 700px;
     overflow: auto;
