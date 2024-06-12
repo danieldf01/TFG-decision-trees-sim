@@ -1,35 +1,33 @@
 \apendice{Design specification}
 
 \section{Introduction}
+The following section explains the design of the program in detail, indicating how data is stored, how the decision trees are designed, and how the most important procedures work.
 
 \section{Data design}
 \subsection{Data storage}
 For the decision tree ID3 simulator, each example dataset is stored in a separate CSV file in a directory designated to the example data. When a certain dataset is selected by a user, a series of functions are triggered that load that set to be ready to use for the step-by-step simulation. The detailed process will be discussed in \ref{proc_design}. 
 
-When a user requests to load their own dataset for the simulation, that data is stored in the page's session storage. As no server was set up for this project, it had to be stored locally in the user's session storage. This brings advantages like faster access and the data being stored only for the duration of the page session. After storing the user's data locally in their page session, it is accessed by the application to load the dataset and process it.
+When a user requests to load their own dataset for the simulation, that data is stored in the session storage of the page. As no server was set up for this project, it had to be stored locally in the session storage of the user. This brings advantages like faster access and the data being stored only for the duration of the page session. After storing the data of the user locally, it is accessed by the application to load the dataset and process it.
 
 \subsection{CSV datasets}
-CSV files were chosen as a way to store all datasets in this application. They are in a format that is relatively simple to understand and create files from. In addition, CSV files can be parsed and processed quickly, which enhances the application's quick response to user input.
+Comma-separated values (CSV) files were chosen as a way to store all datasets in this application. CSV~\cite{csv_wiki} is a text file format that is used to store tabular data, where each line represents a data record and each value within a record is separated by a comma. Figure \ref{fig:csvExample} shows an example of such a CSV file. They are in a format that is relatively simple to understand and create files from. In addition, CSV files can be parsed and processed quickly, which enhances the quick response of the application to user input.
 
 However, as the application is a relatively small one, some requirements had to be set in order to prevent users from uploading files that are too big or complex for the application to handle. Time constraints during development brought upon limits like, e.g., no numerical values being allowed and the datasets being limited to containing only 2 distinct class categories. Size limitations in the form of a maximum of 150 instance rows and 25 columns were added in order to keep the contents of the decision trees created by the application readable.
 
-Figure \ref{fig:csvExample} shows an example of an acceptable CSV file.
 \imagen{csvExample}{Example of an acceptable CSV file}{.6}
 
 \subsection{Decision tree design}
 The decision tree was designed with the thought that each node should not only be drawn with its respective attribute or, in the case of a leaf node, class label, but also contain additional information that helps the user understand each step of the ID3 algorithm.
-Figure \ref{fig:decision_node_example} shows an example of a decision node.
 \imagen{decision_node_example}{Example of a decision node}{.1}
-Besides the node number, it includes the following information:
+Besides the node number, as is shown in figure \ref{fig:decision_node_example}, it includes the following information:
 \begin{description}
     \item[N:] number of instances the node represents
     \item[E:] entropy of the underlying dataset. It shows the impurity of the node and the need for it to be split
     \item[Attribute name:] the name of the attribute that this node represents
 \end{description}
 
-Figure \ref{fig:leaf_node_example} shows an example of a leaf node.
 \imagen{leaf_node_example}{Example of a leaf node}{.1}
-Besides the leaf number, $N$ and $E$ that represent the same properties as in a decision node, it contains the following additional information:
+Besides the leaf number, $N$ and $E$ that represent the same properties as in a decision node, as figure \ref{fig:leaf_node_example} shows, it contains the following additional information:
 \begin{description}
     \item[Class 1:] number of instances possessing the first of the two possible class labels, in this case ``No''
     \item[Class 2:] number of instances possessing the second of the two possible class labels, in this case ``Yes''
@@ -37,7 +35,7 @@ Besides the leaf number, $N$ and $E$ that represent the same properties as in a 
 \end{description}
 The decision of displaying the number of instances belonging to each class was made with the purpose of putting emphasis on the relation between the purity of most leaf nodes and their underlying datasets being homogeneous.
 
-The branch paths that go from one node to another have nothing worth mentioning besides each one containing the label of the attribute category on which the source node's dataset was split on in order to create a subset for the destination node.
+The branch paths that go from one node to another have nothing worth mentioning besides each one containing the label of the attribute category on which the dataset of the source node was split on in order to create a subset for the destination node.
 Figure \ref{fig:nodes_interaction} shows an interaction between all three elements.
 \imagen{nodes_interaction}{Example branch}{.2}
 

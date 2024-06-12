@@ -8,11 +8,6 @@ body::before {
     right: 0;
 }
 
-.table-wrapper {
-    max-height: 450px;
-    overflow: auto;
-    display: inline-block;
-}
 
 @media (min-width: 576px) {
     body::before {
@@ -62,7 +57,7 @@ footer {
 }
 
 .bg-image {
-    /* Image source: https://static.vecteezy.com/system/resources/previews/025/337/728/non_2x/forest-trees-silhouette-nature-landscape-green-park-alley-and-tree-silhouettes-illustration-vector.jpg */
+    /* This background image was created using AI: https://pixlr.com/de/ */
     background-image: url('../img/tree_background.png');
     background-size: cover;
     background-position: center bottom;

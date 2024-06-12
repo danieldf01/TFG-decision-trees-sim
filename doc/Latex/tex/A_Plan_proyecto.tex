@@ -1,22 +1,22 @@
 \apendice{Software Project Plan}
 
 \section{Introduction}
-This section presents how time management was handled in the course of this project. Throughout the development, bi-weekly meetings were held that served the purpose of reviewing what had been done and discussing what the tasks for the next sprint would be. To give better insight, a burndown of every sprint will be displayed. They are automatically created by Zube, the project agility tool that was used. The issues which these graphs are based on are all found in the ``Issues'' section\footnote{GitHub issues: \url{https://github.com/danieldf01/TFG-decision-trees-sim/issues}} of the project's GitHub repository.
+This section presents how time management was handled in the course of this project. Throughout the development, bi-weekly meetings were held that served the purpose of reviewing what had been done and discussing what the tasks for the next sprint would be. To give better insight, a burndown of every sprint will be displayed. They are automatically created by Zube, the project agility tool that was used. The issues which these graphs are based on are all found in the ``Issues'' section of the GitHub repository of the project\footnote{GitHub repository: \url{https://github.com/danieldf01/TFG-decision-trees-sim}}. All of the figures used in this section were automatically created by Zube\footnote{Zube: \url{https://zube.io}}.
 
 \section{Time planning}
 \subsection{Sprint 1 (29/02/2024 - 13/03/2024): Kick off project}
 \paragraph{Objectives:}
-The main objectives of this sprint were to set up the Github repository structure, link it to Zube for a better overview of each sprint's tasks, learn about decision trees and to create a first web application displaying a tree using SVG.
+The main objectives of this sprint were to set up the Github repository structure, link it to Zube for a better overview of the tasks of each sprint, learn about decision trees and to create a first web application displaying a tree using SVG.
 
 \paragraph{Results:}
-Almost all the tasks that were intended for this sprint were completed, except for the documentation of the Decision Trees concept in the Memoria.
+Almost all the tasks that were intended for this sprint were completed, except for the documentation of the decision trees concept in the report.
 
 Figure \ref{fig:sprint1_burndown} shows the burndown of the sprint.
 \imagen{sprint1_burndown}{Burndown Sprint 1}{1}
 
 \subsection{Sprint 2 (14/03/2024 - 03/04/2024): Implementation of tree graphics}
 \paragraph{Objectives:}
-For this sprint, the intention was to create the first two prototypes, one displaying the entropy function with a calculator and the other one displaying a decision tree, both making use of the D3.js library. To display these prototypes, a GitHub Pages repository was to be created. Solidifying knowledge about conditional entropy and making entries to the "Theoretical concepts" section of the Memoria were also part of this sprint. 
+For this sprint, the intention was to create the first two prototypes, one displaying the entropy function with a calculator and the other one displaying a decision tree, both making use of the D3 library. To display these prototypes, a GitHub Pages repository was to be created. Solidifying knowledge about conditional entropy and making entries to the ``Theoretical concepts'' section of the report were also part of this sprint. 
 
 \paragraph{Results:}
 As seen on the burndown in figure \ref{fig:sprint2_burndown}, everything was completed except for the prototype displaying a decision tree. Due to sickness during the sprint, this task was left unfinished and pushed back to a later sprint for the time being.
@@ -40,15 +40,15 @@ As seen in figure \ref{fig:sprint4_burndown}, all tasks were completed except fo
 
 \subsection{Sprint 5 (03/05/2025 - 16/05/2024): step-by-step Decision Tree simulation}
 \paragraph{Objectives:}
-This sprint's main objective consisted of implementing a step-by-step visualization for the decision tree prototype that was created in the previous sprint. To achieve that, the decision tree creation had to be made dynamic, which, at the time, it was not. Other tasks included the creation of a header and footer for the web application and documenting relevant aspects of the development.
+The main objective of this sprint consisted of implementing a step-by-step visualization for the decision tree prototype that was created in the previous sprint. To achieve that, the decision tree creation had to be made dynamic, which, at the time, it was not. Other tasks included the creation of a header and footer for the web application and documenting relevant aspects of the development.
 
 \paragraph{Results:}
-Figure \ref{fig:sprint5_burndown} displays this sprint's burndown which shows that all the proposed tasks were done in time.
+Figure \ref{fig:sprint5_burndown} displays the burndown of this sprint which shows that all the proposed tasks were done in time.
 \imagen{sprint5_burndown}{Burndown Sprint 5}{1}
 
 \subsection{Sprint 6 (17/05/2024 - 30/05/2024): Decision Tree value table, CSV data loading, interactive data}
 \paragraph{Objectives:}
-One of this sprint's main goals was to upgrade the decision tree's prototype by adding a dynamic value table that would display relevant values, like each feature's information gain, at each step. The other main objectives were to make it possible for the user to use their own datasets in CSV file format and to allow them to add and remove rows and columns from a currently loaded dataset.
+One of the main goals of this sprint was to upgrade the prototype of the decision tree by adding a dynamic value table that would display relevant values, like the information gain of each feature, at each step. The other main objectives were to make it possible for the user to use their own datasets in CSV file format and to allow them to add and remove rows and columns from a currently loaded dataset.
 
 \paragraph{Results:}
 Figure \ref{fig:sprint6_burndown} shows that, due to the sprint having been during the final exam phase, not all tasks were completed. Besides issues like scaling text sizes based on their width and a cleanup of the project layout, one of the main objectives was left unfinished. While the addition of user-uploaded CSV datasets was successful, the ``interactive data'' goal was not met. In the end, it was discarded altogether as other refinements took priority due to the lack of time.
@@ -56,22 +56,22 @@ Figure \ref{fig:sprint6_burndown} shows that, due to the sprint having been duri
 
 \subsection{Sprint 7 (31/05/2024 - 06/06/2024): Decision Tree selectable example data, CSV file requirements}
 \paragraph{Objectives:}
-The final sprint of this project's development was used to refine some of the already existing parts of the application. One issue was to add the functionality of being able to choose between different example datasets for the decision tree ID3 simulation. Another was to formulate requirements that a user-chosen CSV dataset had to meet and display them.
+The final sprint of the development of this project was used to refine some of the already existing parts of the application. One issue was to add the functionality of being able to choose between different example datasets for the decision tree ID3 simulation. Another was to formulate requirements that a user-chosen CSV dataset had to meet and display them.
 
 \paragraph{Results:}
-Figure \ref{fig:sprint7_burndown} shows a burndown of the final sprint. As this sprint still took place during the exam phase, not all tasks could be finished here either.  However, those were only minor issues like an improvement of the repository's README file which could were completed in the final days before the deadline.
+Figure \ref{fig:sprint7_burndown} shows a burndown of the final sprint. As this sprint still took place during the exam phase, not all tasks could be finished here either.  However, those were only minor issues like an improvement of the \textit{README} file of the repository which were completed in the final days before the deadline.
 \imagen{sprint7_burndown}{Burndown Sprint 7}{1}
 
 \subsection{Overview}
 Figure \ref{fig:sprints_overview} displays an overview of the amount of issues that were resolved during each sprint.
 \imagen{sprints_overview}{Sprints overview}{1}
-The workload was visibly increased starting at sprint 4 (\ref{sprint_4}), which marked the start of the implementation of the decision tree prototype. Before that point, a lot of the sprints' work included learning and getting used to new technologies in order to be able to use them. Most of this process was not captured in the form of issues. 
+The workload was visibly increased starting at sprint 4 (\ref{sprint_4}), which marked the start of the implementation of the decision tree prototype. Before that point, a lot of the work during the sprints included learning and getting used to new technologies in order to be able to use them. Most of this process was not captured in the form of issues. 
 
 \section{Viability study}
 
 \subsection{Economic viability}
 \subsubsection{Staff costs}
-This project has been carried out by one programmer over the course of approximately 3 months. Taking into consideration the developer's status of full-time student who also had to spend time in preparation for other classes, the overall development time can be estimated to a part-time employment. Considering the monthly minimum wage for general workers in Spain in 2024 of 1134,00€ per month~\cite{minimum_wage_spain_2024}, the estimated salary would be:
+This project has been carried out by one programmer over the course of approximately 3 months. Taking into consideration the status of full-time student of the developer who also had to spend time in preparation for other classes, the overall development time can be estimated to a part-time employment. Considering the monthly minimum wage for general workers in Spain in 2024 of 1134,00€ per month~\cite{minimum_wage_spain_2024}, the estimated salary would be:
 
 \[ 3m * 1134\text{€}/m = 3402\text{€} \]
 
@@ -107,4 +107,14 @@ Polyfill service & 3.25.3 & CC0-1.0 \\
 papaparse & 5.4.1 & MIT \\
 } 
 
-The most restrictive of these licenses would be the Apache-2.0 license, which is still a permissive license that allows, e.g., the software being used, modified and distributed in a commercial context.
+Additionally, the licenses of the datasets used as example datasets in the application are shown in table \ref{tabla:table_dataset_licenses}.
+
+\tablaSmallSinColores{Every dataset used in the project as an example dataset and its license}{l c c}{table_dataset_licenses}
+{ \multicolumn{1}{l}{Dataset} & License \\}{ 
+Play Golf Dataset & MIT \\
+Iris Flower Dataset & CC0 1.0 Universal \\
+Mushroom & CC BY 4.0 \\
+Lenses & CC BY 4.0 \\
+} 
+
+The most restrictive of these licenses would be the Apache-2.0 license, which is still a permissive license that allows the use of the software, its modification and distribution in a commercial context.

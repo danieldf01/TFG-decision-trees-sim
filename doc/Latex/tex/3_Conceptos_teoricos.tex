@@ -41,7 +41,7 @@ In the context of classification tasks, evaluation metrics~\cite{evaluation_metr
 
 \subsubsection{Confusion Matrix}
 A confusion matrix~\cite{evaluation_metrics} is a table that is used to describe the performance of a classification model. It presents an overview of the predictions on the test dataset against the actual classes. Figure \ref{fig:confusion_matrix} shows an example of such a matrix where TP = True Positive, TN = True Negative, FP = False Positive, and FN = False Negative.
-\imagen{confusion_matrix}{Confusion matrix \cite{evaluation_metrics}}{.5}
+\imagen{confusion_matrix}{Confusion matrix}{.8}
 
 \subsubsection{Accuracy}
 Accuracy~\cite{evaluation_metrics} measures how many of all the classified instances were given the correct label.
@@ -81,7 +81,7 @@ Where:
 
 Figure \ref{fig:info_gain_example} shows the calculation of information gain based on an example dataset.
 \imagen{info_gain_example}{Information gain}{.7}
-The correlation between the entropy of a feature and its information gain values can be observed. The lower the conditional entropy of a feature, the higher the information gain and its usefulness in the process of decision-making. Here, the feature "Outlook" would be chosen as the best one out of the four.
+The correlation between the entropy of a feature and its information gain values can be observed. The lower the conditional entropy of a feature, the higher the information gain and its usefulness in the process of decision-making. Here, the feature ``Outlook'' would be chosen as the best one out of the four.
 
 \subsection{Fisher's Score}
 Fisher's Score~\cite{feature_selection}, also known as Fisher's Discriminant Ratio, calculates~\cite{8abf67a05c864edc85fbc3af89c826a8} the ability of differentiating classes by determining the ratio of between-class variance and within-class variance. The between-class variance measures the spread of the values of a feature across different classes. A higher value indicates that the means of different classes are further apart, making the feature more discriminative. On the denominator side of the division, the within-class variance determines the spread of the feature values within each class. A lower value means that the data points within each class are closer to the class mean, also making the feature more discriminative.
@@ -105,7 +105,7 @@ Where:
 
 
 Figure \ref{fig:entropy_graph} describes the entropy function in relation to the composition of a dataset and shows clearly how entropy is used to determine its impurity.
-\imagen{entropy_graph}{Descriptive graph of the entropy function \cite{entropy_T}}{.7}
+\imagen{entropy_graph}{Descriptive graph of the entropy function}{.9}
 In a dataset with binary classes, the x-axis describes the amount of instances in a dataset belonging to the positive class while the y-axis measures their entropy values. It records the lowest values at the extremes where there are only or no positive instances recorded in a given dataset while the highest impurity is reached when the numbers of positive and negative instances are equal.
 When there are more than 2 classes, the scale of the entropy value changes, which makes the visualization more complicated.
 
@@ -125,7 +125,7 @@ In the end, the conditional entropy evaluates the effectiveness of splitting a n
 \pagebreak
 
 \subsection{Algorithm}
-The ID3 algorithm~\cite{id3_algorithm_wiki} constructs decision trees by using a top-down, recursive partitioning approach called "Top-Down Induction of Decision Trees" (TDIDT). With a dataset $S$ and attributes $A$ as input and the tree $T$ as output, the steps are:
+The ID3 algorithm~\cite{id3_algorithm_wiki} constructs decision trees by using a top-down, recursive partitioning approach called ``Top-Down Induction of Decision Trees'' (TDIDT). With a dataset $S$ and attributes $A$ as input and the tree $T$ as output, the steps are:
 
 \begin{enumerate}
 	\item $S$ will represent the root node of the current tree $T$.
