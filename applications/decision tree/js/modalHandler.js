@@ -31,7 +31,6 @@ function checkUserCsv(data) {
     const labelValsDataRows = getLabelValsDataRows(data, attributes);
     const labelVals = labelValsDataRows[0];
 
-    console.log(labelVals);
     if (labelVals.length > 2) {
         return tooManyLabelVals;
     }

@@ -27,7 +27,6 @@ function getAttributes(data, attributes) {
         }
         return Array.from(values);
     });
-    console.log(attributeValues);
 
     return attributeValues;
 }
@@ -49,7 +48,6 @@ function getLabelValsDataRows(data, attributes) {
         labelValues.add(label);
         return { attributes: attributeObj, label: label };
     });
-    console.log(dataRows);
 
     return [Array.from(labelValues), dataRows];
 }

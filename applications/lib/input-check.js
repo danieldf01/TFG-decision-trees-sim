@@ -4,7 +4,6 @@
  * @returns 0 if the input is valid; 1 otherwise
  */
 export function checkInput(inputElements) {
-    console.log(inputElements);
     var invalidVal = false;
     var emptyInput = false;
 

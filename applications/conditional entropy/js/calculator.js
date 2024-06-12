@@ -11,7 +11,6 @@ const ratioColumnIndex = 3;
  * @returns An array containing the sums and ratios of each category
  */
 function calcRatio(tBodyRef, inputElements) {
-    console.log(inputElements);
     var sum = 0;
     var rowSums = [];
     for (var i = 0; i < inputElements.length; i++) {

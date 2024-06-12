@@ -119,7 +119,6 @@ function countLabels(labels) {
  * @returns The entropy of the array of label values
  */
 function entropyLabels(labels) {
-    console.log(labels);
     // Count the occurrence of each label value
     let counts = countLabels(labels);
 
@@ -915,8 +914,6 @@ function calcPositions(root, nodeWidth, leafHeight, columnWidth) {
         });
     }
 
-    console.log(decisionTree);
-
     // Calculate initial positions
     calcInitialX(root, 0, columnWidth);
 
@@ -1035,9 +1032,6 @@ function buildTree() {
     dataTableGroups = [];
     valueTableGroups = [];
 
-    console.log(data);
-    console.log(attributes);
-
     let treeValues = id3(data, attributes, null, "n1", "l1");
     decisionTree = treeValues[0];
     nodeCount = +treeValues[1].substring(1) - 1;
@@ -1049,8 +1043,6 @@ function buildTree() {
     // Prepare data table groups for the step-by-step visualization
     dataTableGroupsAddColumns(decisionTree);
     transformDataTableGroups();
-
-    console.log(decisionTree);
 
     // Get SVG sizes
     let svgSizes = calcSvgSize();
@@ -1131,9 +1123,6 @@ function calcSvgSize() {
 
     const width = rect.width;
     const height = rect.height;
-
-    console.log('SVG Width:', width);
-    console.log('SVG Height:', height);
 
     return [width, height];
 }
