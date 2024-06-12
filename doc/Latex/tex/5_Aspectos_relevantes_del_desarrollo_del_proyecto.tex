@@ -1,18 +1,18 @@
-\capitulo{5}{Relevant aspects of the project development}
+\capitulo{5}{Relevant aspects of the project development} \label{relevant_aspects}
 
 This chapter focuses on important parts of the project development that had a significant influence on the outcome of the work.
 
 \section{Start of the project}
-At the start of the project, there was not much experience in web development. For that reason, the first sprints were not only used to learn about the concepts relevant to the topic of decision trees and start implementing first prototypes, but also to simultaneously gain an understanding of web development using HTML, JavaScript, CSS and surrounding tools. That rhythm continued throughout most of the project as almost each step introduced techniques that were new, but had to be learned and then implemented. This slowed down overall development tempo to some extent.
+At the start of the project, the student was not experienced in web development. For that reason, the first sprints were not only used to learn about the concepts relevant to the topic of decision trees and start implementing first prototypes, but also to simultaneously gain an understanding of web development using HTML, JavaScript, CSS and surrounding tools. The same applies to LaTeX, which also took some time to get used to. That rhythm continued throughout most of the project as almost each step introduced techniques that were new, but had to be learned and then implemented. This slowed down overall development tempo to some extent.
 
-\section{Decision tree creation without D3.js}
-As mentioned in \ref{d3js}, D3.js is an open-source JavaScript library which, among other things, allows the user to dynamically create and change DOM contents based on underlying data. For that reason, at the beginning of development, it was chosen to help create the graph for the Entropy function and later, dynamically create and change the decision trees examples.
+\section{Decision tree creation without D3}
+As mentioned in \ref{d3js}, D3 is an open-source JavaScript library which, among other things, allows the user to dynamically create and change DOM contents based on underlying data. For that reason, at the beginning of development, it was chosen to help create the graph for the Entropy function and later, dynamically create and change the decision trees examples.
 
-However, as development of the project went on and it was time to create a prototype for the creation of decision trees, the plan of using D3.js as the main tool to reach that goal was discarded. This decision was made after an extensive web research on how SVGs displaying trees were created with the library and how they would end up looking. With a few exceptions showing slight deviations, the common structure of D3.js trees was as figure \ref{fig:d3js_tree} displays.
-\imagen{d3js_tree}{SVG displaying a tree, created with D3.js}{1}
+However, as development of the project went on and it was time to create a prototype for the creation of decision trees, the plan of using D3 as the main tool to reach that goal was discarded. This decision was made after an extensive web research on how SVGs displaying trees were created with the library and how they would end up looking. With a few exceptions showing slight deviations, the common structure of D3 trees was as figure \ref{fig:d3js_tree} displays.
+\imagen{d3js_tree}{SVG displaying a tree, created with D3 \cite{d3js_tree}}{1}
 Since this specific library was not exactly easy to use in the first place, trying to make it look the intended way (displaying labels on the edges and other important values connected to the nodes) would have made the creation significantly harder, if it had even been possible at all.
 
-With that in mind, the decision was made not to use D3.js to create the decision trees, but to assemble the decision trees from simple SVG elements to form templates for branches, decision and leaf nodes, and to develop an algorithm that calculates the tree's elements' relative position to each other in an SVG that is responsive to different screen sizes.
+With that in mind, the decision was made not to use D3 to create the decision trees, but to assemble the decision trees from simple SVG elements to form templates for branch paths, decision and leaf nodes, and to develop an algorithm that calculates the positions of elements of a tree in an SVG that is responsive to different screen sizes.
 
 Even though that solution meant more work, it allowed the decision trees to look the intended way in the end, as figure \ref{fig:decision_tree_webapp} shows.
 \imagen{decision_tree_webapp}{Dynamically created decision tree using the web application}{.6}
@@ -20,18 +20,16 @@ Even though that solution meant more work, it allowed the decision trees to look
 \section{Evaluation of code quality with Codacy before reviews}
 As mentioned in \ref{codacy}, Codacy is a code analysis tool that helps developers to improve the quality of their code. With the biweekly meetings having functioned not only as a way to figure out the tasks for the next sprint, but also as an opportunity to review what had been done so far, there was often no time to check the code quality. Codacy provided everything needed to improve the code condition even before the review with the tutors.
 
-It offered the opportunity of checking the code's quality without having to wait for a review meeting or ask the tutors whether a certain way of implementing something was good or not.
+It offered the opportunity of checking the quality of the code without having to wait for a review meeting or ask the tutors whether a certain way of implementing something was good or not.
 This gave the review meetings more space to focus on what had been done rather than how it had been done. Especially during the meetings towards the end of development, this extra time was needed to discuss additional changes that needed to be made before the project was finalized.
 
-\section{Decision between two features}
-As the deadline moved closer and the development phase was entering its final phase, it was clear that not all features that were initally set as objectives were going to be implemented. This was due to time constraints brought upon by the workload of other classes and exams.
+\section{Decision between two features} \label{decision_two_features}
+Due to time constraints, some features had to be left behind. Two features, however, were still talked about in the final weeks before completion. One was to make the datasets for the decision tree ID3 simulator interactive, meaning that the user would be able to dynamically add columns and rows to a dataset that was already loaded. The other was to let the user load own datasets in the form of Comma-separated values (CSV) files to let the application build a decision tree upon.
 
-Two features, however, were still talked about in the final weeks before completion. One was to make the datasets for the decision tree ID3 simulator interactive, meaning that the user would be able to dynamically add columns and rows to a dataset that was already loaded. The other was to let the user load own datasets in the form of Comma-separated values (CSV) files to let the application build a decision tree upon.
+With the remaining time, it was clear that it would not be possible to implement both features, so a decision had to be made between them. Ultimately, the feature of letting users upload their own datasets in a CSV file format was given higher priority and implemented. This feature gives the user more freedom by letting them choose a dataset from the internet or create their own and use it to observe how different compositions of datasets influence the resulting decision tree.
 
-While it was clear that with the remaining time, it would not be possible to implement both features, a decision had to be made and it was made in favor of the latter. This feature would give the user more freedom by letting them choose a dataset from the internet or create their own and use it to observe how different compositions of datasets would influence the resulting decision tree.
-
-\section{Limitations of a small web application}
-With the development nearing its completion and the resulting web application having been a rather small one, it was clear that the program would have some limitations. One being the fact that, even though users are able to load their own datasets in CSV file format, there are some restrictions. E.g., the file cannot contain more than 150 rows of instances. While computational complexity is also part of the reason for this constraint, the main reason for the limit of 150 rows is the resulting decision tree's size. With a tree that is too big, the user might not be able to read individual nodes' contents and therefore have a hard time understanding the algorithm, which would defeat the whole purpose of this project.
+\section{Limitations of a small web application} \label{limitations_small_app}
+Towards the end of development, some restrictions had to be taken into account and defined. One of those was a limited size of CSV files uploaded by users. E.g., the file cannot contain more than 150 rows of instances. The main reason for this limitation is the resulting size of the decision trees. With trees that are too big, the user might not be able to read individual the contents of individual nodes and therefore have a hard time understanding the algorithm. That would defeat the whole purpose of this project.
 
 Another drawback that the size of the application brings with it is the possibility of branches or their labels overlapping with other nodes. Figure \ref{fig:decision_tree_overlapping} shows how the branch label ``very small'' overlaps with the leaf node ``Leaf 8''.
 \imagen{decision_tree_overlapping}{Branch label overlapping with leaf node}{.2}

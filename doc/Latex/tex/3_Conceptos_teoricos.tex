@@ -1,12 +1,12 @@
 \capitulo{3}{Theoretical concepts}
 
-In the following, all the theoretical concepts relevant for the understanding of the project will be explained.
+In the following section, all the theoretical concepts relevant for the understanding of the project will be explained.
 
 \section{Machine Learning}
 Machine learning~\cite{machine_learning} is a field of artificial intelligence which focuses on developing algorithms that are able to learn from given input data and, based on that learned knowledge, generalize to unseen data. Machine learning problems can be categorized into three main tasks: Classification problems, Regression problems, and Clustering problems.
 
 \subsection{Classification problems} \label{classification_problems}
-Classification problems~\cite{classification_regression} in machine learning describe the process of predicting a class or category of a given input. A dataset is given as input. It is made up of instances that refer to all the individual data points. Each instance is characterized by a set of features/attributes and associated with a label or class. Depending on the source, ``features'' are called ``attributes'' and vice versa. They can be used synonymously. This work will use both expressions. The input data is learned with all its attributes and values to reach the goal of building a model that can also categorize new data, that has not been seen before, into one of the given classes. An example would be classifying emails as spam or not spam. This type of machine learning problem will be discussed in more detail in the section \ref{classification}.
+Classification problems~\cite{classification_regression} in machine learning describe the process of predicting a class or category of a given input. A dataset, which is made up of instances that refer to all the individual data points is given as input. Each instance is characterized by a set of features or attributes associated with a label or class. The input data is learned with all its attributes and values to reach the goal of building a model that can also categorize new data, that has not been seen before, into one of the given classes. One example would be classifying emails as spam or not spam. Another could be a dataset that contains information about iris flowers. Its attributes would include, e.g., the petal length or width. Each instance would represent a flower and the label would tell us the type of iris flower they represent. This type of machine learning problem will be discussed in more detail in the section \ref{classification}.
 
 \subsection{Regression problems}
 Regression problems~\cite{classification_regression} in machine learning describe the process of predicting a continuous value based on labeled input data. Instead of predicting a defined class or category, the goal here is to build a model that can predict the quantity of something. An example would be predicting the salary of a person based on their education degree and previous work experience.
@@ -15,39 +15,39 @@ Regression problems~\cite{classification_regression} in machine learning describ
 Clustering problems~\cite{clustering} in machine learning do not aim to predict something, like the previous two. Given some unlabeled input data, the goal is to group similar data points together based on certain attributes to generate an output of clusters inside of which the data of points are more similar to each other than to data points in other clusters.
 
 \section{Classification algorithms} \label{classification}
-As mentioned before in \ref{classification_problems}, the goal in classification tasks~\cite{classification_regression} is to assign a class or a label to some input data. Classification aims to create a model that can also generalize to new data. To achieve this, there are multiple algorithms and evaluation metrics that are used to measure a model's performance.
+As mentioned before in \ref{classification_problems}, the goal in classification tasks~\cite{classification_regression} is to assign a class or a label to some input data. Classification aims to create a model that can also generalize to new data. To achieve this, there are multiple algorithms and evaluation metrics that are used to measure the performance of a model.
 
 \subsection{K-Nearest Neighbors}
-K-Nearest Neighbors~\cite{knn}, or short KNN, is an algorithm that uses distance as a measure to determine K of a data point's nearest neighbors. Based on that information, a classification or prediction is made about which of the groups the data point is grouped with. KNN does not go through a training stage, instead it just stores and memorizes the training dataset.
-
-\subsection{Support Vector Machine}
-Support Vector Machine~\cite{svm}, or short SVM, is an algorithm that can perform linear as well as non-linear classification. Linear classifiers assume that a dataset is linearly separable while non-linear classifiers are not bound to that restrictive belief. With SVM being able to perform both methods, it is able to find a hyperplane that best separates different classes in a dataset by maximizing the margin between classes. 
+K-Nearest Neighbors~\cite{knn}, or short KNN, is an algorithm that uses distance as a measure to determine the K nearest neighbors of a data point. Based on that information, a classification or prediction is made about which of the groups the data point is grouped with. KNN does not go through a training stage, instead it just stores and memorizes the training dataset, which is also referred to as ``lazy learning''
 
 \subsection{Logistic Regression}
-This algorithm~\cite{logistic_regression} is mostly used for binary classification problems. It uses the logistic function to determine the probability of a given input belonging to a certain class.
+Logistic regression is recognized as a linear classifier~\cite{linear_classifier}, which describes an algorithm that makes its prediction based on a linear combination of input attributes. Its goal is to find a linear decision boundary that separates the classes. Logistic regression~\cite{logistic_regression} is mostly used for binary classification problems. It uses the logistic function to determine the probability of a given input belonging to a certain class. 
+
+\subsection{Support Vector Machine}
+Support Vector Machine (SVM)~\cite{svm} is an algorithm that can perform linear as well as non-linear classification. Linear classifiers assume that a dataset is linearly separable while non-linear classifiers are not bound to that restrictive belief. With SVM being able to perform both methods, it is able to find a hyperplane that best separates different classes in a dataset by maximizing the margin between classes. 
 
 \subsection{Decision Trees}
-A decision tree~\cite{decisiontrees} is a versatile supervised learning algorithm used for classification and regression tasks. Its goal is to predict the value of a variable based on previously processed input. Its hierarchical structure includes a root node and several internal and leaf nodes.
+Decision trees~\cite{decisiontrees} are versatile supervised learning algorithms used for classification and regression tasks. Their goal is to predict the value of a variable based on previously processed input. Their hierarchical structure includes a root node and several internal and leaf nodes.
 
-It starts at the root, which represents the attribute that best separates the underlying dataset based on a certain criterion. An example for such a criterion would be information gain, which is more thoroughly explained in \ref{information_gain}. From the root on, branches extend to internal nodes, also called decision nodes. These internal nodes also represent attributes along with a decision rule that tells us how to further split the data. These attributes are continuously evaluated until subsets are created that are either homogenous in regard to the class label or they cannot be split any further. Leaf nodes are created from these subsets. They represent all the possible outcomes of the dataset with each one corresponding to a class label.
+It starts at the root, which represents the attribute that best separates the underlying dataset based on a certain criterion. One of the most popular ones is the information gain, which is more thoroughly explained in \ref{information_gain}. From the root on, branches extend to internal nodes, also called decision nodes. These internal nodes also represent attributes along with a decision rule that tells us how to further split the data. These attributes are continuously evaluated until all classes are of the same type or a predefined maximum depth has been reached. Upon reaching that point, leaf nodes are created. They represent all the possible outcomes of the dataset with each one corresponding to a class label.
 
 Decision tree learning utilizes a divide and conquer approach, iteratively finding the best split points until all or most of the input data is classified.
 
 Figure \ref{fig:decision_tree_example} shows an example of a decision tree which evaluates whether a person should buy a game or not.
-\imagen{decision_tree_example}{Decision tree example}{.7}
+\imagen{decision_tree_example}{A simple decision tree}{.7}
 
 \subsection{Evaluation metrics}
+In the context of classification tasks, evaluation metrics~\cite{evaluation_metrics} are measures that are used to evaluate the performance of a classification model. They provide information on how well a model performs and are important to ensure its effectiveness. In the following section, some of the most popular evaluation metrics are explained.
 
 \subsubsection{Confusion Matrix}
-A confusion matrix~\cite{evaluation_metrics} is a table that is used to describe a classification model's performance. It presents an overview of the predictions on the test dataset against the actual classes. Figure \ref{fig:confusion_matrix} shows an example of such a matrix where TP = True Positive, TN = True Negative, FP = False Positive, and FN = False Negative.
-\imagen{confusion_matrix}{Example of a confusion matrix}{.5}
-It is useful for measuring other metrics like Accuracy, Precision and Recall
+A confusion matrix~\cite{evaluation_metrics} is a table that is used to describe the performance of a classification model. It presents an overview of the predictions on the test dataset against the actual classes. Figure \ref{fig:confusion_matrix} shows an example of such a matrix where TP = True Positive, TN = True Negative, FP = False Positive, and FN = False Negative.
+\imagen{confusion_matrix}{Confusion matrix \cite{evaluation_metrics}}{.5}
 
 \subsubsection{Accuracy}
 Accuracy~\cite{evaluation_metrics} measures how many of all the classified instances were given the correct label.
 It uses the following formula:
 \[ \text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} \]
-This metric is useful for well-balanced datasets. In contrast, given a dataset with 99 of its instances belonging to one class and only 1 belonging to the other, likeliness is high that the used model would always predict the class with the higher amount of instances, resulting in a 99\% accuracy due to the dataset's composure.
+This metric is useful for well-balanced datasets. In contrast, given a dataset with 99 of its instances belonging to one class and only 1 belonging to the other, likeliness is high that the used model would always predict the class with the higher amount of instances, resulting in a 99\% accuracy due to the composure of the dataset.
 
 \subsubsection{Precision}
 Precision~\cite{evaluation_metrics} describes the ratio of correctly predicted positive cases to the total predicted positive cases. In short words, it measures the accuracy of the positive class predictions and is calculated with the following formula:
@@ -60,11 +60,11 @@ Recall~\cite{evaluation_metrics} describes how many of the actual positive cases
 Recall is useful when False Negatives are of a higher concern than False Positives.
 
 \section{Feature Selection}
-In machine learning, feature selection~\cite{feature_selection} is indispensable when the goal is to build an accurate and efficient model. In the context of prediction tasks, feature selection helps in finding the ones that are most beneficial for the prediction. 
+In machine learning, feature selection~\cite{feature_selection} is a type of preprocessing used to choose the subset of features from the dataset that optimizes the performance of the algorithm. During this process, these algorithms seek to eliminate noisy features or features with redundant information.
 
-But how is determined which feature is better or more important than another? In the context of classification problems, the main idea is to select those features that best prove their ability to differentiate between different target classes. Those ones are most likely to improve the model's capability of performing prediction tasks and with that, its overall performance.
+But how is determined which feature is better or more important than another? In the context of classification problems, the main idea is to select those features that best prove their ability to differentiate between different target classes. Those ones are most likely to improve the capability of the model to perform prediction tasks and with that, its overall performance.
 
-There are multiple supervised and unsupervised techniques to select the best feature. While each comes with its own advantages and disadvantages, the focus in this work will be on two supervised techniques: Information gain and Fisher's Score. Both have a filter-based approach, which means they evaluate the relevance of features by studying their statistical properties or correlation with other features, independently of the learning algorithm itself. They are usually used for categorical data.
+There are multiple techniques to select the best feature that are focused on different types of tasks and supervision. While each comes with its own advantages and disadvantages, as an example, two supervised techniques are described: Information gain and Fisher's Score. Both have a filter-based approach, so they evaluate the relevance of features by studying their statistical properties or correlation with other features, independently of the learning algorithm itself.
 
 \subsection{Information gain} \label{information_gain}
 Information gain~\cite{feature_selection} is a method that is commonly used in decision tree algorithms like ID3. It is also used in this project to select the best possible features for the construction of decision trees. It measures the relevance of a feature by evaluating how much information it provides about the class labels. It does so by calculating the reduction in entropy. With that, the higher the information gain of a feature, the more important and useful it is considered for decision-making.
@@ -80,21 +80,19 @@ Where:
 \end{description}
 
 Figure \ref{fig:info_gain_example} shows the calculation of information gain based on an example dataset.
-\imagen{info_gain_example}{Information gain example}{.7}
-The correlation between a feature's entropy and information gain values can be observed. The lower the conditional entropy of a feature, the higher the information gain and its usefulness in the process of decision-making. Here, the feature "Outlook" would be chosen as the best one out of the four.
+\imagen{info_gain_example}{Information gain}{.7}
+The correlation between the entropy of a feature and its information gain values can be observed. The lower the conditional entropy of a feature, the higher the information gain and its usefulness in the process of decision-making. Here, the feature "Outlook" would be chosen as the best one out of the four.
 
 \subsection{Fisher's Score}
-Fisher's Score~\cite{feature_selection}, also known as Fisher's Discriminant Ratio, is a technique that ranks features by measuring their ability to differentiate classes in a dataset.
+Fisher's Score~\cite{feature_selection}, also known as Fisher's Discriminant Ratio, calculates~\cite{8abf67a05c864edc85fbc3af89c826a8} the ability of differentiating classes by determining the ratio of between-class variance and within-class variance. The between-class variance measures the spread of the values of a feature across different classes. A higher value indicates that the means of different classes are further apart, making the feature more discriminative. On the denominator side of the division, the within-class variance determines the spread of the feature values within each class. A lower value means that the data points within each class are closer to the class mean, also making the feature more discriminative.
 
-It calculates~\cite{8abf67a05c864edc85fbc3af89c826a8} that ability by determining the ratio of between-class variance and within-class variance. The between-class variance measures the spread of a feature's values across different classes. A higher value indicates that the means of different classes are further apart, making the feature more discriminative. On the denominator side of the division, the within-class variance determines the spread of the feature values within each class. A lower value means that the data points within each class are closer to the class mean, also making the feature more discriminative.
-
-In conclusion~\cite{feature_selection}, the higher a feature's Fisher's Score, the more discriminative and more fitting for classification it is. Therefore, the features with higher scores are considered more useful.
+The calculated value~\cite{feature_selection} indicates how discriminative and more fitting for classification a feature is. A higher score means higher discrimination and overall usefulness.
 
 \section{ID3 algorithm} \label{ID3}
-The ID3 algorithm~\cite{id3_algorithm_wiki} is a technique in machine learning used for generating decision trees. Developed by Ross Quinlan in 1986, ID3 is designed to create a model in form of a tree that predicts the value of a target variable based on several input variables of a dataset. It is widely recognized for its simplicity and effectiveness in handling classification problems. Before describing the algorithm in more detail, the concepts of entropy and conditional entropy will be examined as they play an essential role in the creation process of a decision tree.
+The ID3 algorithm~\cite{id3_algorithm_wiki} is a machine learning technique used for generating decision trees. Developed by Ross Quinlan in 1986, ID3 is designed to create a model in form of a tree that predicts the value of a target variable based on several input variables of a dataset. It is widely recognized for its simplicity and effectiveness in handling classification problems. Before describing the algorithm in more detail, the concepts of entropy and conditional entropy will be examined as they play an essential role in the creation process of a decision tree.
 
 \subsection{Entropy} \label{entropy}
-In the context of decision tree algorithms, entropy~\cite{entropy_dash} can be viewed as a measure of impurity in a dataset. It can also be described as a measure of disorder, uncertainty or the expected surprise of a classification, but going forward, the term impurity will be used to avoid confusion. In datasets with binary classes, where variables can only have two possible outcome values, the entropy value lies between 0 and 1, inclusive. The higher the entropy, the more impure the dataset is. A binary-class dataset that has an equal distribution of, e.g., 5 instances belonging to one class and the other 5 instances belonging to the other class, would have an entropy value of 1. Inversely, a dataset that has all its instances belong to only one class would have an entropy value of 0, making´it a pure dataset.
+In the context of decision tree algorithms, the entropy~\cite{entropy_dash} can be viewed as a measure of impurity in a dataset. It can also be described as a measure of disorder, uncertainty or the expected surprise of a classification, but going forward, the term impurity will be used to avoid confusion. In datasets with binary classes, where variables can only have two possible outcome values, the entropy value lies between 0 and 1, inclusive. The higher the entropy, the more impure the dataset is. A binary-class dataset that has an equal distribution of, e.g., 5 instances belonging to one class and the other 5 instances belonging to the other class, would have an entropy value of 1. Inversely, a dataset that has all its instances belong to only one class would have an entropy value of 0, making´it a pure dataset.
 The value is calculated using the following formula:
 
 \[ \text{E(X)} = -\sum_\text{i=1}^\text{n} \text{p}_\text{i} {\text{log}_\text{2} \text{(p}_\text{i})} \]
@@ -107,9 +105,11 @@ Where:
 
 
 Figure \ref{fig:entropy_graph} describes the entropy function in relation to the composition of a dataset and shows clearly how entropy is used to determine its impurity.
-\imagen{entropy_graph}{Descriptive graph of the entropy function}{.7}
+\imagen{entropy_graph}{Descriptive graph of the entropy function \cite{entropy_T}}{.7}
 In a dataset with binary classes, the x-axis describes the amount of instances in a dataset belonging to the positive class while the y-axis measures their entropy values. It records the lowest values at the extremes where there are only or no positive instances recorded in a given dataset while the highest impurity is reached when the numbers of positive and negative instances are equal.
-However, the value of entropy can reach values higher than 1 if the dataset possesses more than 2 distinct class labels.
+When there are more than 2 classes, the scale of the entropy value changes, which makes the visualization more complicated.
+
+
 
 
 \subsection{Conditional Entropy} \label{conditional_entropy}
@@ -140,7 +140,7 @@ The ID3 algorithm~\cite{id3_algorithm_wiki} constructs decision trees by using a
     \item Calculate the information gain for each attribute in $A$ and select $A_{best}$ as the attribute with the highest information gain.
     \item Create a decision node containing $A_{best}$.
     \item Split $S$ into subsets based on the different values of $A_{best}$.
-    \item For each subset $S_i$, do a recursion call with:
+    \item For each subset $S_i$ with $i$ starting at 0, do a recursion call with:
     \begin{description}
     	\item[Input:] Subset $S_i$, attributes $A \backslash \{A_{best}\}$.
     	\item[Output:] Subtree $T_i$.
